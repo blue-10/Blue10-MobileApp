@@ -19,7 +19,7 @@ export const nl: TranslationKeysType = {
     entry_number: 'Boekstuknr',
     expiration_date: 'Vervaldatum',
     invoice_date: 'Factuurdatum',
-    invoice_number: 'Factuurnummer',
+    invoice_number: 'Factuurnr',
     next_button: 'Volgende',
     payment_condition: 'Conditie',
     payment_date: 'Betaaldatum',
@@ -36,6 +36,14 @@ export const nl: TranslationKeysType = {
     tab_invoice: 'Factuur',
     tab_packing_slips: 'Pakbonnen',
     title: 'Originelen',
+  },
+  invoice_bookings: {
+    file_size: 'Grote: %{size}',
+    title: 'Boekingen',
+  },
+  invoice_timeline: {
+    file_size: 'Grote: %{size}',
+    title: 'Tijdlijn',
   },
   invoice_user_select: {
     title: 'Gebruiker',

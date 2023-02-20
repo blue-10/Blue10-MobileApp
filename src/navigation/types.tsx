@@ -6,4 +6,6 @@ export type RootStackParamList = {
   InvoiceDetailsScreen: { id: string };
   InvoiceSelectUserScreen: { id: string };
   InvoiceOriginalsScreen: { id: string };
+  InvoiceBookingsScreen: { id: string };
+  InvoiceTimelineScreen: { id: string };
 };

@@ -37,6 +37,14 @@ export const en: TranslationKeysType = {
     tab_packing_slips: 'Packing slips',
     title: 'Originals',
   },
+  invoice_bookings: {
+    file_size: 'Size: %{size}',
+    title: 'Bookings',
+  },
+  invoice_timeline: {
+    file_size: 'Size: %{size}',
+    title: 'Timeline',
+  },
   invoice_user_select: {
     title: 'User',
   },

@@ -5,6 +5,7 @@
 * \#30 Factuur bijlagen weergave
 * \#34 Prep voor demo
 * \#53 Code op Git publiceren
+* \#10 Factuur boekingen
 
 # v0.1.0
 * \#12 Inloggen

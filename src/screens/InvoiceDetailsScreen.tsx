@@ -191,7 +191,7 @@ export const InvoiceDetailsScreen: React.FC<Props> = ({ navigation, route }) => 
               variant="grey"
               size="S"
               title={i18n.translate(translate.button_bookings)}
-              onPress={onPressTemp}
+              onPress={() => navigation.navigate('InvoiceBookingsScreen', { id: invoiceId })}
               isDisabled={isButtonsDisabled}
               style={{
                 marginHorizontal: 24,
@@ -202,7 +202,7 @@ export const InvoiceDetailsScreen: React.FC<Props> = ({ navigation, route }) => 
               size="S"
               title={i18n.translate(translate.button_timeline)}
               isDisabled={isButtonsDisabled}
-              onPress={onPressTemp}
+              onPress={() => navigation.navigate('InvoiceTimelineScreen', { id: invoiceId })}
             />
           </Box>
         </Box>

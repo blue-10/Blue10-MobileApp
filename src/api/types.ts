@@ -63,3 +63,9 @@ export type InvoicePackingSlip = {
   name: string;
   fileSize: number;
 }
+
+export type InvoiceBooking = {
+  id: string;
+  name: string;
+  fileSize: number;
+}

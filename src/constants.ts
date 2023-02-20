@@ -21,5 +21,6 @@ export const enum queryKeys {
   users = 'users',
   invoicesToApprove = 'invoicesToApprove',
   invoiceAttachments = 'invoiceAttachments',
-  invoicePackingSlips = 'invoicePackingSlips'
+  invoicePackingSlips = 'invoicePackingSlips',
+  invoiceBookings = 'invoiceBookings'
 }

@@ -64,6 +64,14 @@ export type TranslationKeysType = {
     tab_packing_slips: string;
     file_size: string;
   };
+  invoice_bookings: {
+    title: string;
+    file_size: string;
+  };
+  invoice_timeline: {
+    title: string;
+    file_size: string;
+  };
   settings: {
     screen_title: string;
     language_subtitle: string;
@@ -118,6 +126,14 @@ export const translationKeys = {
     tab_invoice: 'invoice_originals.tab_invoice',
     tab_packing_slips: 'invoice_originals.tab_packing_slips',
     title: 'invoice_originals.title',
+  },
+  invoice_bookings: {
+    file_size: 'invoice_bookings.file_size',
+    title: 'invoice_bookings.title',
+  },
+  invoice_timeline: {
+    file_size: 'invoice_timeline.file_size',
+    title: 'invoice_timeline.title',
   },
   invoice_user_select: {
     title: 'invoice_user_select.title',

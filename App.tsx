@@ -7,6 +7,8 @@ import React, { useEffect } from 'react';
 import { t } from './src/i18n/i18n';
 import { RootStackParamList } from './src/navigation/types';
 import { DashboardScreen } from './src/screens/DashboardScreen';
+import { InvoiceTimelineScreen } from './src/screens/InvoiceTimelineScreen';
+import { InvoiceBookingsScreen } from './src/screens/InvoiceBookingsScreen';
 import { InvoiceDetailsScreen } from './src/screens/InvoiceDetailsScreen';
 import { InvoiceOriginalsScreen } from './src/screens/InvoiceOriginalsScreen';
 import { InvoiceSelectUserScreen } from './src/screens/InvoiceSelectUserScreen';
@@ -88,6 +90,20 @@ export const App: React.FC = () => {
                     component={InvoiceOriginalsScreen}
                     options={{
                       title: t('invoice_originals.title'),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="InvoiceBookingsScreen"
+                    component={InvoiceBookingsScreen}
+                    options={{
+                      title: t('invoice_bookings.title'),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="InvoiceTimelineScreen"
+                    component={InvoiceTimelineScreen}
+                    options={{
+                      title: t('invoice_timeline.title'),
                     }}
                   />
                 </Stack.Navigator>

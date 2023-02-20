@@ -192,3 +192,55 @@ export const getInvoicePackingSlips = async (
     },
   ];
 };
+
+export const getInvoiceBookings = async (
+  _token: string,
+  _environmentId: string,
+  _id: string,
+): Promise<InvoicePackingSlip[]> => {
+  await apiDelay(manualShortApiDelay);
+
+  return [
+    {
+      fileSize: 121400,
+      id: '1',
+      name: 'Boeking-20221103.pdf',
+    },
+    {
+      fileSize: 82635,
+      id: '2',
+      name: 'Boeking-20221103 (1).pdf',
+    },
+    {
+      fileSize: 140159120,
+      id: '3',
+      name: 'Boeking-20221103 (2).pdf',
+    },
+  ];
+};
+
+export const getInvoiceTimeline = async (
+  _token: string,
+  _environmentId: string,
+  _id: string,
+): Promise<InvoicePackingSlip[]> => {
+  await apiDelay(manualShortApiDelay);
+
+  return [
+    {
+      fileSize: 121400,
+      id: '1',
+      name: 'Timeline-20221103.pdf',
+    },
+    {
+      fileSize: 82635,
+      id: '2',
+      name: 'Timeline-20221103 (1).pdf',
+    },
+    {
+      fileSize: 140159120,
+      id: '3',
+      name: 'Timeline-20221103 (2).pdf',
+    },
+  ];
+};

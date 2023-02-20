@@ -22,7 +22,7 @@ export const dimensions = {
     singleItem: {
       fontSize: mediumFontSize,
       margin: 0,
-      padding: space,
+      padding: narrowSpace,
       paddingHorizontal: space,
       paddingVertical: narrowSpace,
     },
