@@ -1,0 +1,26 @@
+import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+
+import { queryKeys } from '../../constants';
+import { useApi } from '../useApi';
+
+const lngConvert: Record<string, string> = {
+  en: 'en-US',
+  nl: 'nl-NL',
+};
+
+export type SourceType = 'PurchaseInvoices' | 'Shared'
+
+export const useGetSource = (source: SourceType) => {
+  const api = useApi();
+  const { i18n } = useTranslation();
+  const locale = lngConvert[i18n.language];
+
+  return useQuery(
+    [queryKeys.getSource, locale, source],
+    () => api.translation.getSource(locale, source),
+    {
+      staleTime: 60 * 1000 * 10, // 10 minutes
+    },
+  );
+};
