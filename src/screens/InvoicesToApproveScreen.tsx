@@ -85,7 +85,7 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
 
   return (
     <View>
-      <StatusBar barStyle="default" animated />
+      <StatusBar barStyle="dark-content" animated />
       <FlatList<InvoiceListItem>
         style={{ minHeight: 90 }} // without height the refresh indicator is not visible during reload
         data={all}

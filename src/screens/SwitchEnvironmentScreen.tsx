@@ -56,7 +56,7 @@ export const SwitchEnvironmentScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar barStyle="default" animated />
+      <StatusBar barStyle="dark-content" animated />
       <FlatList<Environment>
         style={{ minHeight: 90 }}
         data={environments}

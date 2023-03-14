@@ -54,7 +54,7 @@ export const SettingsScreen: React.FC = () => {
 
   return (
     <Box>
-      <StatusBar barStyle="default" animated />
+      <StatusBar barStyle="dark-content" animated />
       <Box py={16} px={42}>
         <Text variant="bodyRegularBold">{t('settings.language_subtitle')}</Text>
       </Box>

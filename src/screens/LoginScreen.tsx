@@ -1,9 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 
 import LoginSite from '../components/LoginSite/LoginSite';
 import { useApiStore } from '../store/ApiStore';
+import { colors } from '../theme';
 
 export const LoginScreen: React.FC = () => {
   const setBaseUrlAndRefreshToken = useApiStore((state) => state.setBaseUrlAndRefreshToken);
@@ -25,11 +26,18 @@ export const LoginScreen: React.FC = () => {
   }, [loadRefreshTokenFromStore]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar barStyle="default" backgroundColor="black" animated />
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="black" />
       <LoginSite
         onRefreshToken={(refreshToken, baseUrl) => onRefreshToken(refreshToken, baseUrl)}
       />
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create(({
+  container: {
+    backgroundColor: colors.black,
+    flex: 1,
+  },
+}));
