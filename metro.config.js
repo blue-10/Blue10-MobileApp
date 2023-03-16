@@ -5,7 +5,7 @@ module.exports = (async () => {
           resolver: {
             sourceExts, assetExts
           }
-        } = await getDefaultConfig();
+        } = await getDefaultConfig(__dirname);
   return {
     transformer: {
       babelTransformerPath: require.resolve("react-native-svg-transformer")
@@ -14,3 +14,29 @@ module.exports = (async () => {
     }
   };
 })();
+
+// Learn more https://docs.expo.io/guides/customizing-metro
+// const { getDefaultConfig } = require('expo/metro-config');
+// module.exports = (() => {
+//   const config = getDefaultConfig(__dirname);
+
+//   const { 
+//     transformer, 
+//     resolver: {
+//     assetExts,
+//     sourceExts
+//   } 
+//   } = config;
+
+//   config.transformer = {
+//     ...transformer,
+//     babelTransformerPath: require.resolve("react-native-svg-transformer"),
+//   };
+//   config.resolver = {
+//     ...resolver,
+//     assetExts: assetExts.filter((ext) => ext !== "svg"),
+//     sourceExts: [...sourceExts, "svg"],
+//   };
+
+//   return config;
+// })();

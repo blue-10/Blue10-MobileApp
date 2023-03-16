@@ -25,3 +25,33 @@ or if you're more a fan of Android:
 
 ## Contributing
 We welcome contributions! Please read the [contribution guidelines](.github/CONTRIBUTING.md) before you start.
+
+## Development build
+Follow instruction found here:
+https://docs.expo.dev/development/create-development-builds/
+
+
+## Create builds
+
+**For iOS simulator**
+```bash
+eas build --profile development-simulator --platform ios
+```
+
+**For iOS device**
+To register any iOS device you'd like to develop onto your ad hoc provisioning profile, run the following command:
+```bash
+eas device:create
+```
+
+After registering your iOS device, you can create the development build by running the command:
+```
+eas build --profile development --platform ios
+```
+
+**For Android device**
+```
+eas build --profile development --platform android
+```
+
+*Note: if you want to run them locally you can use the `--local` flag for it.

@@ -3,9 +3,9 @@
   "version": "0.2.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo start --dev-client --android",
+    "ios": "expo start --dev-client --ios",
     "web": "expo start --web",
     "lint": "eslint App.tsx src --ext .ts,.tsx,.js,.jsx",
     "lint-fix": "npm run lint -- --fix",
@@ -23,12 +23,14 @@
     "@react-navigation/native-stack": "^6.9.1",
     "@tanstack/react-query": "^4.10.3",
     "@types/react": "~18.0.24",
+    "@types/semver": "^7.3.13",
     "@wecreatesolutions/config-eslint": "^0.1.0",
     "axios": "^1.1.2",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "expo": "^48.0.0",
     "expo-constants": "~14.2.1",
+    "expo-dev-client": "~2.1.5",
     "expo-localization": "~14.1.1",
     "expo-secure-store": "~12.1.1",
     "expo-status-bar": "~1.4.4",
@@ -45,8 +47,14 @@
     "react-native-svg": "13.4.0",
     "react-native-svg-transformer": "^1.0.0",
     "react-native-webview": "11.26.0",
+    "semver": "^7.3.8",
     "typescript": "^4.6.3",
-    "zustand": "^4.1.2"
+    "zustand": "^4.1.2",
+    "sentry-expo": "~6.1.0",
+    "expo-application": "~5.1.1",
+    "expo-device": "~5.2.1",
+    "expo-updates": "~0.16.3",
+    "@sentry/react-native": "4.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3"

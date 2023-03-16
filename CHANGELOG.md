@@ -5,6 +5,8 @@
 * \#17 Factuur goedkeuren
 * \#38 Factuur toewijzen
 * \#35 API koppelingen maken V1
+* \#75 Feedback 23.11-12
+* \#71 Sentry instellen
 
 # v0.2.0
 * \#26 Factuur details scherm

@@ -1,4 +1,8 @@
 export type TranslationKeysType = {
+  general: {
+    error: string;
+    button_ok: string;
+  };
   login: {
     welcome_title: string;
     welcome_description: string;
@@ -104,6 +108,7 @@ export type TranslationKeysType = {
     button_user_help_text: string;
     title: string;
     comment: string;
+    action_completed_title: string;
   };
   invoice_action_select: {
     title: string;

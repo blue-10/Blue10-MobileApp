@@ -19,7 +19,12 @@ export const en: TranslationKeysType = {
     description: 'Something went wrong when getting information. Please try again.',
     title: 'Something went wrong!',
   },
+  general: {
+    button_ok: 'OK',
+    error: 'Error',
+  },
   invoice_action_form: {
+    action_completed_title: 'Action completed',
     button_action_help_text: 'Action',
     button_user_help_text: 'User',
     comment: 'Comment',

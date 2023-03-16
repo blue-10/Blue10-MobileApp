@@ -1,7 +1,8 @@
 import * as SecureStore from 'expo-secure-store';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, StatusBar } from 'react-native';
+import { Alert } from 'react-native';
 
 import Box from '../components/Box/Box';
 import Button from '../components/Button/Button';
@@ -54,7 +55,7 @@ export const SettingsScreen: React.FC = () => {
 
   return (
     <Box>
-      <StatusBar barStyle="dark-content" animated />
+      <StatusBar style="dark" animated />
       <Box py={16} px={42}>
         <Text variant="bodyRegularBold">{t('settings.language_subtitle')}</Text>
       </Box>

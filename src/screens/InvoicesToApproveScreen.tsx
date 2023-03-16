@@ -1,8 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
+import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, StatusBar, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
 
 import { InvoiceToApproveListItem } from '../components/InvoiceToApproveListItem/InvoiceToApproveListItem';
@@ -85,7 +86,7 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
 
   return (
     <View>
-      <StatusBar barStyle="dark-content" animated />
+      <StatusBar style="dark" animated />
       <FlatList<InvoiceListItem>
         style={{ minHeight: 90 }} // without height the refresh indicator is not visible during reload
         data={all}

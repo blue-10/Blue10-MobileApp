@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import addMinutes from 'date-fns/addMinutes';
 import React, { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as Sentry from 'sentry-expo';
 
 import { REFRESH_GET_BEFORE_IN_MINUTES } from './src/api/ApiService';
 import { ToastProvider } from './src/components/Toast/ToastProvider';
@@ -25,8 +26,15 @@ import { LoginScreen } from './src/screens/LoginScreen';
 import { useApiStore } from './src/store/ApiStore';
 import { colors } from './src/theme';
 import { globalDisableConsoleForProductionAndStaging } from './src/utils/disableConsoles';
+import { inDevelopment } from './src/utils/inDevelopment';
 
 const queryClient = new QueryClient();
+
+// init sentry
+Sentry.init({
+  debug: inDevelopment(),
+  dsn: 'https://48471c030a71448980935deb191f35f3@sentry.wecreatesolutions.nl/25',
+});
 
 // noinspection JSUnusedGlobalSymbols
 export const App: React.FC = () => {

@@ -1,6 +1,8 @@
 import { useIsFetching } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert } from 'react-native';
 
 import { PostNewActionParams } from '../../api/ApiRequests';
 import { queryKeys } from '../../constants';
@@ -10,7 +12,6 @@ import { useGetSource } from '../../hooks/queries/useGetSource';
 import { useInvoiceDetails } from '../../hooks/queries/useInvoiceDetails';
 import { useActionIdToText } from '../../hooks/useActionIdToText';
 import { useInvoiceActionFormStore } from '../../store/InvoiceActionFormStore';
-import { useAddToast } from '../Toast/useToast';
 
 // small remap of error not returned correctly.
 const errorRemap: Record<string, string> = {
@@ -23,7 +24,7 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
   const invoiceActionStore = useInvoiceActionFormStore();
   const invalidateInvoice = useInvalidateInvoice();
   const actionIdToText = useActionIdToText();
-  const addToast = useAddToast();
+  const { t } = useTranslation();
   const {
     data: item,
     isFetching: isFetchingInvoice,
@@ -68,27 +69,42 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
     };
     try {
       const result = await newActionMutation.mutateAsync(params);
-      addToast(
+      Alert.alert(
+        t('invoice_action_form.action_completed_title'),
         getMessageFromKey(result).replace('{0}', actionIdToText(invoiceActionStore.selectedActionId ?? -1)),
-        2500,
+        [
+          {
+            style: 'default',
+            text: t('general.button_ok') ?? '',
+          },
+        ],
       );
       invoiceActionStore.reset();
       invalidateInvoice(invoiceId);
       await refetchInvoice(); // refetch invoice
     } catch (err) {
       if (err instanceof AxiosError) {
-        addToast(getMessageFromKey((err.response?.data.Message ?? '')));
+        Alert.alert(
+          t('general.error'),
+          getMessageFromKey((err.response?.data.Message ?? '')),
+          [
+            {
+              style: 'default',
+              text: t('general.button_ok') ?? '',
+            },
+          ],
+        );
       }
     }
   }, [
     item,
     invoiceId,
-    invalidateInvoice,
     invoiceActionStore,
     newActionMutation,
-    actionIdToText,
-    addToast,
+    t,
     getMessageFromKey,
+    actionIdToText,
+    invalidateInvoice,
     refetchInvoice,
   ]);
 

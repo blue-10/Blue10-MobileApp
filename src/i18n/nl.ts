@@ -19,7 +19,12 @@ export const nl: TranslationKeysType = {
     description: 'Er ging iets nog goed bij het ophalen van gegevens. Probeer het nogmaals.',
     title: 'Er ging iets niet goed!',
   },
+  general: {
+    button_ok: 'OK',
+    error: 'Fout',
+  },
   invoice_action_form: {
+    action_completed_title: 'Actie voltooid',
     button_action_help_text: 'Actie',
     button_user_help_text: 'Gebruiker',
     comment: 'Opmerking',
