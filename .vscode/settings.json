@@ -1,29 +1,4 @@
 {
-  "commit-message-editor.staticTemplate": [
-    "#000 Ticket name",
-    "Body text"
-  ],
-  "commit-message-editor.dynamicTemplate": [
-    "{ticket}",
-    "{body}"
-  ],
-  "commit-message-editor.tokens": [
-    {
-      "label": "Name of the ticket",
-      "name": "ticket",
-      "type": "text",
-      "description": "Name of the ticket"
-    },
-    {
-      "label": "Body",
-      "name": "body",
-      "description": "Optional body",
-      "type": "text",
-      "multiline": true,
-      "lines": 5,
-      "maxLines": 10
-    }
-  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   }
