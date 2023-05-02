@@ -1,0 +1,35 @@
+{
+  "entry": [
+    "App.tsx"
+  ],
+  "extensions": [
+    ".ts",
+    ".js",
+    ".tsx"
+  ],
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "private/**"
+  ],
+  "ignoreUnresolved": [
+  ],
+  "ignoreUnimported": [
+    "src/i18n/en.ts",
+    "src/i18n/nl.ts",
+    "src/types/declarations.d.ts",
+    "src/types/utils.d.ts"
+  ],
+  "ignoreUnused": [
+    "@types/react",
+    "@types/react-native",
+    "@wecreatesolutions/config-eslint",
+    "dotenv",
+    "expo-status-bar",
+    "react",
+    "react-dom",
+    "react-native",
+    "react-native-gesture-handler",
+    "react-native-svg-transformer",
+    "typescript"
+  ]
+}
