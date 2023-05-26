@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 // import SvgSwitchIcon from '../../assets/icons/dashboard-switch-icon.svg';
+import SvgCameraShape from '../../assets/icons/camerashape.svg';
 import SvgGearShape from '../../assets/icons/gearshape.svg';
 import { DashboardItem } from '../components/DashboardItem/DashboardItem';
 import LoaderWrapper from '../components/LoaderWrapper/LoaderWrapper';
@@ -36,6 +37,14 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
     );
   };
 
+  const canUserUploadOrApprove = useMemo(
+    () => currentUser?.MayHandleAllCompanies === true ||
+      currentUser?.MayApproveAllCompanies === true ||
+      (currentUser?.HandleCompanies.length || 0) > 0 ||
+      (currentUser?.ApproveCompanies.length || 0) > 0,
+    [currentUser],
+  );
+
   return (
     <ScreenWithStatusBarAndHeader>
       <LoaderWrapper isLoading={isLoading} width={300} height={text.largeTitle.lineHeight} mb={10}>
@@ -59,14 +68,27 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
           <SvgSwitchIcon style={{ alignSelf: 'center' }} />
         </DashboardItem>
         */}
-        <DashboardItem
-          isLoading={isCountLoading}
-          title={t('to_approved_invoices.screen_title')}
-          color={colors.dashboard.approval.background}
-          textColor={colors.dashboard.approval.text}
-          contentTitle={invoices.toString()}
-          onPress={onApproveInvoices}
-        />
+        {canUserUploadOrApprove && (
+          <DashboardItem
+            isLoading={false}
+            title={t('scan.screen_title')}
+            color={colors.dashboard.scan.background}
+            textColor={colors.dashboard.scan.text}
+            onPress={() => navigation.navigate('ScanPreviewScreen')}
+          >
+            <SvgCameraShape color={colors.white} style={{ alignSelf: 'center' }} width={75} height={75} />
+          </DashboardItem>
+        )}
+        {canUserUploadOrApprove && (
+          <DashboardItem
+            isLoading={isCountLoading}
+            title={t('to_approved_invoices.screen_title')}
+            color={colors.dashboard.approval.background}
+            textColor={colors.dashboard.approval.text}
+            contentTitle={invoices.toString()}
+            onPress={onApproveInvoices}
+          />
+        )}
         <DashboardItem
           isLoading={false}
           title={t('settings.screen_title')}
