@@ -1,3 +1,5 @@
+# v0.4.0
+
 # v0.3.0
 * \#54 Inloggen via LoginSite
 * \#56 Opmerkingen boven de actieknoppen plaatsen op een factuur.
