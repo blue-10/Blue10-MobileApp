@@ -1,5 +1,6 @@
 # v0.4.0
 * \#42 Dashboard Page knop toevoegen scannen
+* \#43 Scannen van een document
 
 # v0.3.0
 * \#54 Inloggen via LoginSite

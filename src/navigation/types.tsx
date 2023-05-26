@@ -2,6 +2,12 @@ export type RootStackParamList = {
   Dashboard: undefined;
   SwitchEnvironment: undefined;
   Settings: undefined;
+  ScanCameraScreen: {
+    addImageHandler: (image: any) => void;
+    isBlackWhiteModeEnabled: boolean;
+    isDocumentRecognitionEnabled: boolean;
+    isFlashEnabled: boolean;
+  };
   ScanPreviewScreen: undefined;
   InvoicesToApproveScreen: { invoices: number } | undefined;
   InvoiceDetailsScreen: { id: string; disabledAnimation?: boolean };

@@ -108,6 +108,7 @@ export const nl: TranslationKeysType = {
     title: 'Uitloggen',
   },
   scan: {
+    camera_title: '',
     preview_menu_black_white_off: 'Zwart/wit modus uit',
     preview_menu_black_white_on: 'Zwart/wit modus',
     preview_menu_cancel: 'Annuleren',

@@ -108,6 +108,7 @@ export const en: TranslationKeysType = {
     title: 'Logout',
   },
   scan: {
+    camera_title: '',
     preview_menu_black_white_off: 'Black/white mode off',
     preview_menu_black_white_on: 'Black/white mode',
     preview_menu_cancel: 'Cancel',

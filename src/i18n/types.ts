@@ -119,6 +119,7 @@ export type TranslationKeysType = {
     button_retry: string;
   };
   scan: {
+    camera_title: string;
     screen_title: string;
     preview_title: string;
     preview_menu_title: string;
