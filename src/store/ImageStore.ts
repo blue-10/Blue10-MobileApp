@@ -2,13 +2,43 @@ import * as FileSystem from 'expo-file-system';
 import * as Sentry from 'sentry-expo';
 import { create } from 'zustand';
 
+import { GetCompanyResponseItem } from '../api/ApiResponses';
+
+export class DocumentType {
+  static readonly PURCHASE_INVOICE = new DocumentType('purchase_invoice', 1);
+  static readonly SALES_INVOICE = new DocumentType('sales_invoice', 2);
+  static readonly PACKING_SLIP = new DocumentType('packing_slip', 3);
+
+  // eslint-disable-next-line no-useless-constructor
+  private constructor(public readonly key: string, public readonly documentType: number) {
+  }
+
+  toString() {
+    return this.key;
+  }
+}
+
 type ImageStore = {
   addImages: (filePaths: string[]) => void;
+  company: GetCompanyResponseItem | undefined;
   deleteImage: () => void;
+  documentType: DocumentType | undefined;
   images: string[];
   reset: () => void;
   selectImage: (index: number) => void;
   selectedImageIndex: number | undefined;
+  setCompany: (company: GetCompanyResponseItem) => void;
+  setDocumentType: (documentType: DocumentType) => void;
+};
+
+const deleteFiles = (filePaths: string[]): void => {
+  filePaths.forEach((filePath) => {
+    FileSystem.deleteAsync(filePath, { idempotent: true })
+      .then(() => { /* all is well with the world */ })
+      .catch(() => {
+        Sentry.Native.captureMessage('Unable to delete a file from the local file system', 'warning');
+      });
+  });
 };
 
 const useImageStore = create<ImageStore>((set) => ({
@@ -17,6 +47,7 @@ const useImageStore = create<ImageStore>((set) => ({
       images: [...currentState.images, ...filePaths],
     }));
   },
+  company: undefined,
   deleteImage: () => {
     set((currentState) => {
       if (currentState.selectedImageIndex === undefined ||
@@ -25,11 +56,7 @@ const useImageStore = create<ImageStore>((set) => ({
       }
 
       const imageToDelete = currentState.images[currentState.selectedImageIndex];
-      FileSystem.deleteAsync(imageToDelete, { idempotent: true })
-        .then(() => { /* all is well with the world */ })
-        .catch(() => {
-          Sentry.Native.captureMessage('Unable to delete a file from the local file system', 'warning');
-        });
+      deleteFiles([imageToDelete]);
 
       const newImages = currentState.images.filter((_, index) => index !== currentState.selectedImageIndex);
 
@@ -47,18 +74,15 @@ const useImageStore = create<ImageStore>((set) => ({
       };
     });
   },
+  documentType: undefined,
   images: [],
   reset: () => {
     set((currentState) => {
-      currentState.images.forEach((imagePath) => {
-        FileSystem.deleteAsync(imagePath, { idempotent: true })
-          .then(() => { /* all is well with the world */ })
-          .catch(() => {
-            Sentry.Native.captureMessage('Unable to delete a file from the local file system', 'warning');
-          });
-      });
+      deleteFiles(currentState.images);
 
       return {
+        companyId: undefined,
+        documentType: undefined,
         images: [],
         selectedImageIndex: undefined,
       };
@@ -72,6 +96,35 @@ const useImageStore = create<ImageStore>((set) => ({
     }));
   },
   selectedImageIndex: undefined,
+  setCompany: (company) => {
+    set((currentState) => {
+      const changes: Partial<ImageStore> = { company };
+
+      if (company.Id !== currentState.company?.Id) {
+        deleteFiles(currentState.images);
+
+        changes.documentType = undefined;
+        changes.images = [];
+        changes.selectedImageIndex = undefined;
+      }
+
+      return changes;
+    });
+  },
+  setDocumentType: (documentType) => {
+    set((currentState) => {
+      const changes: Partial<ImageStore> = { documentType };
+
+      if (documentType !== currentState.documentType) {
+        deleteFiles(currentState.images);
+
+        changes.images = [];
+        changes.selectedImageIndex = undefined;
+      }
+
+      return changes;
+    });
+  },
 }));
 
 export { useImageStore };

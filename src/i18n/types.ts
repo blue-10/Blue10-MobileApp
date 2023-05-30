@@ -119,10 +119,16 @@ export type TranslationKeysType = {
     button_retry: string;
   };
   scan: {
-    camera_title: string;
-    menu_title: string;
-    menu_dashboard: string;
+    company_title: string;
+    document_type_packing_slip: string;
+    document_type_purchase_invoice: string;
+    document_type_sales_invoice: string;
+    document_type_title: string;
     menu_cancel: string;
+    menu_dashboard: string;
+    menu_select_company: string;
+    menu_select_document_type: string;
+    menu_title: string;
     preview_title: string;
     preview_upload_failed_title: string;
     preview_upload_success_title: string;

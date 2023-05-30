@@ -47,9 +47,9 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
     [currentUser],
   );
 
-  const openScanner = useCallback(() => {
+  const startScannerFlow = useCallback(() => {
     resetScannedImages();
-    navigation.navigate('ScanPreviewScreen');
+    navigation.navigate('ScanSelectCompanyScreen');
   }, [navigation, resetScannedImages]);
 
   return (
@@ -81,7 +81,7 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
             title={t('scan.screen_title')}
             color={colors.dashboard.scan.background}
             textColor={colors.dashboard.scan.text}
-            onPress={openScanner}
+            onPress={startScannerFlow}
           >
             <SvgCameraShape color={colors.white} style={{ alignSelf: 'center' }} width={75} height={75} />
           </DashboardItem>

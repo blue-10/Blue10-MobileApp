@@ -1,6 +1,6 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import DocumentScanner, { ResponseType, ScanDocumentResponseStatus } from 'react-native-document-scanner-plugin';
@@ -24,17 +24,27 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ScanPreviewScreen'>;
 
 export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
   const { showActionSheetWithOptions } = useActionSheet();
+  const currentCustomer = useGetCurrentCustomer();
+  const { currentUser } = useGetCurrentUser();
   const {
     addImages,
+    company,
     deleteImage,
+    documentType,
     images,
     reset,
     selectedImageIndex,
     selectImage,
   } = useImageStore();
   const { t } = useTranslation();
-  const currentCustomer = useGetCurrentCustomer();
-  const { currentUser } = useGetCurrentUser();
+
+  useEffect(() => {
+    if (company === undefined) {
+      navigation.navigate('ScanSelectCompanyScreen');
+    } else if (documentType === undefined) {
+      navigation.navigate('ScanSelectDocumentTypeScreen');
+    }
+  }, [company, documentType, navigation]);
 
   const isUploadEnabled = useMemo(() => images.length > 0, [images]);
 
@@ -75,28 +85,50 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate('Dashboard');
   }, [navigation, reset]);
 
+  const goBack = useCallback(() => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('ScanSelectCompanyScreen');
+    }
+  }, [navigation]);
+
   const showActionSheet = useCallback(() => {
     const options = [
+      t('scan.menu_select_company'),
+      t('scan.menu_select_document_type'),
       t('scan.menu_dashboard'),
       t('scan.menu_cancel'),
     ];
 
     showActionSheetWithOptions({
-      cancelButtonIndex: 1,
-      message: `${currentUser?.Name} - ${currentCustomer.customerName}`,
+      cancelButtonIndex: options.length - 1,
+      message: `${currentUser?.Name} - ${currentCustomer.customerName}\r\n` +
+        `${company?.DisplayName} - ${t(`scan.document_type_${documentType?.key}`)}`,
       options,
       title: t('scan.menu_title') || undefined,
     }, (selectedIndex) => {
       switch (selectedIndex) {
         case 0:
+          navigation.navigate('ScanSelectCompanyScreen');
+          break;
+
+        case 1:
+          navigation.navigate('ScanSelectDocumentTypeScreen');
+          break;
+
+        case 2:
           toDashboard();
           break;
       }
     });
   }, [
+    company,
     currentCustomer,
     currentUser,
+    documentType,
     showActionSheetWithOptions,
+    navigation,
     t,
     toDashboard,
   ]);
@@ -123,7 +155,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
           </ScrollView>
           <View style={styles.buttonBarContainer}>
             <View style={styles.buttonBar}>
-              <TouchableOpacity onPress={toDashboard} hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}>
+              <TouchableOpacity onPress={goBack} hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}>
                 <SvgArrowLeftIcon
                   color={colors.scan.toggleEnabledColor}
                   fill={colors.scan.transparentBackground}
