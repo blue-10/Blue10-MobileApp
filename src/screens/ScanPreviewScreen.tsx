@@ -120,8 +120,6 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
                 />
               </TouchableOpacity>
             ))}
-            {/* Image previews here */}
-            {/* onPress={setSelectedImageIndex} */}
           </ScrollView>
           <View style={styles.buttonBarContainer}>
             <View style={styles.buttonBar}>
