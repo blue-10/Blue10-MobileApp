@@ -68,6 +68,9 @@ const config: ExpoConfig = {
   owner: 'wecreatesolutions',
   plugins: [
     'sentry-expo',
+    ['react-native-document-scanner-plugin', {
+      cameraPermission: 'To scan documents, camera access is required.',
+    }],
   ],
   slug: 'blue10',
   splash: {

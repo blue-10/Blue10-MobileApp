@@ -71,6 +71,7 @@ export const colors = {
     deleteIconDisabledColor: 'rgba(142, 142, 147, 1)',
     toggleDisabledColor: 'rgba(142, 142, 147, 1)',
     toggleEnabledColor: whiteColor,
+    transparentBackground: 'rgba(0, 0, 0, 0.6)',
     uploadIconColor: whiteColor,
     uploadIconDisabledColor: 'rgba(142, 142, 147, 1)',
   },

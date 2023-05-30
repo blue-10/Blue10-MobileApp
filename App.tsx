@@ -12,6 +12,7 @@ import '@formatjs/intl-numberformat/locale-data/nl'; // locale-data for nl
 // endregion
 import './src/i18n/i18n.config';
 
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { defaultTheme, Provider } from '@react-native-material/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import addMinutes from 'date-fns/addMinutes';
@@ -76,7 +77,9 @@ export const App: React.FC = () => {
           }}
         >
           <ToastProvider>
-            {!hasRefreshToken ? (<LoginScreen />) : (<Screens />)}
+            <ActionSheetProvider>
+              {!hasRefreshToken ? (<LoginScreen />) : (<Screens />)}
+            </ActionSheetProvider>
           </ToastProvider>
         </Provider>
       </SafeAreaProvider>

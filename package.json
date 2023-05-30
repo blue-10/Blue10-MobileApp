@@ -13,6 +13,7 @@
     "unimported": "npx unimported"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^4.0.1",
     "@formatjs/intl-getcanonicallocales": "^2.1.0",
     "@formatjs/intl-locale": "^3.1.1",
     "@formatjs/intl-numberformat": "^8.3.5",
@@ -40,6 +41,7 @@
     "react-content-loader": "^6.2.0",
     "react-i18next": "^12.2.0",
     "react-native": "^0.71.3",
+    "react-native-document-scanner-plugin": "^0.7.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-pager-view": "6.1.2",
     "react-native-safe-area-context": "^4.5.0",

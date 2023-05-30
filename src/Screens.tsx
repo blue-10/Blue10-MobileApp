@@ -12,7 +12,6 @@ import { InvoiceSelectActionScreen } from './screens/InvoiceSelectActionScreen';
 import { InvoiceSelectUserScreen } from './screens/InvoiceSelectUserScreen';
 import { InvoicesToApproveScreen } from './screens/InvoicesToApproveScreen';
 import { InvoiceTimelineScreen } from './screens/InvoiceTimelineScreen';
-import { ScanCameraScreen } from './screens/ScanCameraScreen';
 import { ScanPreviewScreen } from './screens/ScanPreviewScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { SwitchEnvironmentScreen } from './screens/SwitchEnvironmentScreen';
@@ -109,15 +108,6 @@ const Screens: React.FC = () => {
               headerBackTitle: t('dashboard.title') ?? '',
               headerShown: false,
               title: t('scan.preview_title') ?? '',
-            }}
-          />
-          <Stack.Screen
-            name="ScanCameraScreen"
-            component={ScanCameraScreen}
-            options={{
-              headerBackTitle: t('scan.preview_title') ?? '',
-              headerShown: false,
-              title: t('scan.camera_title') ?? '',
             }}
           />
         </Stack.Navigator>

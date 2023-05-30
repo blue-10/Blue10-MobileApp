@@ -1,98 +1,105 @@
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import { Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import DocumentScanner, { ResponseType, ScanDocumentResponseStatus } from 'react-native-document-scanner-plugin';
+import * as Sentry from 'sentry-expo';
 
+// @ts-ignore
 import DefaultImagePreviewBackground from '../../assets/default-image-preview-background.png';
-import SvgDocumentIcon from '../../assets/icons/document-icon.svg';
+import SvgArrowLeftIcon from '../../assets/icons/arrow-round-left.svg';
 import SvgEllipsisIcon from '../../assets/icons/ellipsis-icon.svg';
-import SvgLightningIcon from '../../assets/icons/lightning-icon.svg';
 import SvgPlusIcon from '../../assets/icons/plus-icon.svg';
 import SvgTrashIcon from '../../assets/icons/trash-icon.svg';
 import SvgUploadIcon from '../../assets/icons/upload-icon.svg';
 import Text from '../components/Text/Text';
+import { useGetCurrentCustomer } from '../hooks/queries/useGetCurrentCustomer';
+import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
 import { RootStackParamList } from '../navigation/types';
+import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions } from '../theme/';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ScanPreviewScreen'>;
-type State = {
-  images: any[];
-  selectedImageIndex: number|null;
-  isBlackWhiteModeEnabled: boolean;
-  isDocumentRecognitionEnabled: boolean;
-  isFlashEnabled: boolean;
-};
 
 export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
+  const { showActionSheetWithOptions } = useActionSheet();
+  const {
+    addImages,
+    deleteImage,
+    images,
+    reset,
+    selectedImageIndex,
+    selectImage,
+  } = useImageStore();
   const { t } = useTranslation();
-  const [state, setState] = useState<State>({
-    images: [],
-    isBlackWhiteModeEnabled: false,
-    isDocumentRecognitionEnabled: true,
-    isFlashEnabled: false,
-    selectedImageIndex: null,
-  });
+  const currentCustomer = useGetCurrentCustomer();
+  const { currentUser } = useGetCurrentUser();
 
-  const isUploadEnabled = useMemo(() => state.images.length > 0, [state.images]);
+  const isUploadEnabled = useMemo(() => images.length > 0, [images]);
 
-  const addImageHandler = useMemo(() => (image: any) => setState({
-    ...state,
-    images: [...state.images, image],
-  }), [state]);
-
-  const deleteImage = useMemo(() => () => {
-    if (state.selectedImageIndex === null) {
-      return;
-    }
-
-    const newImages: typeof state.images = [];
-    for (let idx = 0; idx < state.images.length; idx++) {
-      if (idx !== state.selectedImageIndex) {
-        newImages.push(state.images[idx]);
-      }
-    }
-
-    let newSelectedImageIndex: number|null = state.selectedImageIndex - 1;
-    if (newSelectedImageIndex < 0) {
-      newSelectedImageIndex = 0;
-    }
-    if (newImages.length === 0) {
-      newSelectedImageIndex = null;
-    }
-
-    setState({
-      ...state,
-      images: newImages,
-      selectedImageIndex: newSelectedImageIndex,
-    });
-  }, [state, setState]);
-
-  const openCamera = useMemo(() => () => {
-    navigation.navigate(
-      'ScanCameraScreen',
-      {
-        addImageHandler,
-        isBlackWhiteModeEnabled: state.isBlackWhiteModeEnabled,
-        isDocumentRecognitionEnabled: state.isDocumentRecognitionEnabled,
-        isFlashEnabled: state.isFlashEnabled,
-      },
-    );
-  }, [addImageHandler, navigation, state]);
+  const openCamera = useCallback(() => {
+    DocumentScanner.scanDocument({
+      croppedImageQuality: 100,
+      letUserAdjustCrop: true,
+      responseType: ResponseType.ImageFilePath,
+    })
+      .then((result) => {
+        // If the status is not Success, the user cancelled
+        if (result.status === ScanDocumentResponseStatus.Success) {
+          addImages(result.scannedImages || []);
+        }
+      })
+      .catch(() => {
+        Sentry.Native.captureMessage('Error occurred while scanning documents', 'error');
+      });
+  }, [addImages]);
 
   const backgroundImage = useMemo(
     () => {
-      if (state.images.length === 0) {
+      if (images.length === 0 || selectedImageIndex === undefined) {
         return DefaultImagePreviewBackground;
       }
 
-      if (state.selectedImageIndex === null || state.selectedImageIndex >= state.images.length) {
-        return state.images[state.images.length - 1];
+      if (selectedImageIndex >= images.length) {
+        return { uri: images[images.length - 1] };
       }
 
-      return state.images[state.selectedImageIndex];
+      return { uri: images[selectedImageIndex] };
     },
-    [state],
+    [images, selectedImageIndex],
   );
+
+  const toDashboard = useCallback(() => {
+    reset();
+    navigation.navigate('Dashboard');
+  }, [navigation, reset]);
+
+  const showActionSheet = useCallback(() => {
+    const options = [
+      t('scan.menu_dashboard'),
+      t('scan.menu_cancel'),
+    ];
+
+    showActionSheetWithOptions({
+      cancelButtonIndex: 1,
+      message: `${currentUser?.Name} - ${currentCustomer.customerName}`,
+      options,
+      title: t('scan.menu_title') || undefined,
+    }, (selectedIndex) => {
+      switch (selectedIndex) {
+        case 0:
+          toDashboard();
+          break;
+      }
+    });
+  }, [
+    currentCustomer,
+    currentUser,
+    showActionSheetWithOptions,
+    t,
+    toDashboard,
+  ]);
 
   return (
     <View style={styles.screenContainer}>
@@ -103,73 +110,74 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
           </Text>
         </View>
         <View style={styles.footerContainer}>
-          <View style={styles.activeOptionsBar}>
-            {/* Is this a toggle switch or should it allow editing the cropping area of the selected image? */}
-            {/* Will implement as toggle switch for now */}
-            <SvgDocumentIcon
-              color={(
-                state.isDocumentRecognitionEnabled
-                  ? colors.scan.toggleEnabledColor
-                  : colors.scan.toggleDisabledColor
-              )}
-              fill="rgba(0, 0, 0, 0.6)"
-              onPress={() => setState({
-                ...state,
-                isDocumentRecognitionEnabled: !state.isDocumentRecognitionEnabled,
-              })}
-              style={styles.activeOptionsButton}
-              width={38}
-              height={38}
-            />
-          </View>
-          <View style={styles.previewsBar}>
+          <ScrollView horizontal={true} contentContainerStyle={styles.previewsBar}>
+            {images.map((imagePath, index) => (
+              <TouchableOpacity key={`preview_image_${imagePath}`} onPress={() => selectImage(index)}>
+                <Image
+                  source={{ uri: imagePath }}
+                  resizeMode="cover"
+                  style={index === selectedImageIndex ? styles.previewImageSelected : styles.previewImage}
+                />
+              </TouchableOpacity>
+            ))}
             {/* Image previews here */}
             {/* onPress={setSelectedImageIndex} */}
-          </View>
+          </ScrollView>
           <View style={styles.buttonBarContainer}>
             <View style={styles.buttonBar}>
-              <SvgLightningIcon
-                color={state.isFlashEnabled ? colors.scan.toggleEnabledColor : colors.scan.toggleDisabledColor}
-                fill="rgba(0, 0, 0, 0.6)"
-                onPress={() => setState({ ...state, isFlashEnabled: !state.isFlashEnabled })}
-                width={32}
-                height={32}
-              />
-              <SvgPlusIcon
-                color={colors.scan.addIconColor}
-                fill="rgba(0, 0, 0, 0.6)"
-                onPress={openCamera}
-                width={32}
-                height={32}
-              />
-              <SvgUploadIcon
-                color={isUploadEnabled ? colors.scan.uploadIconColor : colors.scan.uploadIconDisabledColor}
-                fill="rgba(0, 0, 0, 0.6)"
-                width={72}
-                height={72}
-              />
-              <SvgTrashIcon
-                color={(
-                  state.images.length > 0 && state.selectedImageIndex !== null
-                    ? colors.scan.deleteIconColor
-                    : colors.scan.deleteIconDisabledColor
-                )}
-                fill={(
-                  state.images.length > 0 && state.selectedImageIndex !== null
-                    ? colors.scan.deleteIconBackgroundColor
-                    : colors.scan.deleteIconDisabledBackgroundColor
-                )}
+              <TouchableOpacity onPress={toDashboard} hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}>
+                <SvgArrowLeftIcon
+                  color={colors.scan.toggleEnabledColor}
+                  fill={colors.scan.transparentBackground}
+                  width={32}
+                  height={32}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={openCamera} hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}>
+                <SvgPlusIcon
+                  color={colors.scan.addIconColor}
+                  fill={colors.scan.transparentBackground}
+                  width={32}
+                  height={32}
+                  hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity disabled={!isUploadEnabled} onPress={undefined}>
+                <SvgUploadIcon
+                  color={isUploadEnabled ? colors.scan.uploadIconColor : colors.scan.uploadIconDisabledColor}
+                  fill={colors.scan.transparentBackground}
+                  width={72}
+                  height={72}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                disabled={images.length === 0 || selectedImageIndex === undefined}
                 onPress={deleteImage}
-                width={33}
-                height={33}
-              />
-              <SvgEllipsisIcon
-                color={colors.scan.toggleEnabledColor}
-                fill="rgba(0, 0, 0, 0.6)"
-                onPress={() => setState({ ...state, isFlashEnabled: !state.isFlashEnabled })}
-                width={32}
-                height={32}
-              />
+                hitSlop={{ bottom: 7, left: 8, right: 7, top: 8 }}
+              >
+                <SvgTrashIcon
+                  color={(
+                    images.length > 0 && selectedImageIndex !== undefined
+                      ? colors.scan.deleteIconColor
+                      : colors.scan.deleteIconDisabledColor
+                  )}
+                  fill={(
+                    images.length > 0 && selectedImageIndex !== undefined
+                      ? colors.scan.deleteIconBackgroundColor
+                      : colors.scan.deleteIconDisabledBackgroundColor
+                  )}
+                  width={33}
+                  height={33}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={showActionSheet} hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}>
+                <SvgEllipsisIcon
+                  color={colors.scan.toggleEnabledColor}
+                  fill={colors.scan.transparentBackground}
+                  width={32}
+                  height={32}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -179,15 +187,6 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  activeOptionsBar: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: 82,
-    justifyContent: 'flex-end',
-  },
-  activeOptionsButton: {
-    marginEnd: 24,
-  },
   backgroundImage: {
     flex: 1,
     flexDirection: 'column',
@@ -202,7 +201,6 @@ const styles = StyleSheet.create({
   },
   buttonBarContainer: {
     alignItems: 'flex-start',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     height: 145,
     justifyContent: 'flex-start',
   },
@@ -213,6 +211,7 @@ const styles = StyleSheet.create({
     marginVertical: dimensions.spacing.normal,
   },
   footerContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   header: {
     alignItems: 'center',
@@ -221,14 +220,29 @@ const styles = StyleSheet.create({
     height: 90,
     justifyContent: 'flex-end',
   },
+  previewImage: {
+    borderColor: colors.white,
+    borderRadius: 3,
+    borderWidth: 1,
+    height: 49,
+    marginStart: 16,
+    width: 49,
+  },
+  previewImageSelected: {
+    borderColor: 'yellow',
+    borderRadius: 3,
+    borderWidth: 3,
+    height: 49,
+    marginStart: 16,
+    width: 49,
+  },
   previewsBar: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     color: colors.white,
     flexDirection: 'row',
     height: 95,
     justifyContent: 'flex-start',
-    overflow: 'scroll', // check this, we want the image previews to be horizontally scrollable if there are many images
+    paddingEnd: 16,
   },
   screenContainer: {
     backgroundColor: colors.white,
