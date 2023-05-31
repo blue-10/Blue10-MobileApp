@@ -99,7 +99,7 @@ export const useImageStore = create<ImageStore>((set) => ({
   setCompany: (company) => {
     set((currentState) => {
       if (company.Id !== currentState.company?.Id) {
-        // Not all companies support all document types, reset the current document type on company change so the user
+        // not all companies support all document types, reset the current document type on company change so the user
         // is forced to re-select a document type
         return { company, documentType: undefined };
       }

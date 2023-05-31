@@ -1,8 +1,8 @@
 // NOTE: TYPING fix for segmented control can be removed until:
 // https://github.com/react-native-segmented-control/segmented-control/pull/691 is merged.
 
-// These types are derived from @types/react-native.
-// All credit goes to amazing people who made the react-native typings.
+// these types are derived from @types/react-native.
+// all credit goes to amazing people who made the react-native typings.
 
 import * as React from 'react';
 import {

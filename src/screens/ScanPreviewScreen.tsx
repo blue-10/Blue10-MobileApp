@@ -66,7 +66,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
         responseType: ResponseType.ImageFilePath,
       });
 
-      // If the status is not Success, the user cancelled
+      // if the status is not Success, the user cancelled
       if (result.status === ScanDocumentResponseStatus.Success) {
         setHasPendingImages(true);
         const imagePaths = result.scannedImages || [];

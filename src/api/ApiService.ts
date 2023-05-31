@@ -145,7 +145,7 @@ export class ApiService {
 
     this.axiosInstance.interceptors.request.use(
       async (config) => {
-        // No token set yet? then we are getting a new token
+        // no token set yet? then we are getting a new token
 
         if (!this.token) {
           await this.refreshAccessToken(this.refreshToken);
