@@ -118,4 +118,17 @@ export type TranslationKeysType = {
     description: string;
     button_retry: string;
   };
+  scan: {
+    screen_title: string;
+    preview_title: string;
+    preview_menu_title: string;
+    preview_menu_black_white_on: string;
+    preview_menu_black_white_off: string;
+    preview_menu_document_recognition_on: string;
+    preview_menu_document_recognition_off: string;
+    preview_menu_dashboard: string;
+    preview_menu_cancel: string;
+    preview_upload_failed_title: string;
+    preview_upload_success_title: string;
+  };
 };

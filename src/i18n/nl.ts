@@ -5,7 +5,7 @@ export const nl: TranslationKeysType = {
   dashboard: {
     log_off: 'Uitloggen',
     title: 'Dashboard',
-    welcome_description: 'Je bent ingelogt op: {{environment}}',
+    welcome_description: 'Je bent ingelogd op: {{environment}}',
     welcome_title: 'Hoi {{name}}',
   },
   error_view: {
@@ -107,10 +107,23 @@ export const nl: TranslationKeysType = {
     message: 'Weet je zeker dat je wilt uitloggen?',
     title: 'Uitloggen',
   },
+  scan: {
+    preview_menu_black_white_off: 'Zwart/wit modus uit',
+    preview_menu_black_white_on: 'Zwart/wit modus',
+    preview_menu_cancel: 'Annuleren',
+    preview_menu_dashboard: 'Dashboard',
+    preview_menu_document_recognition_off: 'Document herkenning uit',
+    preview_menu_document_recognition_on: 'Document herkenning',
+    preview_menu_title: 'Instellingen',
+    preview_title: 'BLUE10 SCAN',
+    preview_upload_failed_title: 'UPLOAD MISLUKT!',
+    preview_upload_success_title: 'UPLOAD GELUKT!',
+    screen_title: 'Scannen',
+  },
   settings: {
     language_subtitle: 'Taal',
     logout: 'Uitloggen',
-    screen_title: 'Instellingen',
+    screen_title: 'Voorkeuren',
   },
   switch_environments: {
     screen_title: 'Wissel omgeving',

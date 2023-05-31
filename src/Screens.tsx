@@ -12,6 +12,7 @@ import { InvoiceSelectActionScreen } from './screens/InvoiceSelectActionScreen';
 import { InvoiceSelectUserScreen } from './screens/InvoiceSelectUserScreen';
 import { InvoicesToApproveScreen } from './screens/InvoicesToApproveScreen';
 import { InvoiceTimelineScreen } from './screens/InvoiceTimelineScreen';
+import { ScanPreviewScreen } from './screens/ScanPreviewScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { SwitchEnvironmentScreen } from './screens/SwitchEnvironmentScreen';
 import { colors } from './theme';
@@ -98,6 +99,13 @@ const Screens: React.FC = () => {
             component={InvoiceTimelineScreen}
             options={{
               title: t('invoice_timeline.title') ?? '',
+            }}
+          />
+          <Stack.Screen
+            name="ScanPreviewScreen"
+            component={ScanPreviewScreen}
+            options={{
+              title: t('scan.screen_title') ?? '',
             }}
           />
         </Stack.Navigator>
