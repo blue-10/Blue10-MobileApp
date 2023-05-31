@@ -63,6 +63,18 @@ export const colors = {
   overlayBackground: 'rgba(0, 0, 0, 0.4)',
   primary: 'rgb(196,214,0)',
   primaryText: primaryTextColor,
+  scan: {
+    addIconColor: 'rgba(52, 199, 89, 1)',
+    deleteIconBackgroundColor: 'rgba(255, 59, 48, 1)',
+    deleteIconColor: whiteColor,
+    deleteIconDisabledBackgroundColor: 'rgba(142, 32, 28, 1)',
+    deleteIconDisabledColor: 'rgba(142, 142, 147, 1)',
+    toggleDisabledColor: 'rgba(142, 142, 147, 1)',
+    toggleEnabledColor: whiteColor,
+    transparentBackground: 'rgba(0, 0, 0, 0.6)',
+    uploadIconColor: whiteColor,
+    uploadIconDisabledColor: 'rgba(142, 142, 147, 1)',
+  },
   screen: {
     background: 'rgba(249, 249, 249, 1)',
     text: primaryTextColor,
