@@ -1,10 +1,17 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import DocumentScanner, { ResponseType, ScanDocumentResponseStatus } from 'react-native-document-scanner-plugin';
-import * as Sentry from 'sentry-expo';
 
 // @ts-ignore
 import DefaultImagePreviewBackground from '../../assets/default-image-preview-background.png';
@@ -19,6 +26,8 @@ import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
 import { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions } from '../theme/';
+import { rotateImageIfNeeded } from '../utils/imageUtils';
+import { captureError } from '../utils/sentry';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ScanPreviewScreen'>;
 
@@ -36,6 +45,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
     selectedImageIndex,
     selectImage,
   } = useImageStore();
+  const [hasPendingImages, setHasPendingImages] = useState<boolean>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -48,22 +58,32 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
 
   const isUploadEnabled = useMemo(() => images.length > 0, [images]);
 
-  const openCamera = useCallback(() => {
-    DocumentScanner.scanDocument({
-      croppedImageQuality: 100,
-      letUserAdjustCrop: true,
-      responseType: ResponseType.ImageFilePath,
-    })
-      .then((result) => {
-        // If the status is not Success, the user cancelled
-        if (result.status === ScanDocumentResponseStatus.Success) {
-          addImages(result.scannedImages || []);
-        }
-      })
-      .catch(() => {
-        Sentry.Native.captureMessage('Error occurred while scanning documents', 'error');
+  const openCamera = useCallback(async () => {
+    try {
+      const result = await DocumentScanner.scanDocument({
+        croppedImageQuality: 100,
+        letUserAdjustCrop: true,
+        responseType: ResponseType.ImageFilePath,
       });
-  }, [addImages]);
+
+      // If the status is not Success, the user cancelled
+      if (result.status === ScanDocumentResponseStatus.Success) {
+        setHasPendingImages(true);
+        const imagePaths = result.scannedImages || [];
+        const rotatedImagePaths: string[] = [];
+
+        for (let idx = 0; idx < imagePaths.length; idx++) {
+          rotatedImagePaths.push(await rotateImageIfNeeded(imagePaths[idx]));
+        }
+
+        addImages(rotatedImagePaths);
+        setHasPendingImages(false);
+      }
+    } catch (reason) {
+      captureError(reason, 'An error occurred while scanning documents');
+      setHasPendingImages(false);
+    }
+  }, [addImages, setHasPendingImages]);
 
   const backgroundImage = useMemo(
     () => {
@@ -152,6 +172,9 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
                 />
               </TouchableOpacity>
             ))}
+            {hasPendingImages && (
+              <ActivityIndicator style={styles.previewImageLoader} size={40} color={colors.white} />
+            )}
           </ScrollView>
           <View style={styles.buttonBarContainer}>
             <View style={styles.buttonBar}>
@@ -254,6 +277,11 @@ const styles = StyleSheet.create({
     borderColor: colors.white,
     borderRadius: 3,
     borderWidth: 1,
+    height: 49,
+    marginStart: 16,
+    width: 49,
+  },
+  previewImageLoader: {
     height: 49,
     marginStart: 16,
     width: 49,

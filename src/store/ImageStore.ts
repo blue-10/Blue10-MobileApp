@@ -1,8 +1,8 @@
-import * as FileSystem from 'expo-file-system';
-import * as Sentry from 'sentry-expo';
 import { create } from 'zustand';
 
 import { GetCompanyResponseItem } from '../api/ApiResponses';
+import { deleteFile } from '../utils/fileSystem';
+import { captureError } from '../utils/sentry';
 
 export class DocumentType {
   static readonly PURCHASE_INVOICE = new DocumentType('purchase_invoice', 1);
@@ -32,16 +32,16 @@ type ImageStore = {
 };
 
 const deleteFiles = (filePaths: string[]): void => {
-  filePaths.forEach((filePath) => {
-    FileSystem.deleteAsync(filePath, { idempotent: true })
-      .then(() => { /* all is well with the world */ })
-      .catch(() => {
-        Sentry.Native.captureMessage('Unable to delete a file from the local file system', 'warning');
-      });
+  filePaths.forEach(async (filePath) => {
+    try {
+      await deleteFile(filePath);
+    } catch (reason) {
+      captureError(reason, 'Failed to delete a file', 'warning', { filePath });
+    }
   });
 };
 
-const useImageStore = create<ImageStore>((set) => ({
+export const useImageStore = create<ImageStore>((set) => ({
   addImages: (filePaths: string[]) => {
     set((currentState) => ({
       images: [...currentState.images, ...filePaths],
@@ -98,33 +98,16 @@ const useImageStore = create<ImageStore>((set) => ({
   selectedImageIndex: undefined,
   setCompany: (company) => {
     set((currentState) => {
-      const changes: Partial<ImageStore> = { company };
-
       if (company.Id !== currentState.company?.Id) {
-        deleteFiles(currentState.images);
-
-        changes.documentType = undefined;
-        changes.images = [];
-        changes.selectedImageIndex = undefined;
+        // Not all companies support all document types, reset the current document type on company change so the user
+        // is forced to re-select a document type
+        return { company, documentType: undefined };
       }
 
-      return changes;
+      return { company };
     });
   },
   setDocumentType: (documentType) => {
-    set((currentState) => {
-      const changes: Partial<ImageStore> = { documentType };
-
-      if (documentType !== currentState.documentType) {
-        deleteFiles(currentState.images);
-
-        changes.images = [];
-        changes.selectedImageIndex = undefined;
-      }
-
-      return changes;
-    });
+    set({ documentType });
   },
 }));
-
-export { useImageStore };
