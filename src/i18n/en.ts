@@ -113,6 +113,7 @@ export const en: TranslationKeysType = {
     document_type_purchase_invoice: 'Purchase invoice',
     document_type_sales_invoice: 'Sales invoice',
     document_type_title: 'Select document type',
+    document_type_undefined: 'Unknown',
     menu_cancel: 'Cancel',
     menu_dashboard: 'Dashboard',
     menu_select_company: 'Change company',
@@ -122,6 +123,8 @@ export const en: TranslationKeysType = {
     preview_upload_failed_title: 'UPLOAD FAILED!',
     preview_upload_success_title: 'UPLOAD SUCCEEDED!',
     screen_title: 'Scan',
+    upload_busy_toast: 'Please wait for the upload to finish...',
+    upload_title: 'UPLOAD SCAN',
   },
   settings: {
     language_subtitle: 'Language',

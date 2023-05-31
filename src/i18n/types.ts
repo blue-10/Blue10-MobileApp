@@ -124,6 +124,7 @@ export type TranslationKeysType = {
     document_type_purchase_invoice: string;
     document_type_sales_invoice: string;
     document_type_title: string;
+    document_type_undefined: string;
     menu_cancel: string;
     menu_dashboard: string;
     menu_select_company: string;
@@ -133,5 +134,7 @@ export type TranslationKeysType = {
     preview_upload_failed_title: string;
     preview_upload_success_title: string;
     screen_title: string;
+    upload_busy_toast: string;
+    upload_title: string;
   };
 };

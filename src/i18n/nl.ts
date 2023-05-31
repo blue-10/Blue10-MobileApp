@@ -113,6 +113,7 @@ export const nl: TranslationKeysType = {
     document_type_purchase_invoice: 'Inkoopfactuur',
     document_type_sales_invoice: 'Verkoopfactuur',
     document_type_title: 'Kies documentsoort',
+    document_type_undefined: 'Onbekend',
     menu_cancel: 'Annuleren',
     menu_dashboard: 'Dashboard',
     menu_select_company: 'Bedrijf wijzigen',
@@ -122,6 +123,8 @@ export const nl: TranslationKeysType = {
     preview_upload_failed_title: 'UPLOAD MISLUKT!',
     preview_upload_success_title: 'UPLOAD GELUKT!',
     screen_title: 'Scannen',
+    upload_busy_toast: 'Wacht totdat de upload is afgerond...',
+    upload_title: 'SCAN UPLOADEN',
   },
   settings: {
     language_subtitle: 'Taal',

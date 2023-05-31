@@ -28,6 +28,7 @@ import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions } from '../theme/';
 import { rotateImageIfNeeded } from '../utils/imageUtils';
 import { captureError } from '../utils/sentry';
+import { ScanUploadModalScreen } from './ScanUploadModalScreen';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ScanPreviewScreen'>;
 
@@ -46,6 +47,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
     selectImage,
   } = useImageStore();
   const [hasPendingImages, setHasPendingImages] = useState<boolean>(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -153,8 +155,21 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
     toDashboard,
   ]);
 
+  const startUpload = useCallback(() => {
+    setIsUploadModalOpen(true);
+  }, [setIsUploadModalOpen]);
+
+  const finishUpload = useCallback((uploadSuccessful: boolean) => {
+    setIsUploadModalOpen(false);
+
+    if (uploadSuccessful) {
+      reset(false);
+    }
+  }, [reset, setIsUploadModalOpen]);
+
   return (
     <View style={styles.screenContainer}>
+      <ScanUploadModalScreen isOpen={isUploadModalOpen} onClose={finishUpload} />
       <ImageBackground source={backgroundImage} resizeMode="contain" style={styles.backgroundImage}>
         <View style={styles.header}>
           <Text variant="bodyRegularBold" spaceAfter={10} color={colors.white}>
@@ -195,7 +210,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
                   hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity disabled={!isUploadEnabled} onPress={undefined}>
+              <TouchableOpacity disabled={!isUploadEnabled} onPress={startUpload}>
                 <SvgUploadIcon
                   color={isUploadEnabled ? colors.scan.uploadIconColor : colors.scan.uploadIconDisabledColor}
                   fill={colors.scan.transparentBackground}
