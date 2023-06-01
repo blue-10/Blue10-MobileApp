@@ -22,6 +22,7 @@ export const en: TranslationKeysType = {
   general: {
     button_ok: 'OK',
     error: 'Error',
+    unknown: 'Unknown',
   },
   invoice_action_form: {
     action_completed_title: 'Action completed',
@@ -124,7 +125,18 @@ export const en: TranslationKeysType = {
     preview_upload_success_title: 'UPLOAD SUCCEEDED!',
     screen_title: 'Scan',
     upload_busy_toast: 'Please wait for the upload to finish...',
+    upload_finalize_warning: 'The document was uploaded successfully, but there was an error finalizing the upload session.',
+    upload_generate_document_error: 'An error occurred while converting the images into a PDF document.',
+    upload_start_session_error: 'An error occurred while starting the upload session.',
+    upload_success: 'Your scan was uploaded successfully.',
+    upload_table_company: 'Company',
+    upload_table_customer: 'Customer',
+    upload_table_document_type: 'Document type',
+    upload_table_images: 'Images',
+    upload_table_user: 'User',
     upload_title: 'UPLOAD SCAN',
+    upload_upload_error: 'An error occurred while uploading the document to the server.',
+    upload_user_aborted: 'Upload process aborted.',
   },
   settings: {
     language_subtitle: 'Language',

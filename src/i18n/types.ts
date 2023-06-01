@@ -2,6 +2,7 @@ export type TranslationKeysType = {
   general: {
     error: string;
     button_ok: string;
+    unknown: string;
   };
   login: {
     welcome_title: string;
@@ -135,6 +136,17 @@ export type TranslationKeysType = {
     preview_upload_success_title: string;
     screen_title: string;
     upload_busy_toast: string;
+    upload_finalize_warning: string;
+    upload_generate_document_error: string;
+    upload_start_session_error: string;
+    upload_success: string;
+    upload_table_company: string;
+    upload_table_customer: string;
+    upload_table_document_type: string;
+    upload_table_images: string;
+    upload_table_user: string;
     upload_title: string;
+    upload_upload_error: string;
+    upload_user_aborted: string;
   };
 };

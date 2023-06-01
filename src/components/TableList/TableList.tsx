@@ -1,11 +1,12 @@
+import { DefaultTFuncReturn } from 'i18next';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Text, { TextPropsWithStyle } from '../Text/Text';
 
 export type TableListItem = {
-  label: string;
-  value: string;
+  label: DefaultTFuncReturn | string;
+  value: DefaultTFuncReturn | string;
 };
 
 type TableListProps = {

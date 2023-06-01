@@ -22,6 +22,7 @@ export const nl: TranslationKeysType = {
   general: {
     button_ok: 'OK',
     error: 'Fout',
+    unknown: 'Onbekend',
   },
   invoice_action_form: {
     action_completed_title: 'Actie voltooid',
@@ -124,7 +125,18 @@ export const nl: TranslationKeysType = {
     preview_upload_success_title: 'UPLOAD GELUKT!',
     screen_title: 'Scannen',
     upload_busy_toast: 'Wacht totdat de upload is afgerond...',
+    upload_finalize_warning: 'Het document is succesvol geüploaded, maar er is een fout opgetreden bij het afsluiten van de uploadsessie.',
+    upload_generate_document_error: 'Er is een fout opgetreden bij het omzetten van de afbeeldingen naar een PDF-document.',
+    upload_start_session_error: 'Er is een fout opgetreden bij het starten van een uploadsessie.',
+    upload_success: 'Uw scan is succesvol geüploaded.',
+    upload_table_company: 'Bedrijf',
+    upload_table_customer: 'Klant',
+    upload_table_document_type: 'Documentsoort',
+    upload_table_images: 'Afbeeldingen',
+    upload_table_user: 'Gebruiker',
     upload_title: 'SCAN UPLOADEN',
+    upload_upload_error: 'Er is een fout opgetreden bij het uploaden van het document naar de server.',
+    upload_user_aborted: 'Uploadproces afgebroken.',
   },
   settings: {
     language_subtitle: 'Taal',
