@@ -109,11 +109,6 @@ export const startUploadSession = async (
   return sessionId;
 };
 
-const uploadPdfDocument = async (api: ApiService, sessionId: string, pdfDocument: string): Promise<void> => {
-  return api.file.uploadDocumentForSource(sessionId, pdfDocument)
-    .then((_) => { /* ignore empty string response */ });
-};
-
 export const uploadPdfDocuments = async (
   api: ApiService,
   sessionId: string,
@@ -126,7 +121,7 @@ export const uploadPdfDocuments = async (
     }
 
     try {
-      await uploadPdfDocument(api, sessionId, pdfFiles[idx]);
+      await api.file.uploadDocumentForSource(sessionId, pdfFiles[idx]);
     } catch (error) {
       if (shouldAbort()) {
         captureError(
