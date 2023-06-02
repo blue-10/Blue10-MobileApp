@@ -7,27 +7,45 @@ import { GetCompanyResponseItem } from '../api/ApiResponses';
 import { ApiService } from '../api/ApiService';
 import { DocumentType } from '../store/ImageStore';
 import { deleteFile } from './fileSystem';
+import { captureError } from './sentry';
 
 export class UserAbortError extends Error {}
+export class UploadProcessError extends Error {}
 
 export const prepareDocument = async (images: string[], shouldAbort: () => boolean): Promise<string[]> => {
   if (images.length === 0) {
-    throw new Error('No images to convert');
+    throw new UploadProcessError('No images to convert');
   }
 
   if (FileSystem.cacheDirectory === null) {
-    throw new Error('Could not determine application cache directory using expo-file-system');
+    throw new UploadProcessError('Could not determine application cache directory using expo-file-system');
   }
 
   if (shouldAbort()) {
     throw new UserAbortError();
   }
 
-  let pdfFile = await createPdf({
-    imagePaths: images,
-    outputDirectory: FileSystem.cacheDirectory!,
-    outputFilename: `scan-${unique_slug()}.pdf`,
-  });
+  let pdfFile: string;
+  try {
+    pdfFile = await createPdf({
+      imagePaths: images,
+      outputDirectory: FileSystem.cacheDirectory!,
+      outputFilename: `scan-${unique_slug()}.pdf`,
+    });
+  } catch (error) {
+    if (shouldAbort()) {
+      captureError(
+        error,
+        'Error occurred during createPdf. Not throwing in-app because user has requested abort.',
+        'error',
+        { images },
+      );
+
+      throw new UserAbortError();
+    }
+
+    throw new UploadProcessError('Error occurred during createPdf', { cause: error });
+  }
 
   if (!pdfFile.startsWith('file:')) {
     pdfFile = `file://${pdfFile}`;
@@ -37,8 +55,16 @@ export const prepareDocument = async (images: string[], shouldAbort: () => boole
   //       the max upload file size (currently: 30 MB)
 
   if (shouldAbort()) {
-    await deleteFile(pdfFile);
-    throw new UserAbortError();
+    deleteFile(pdfFile)
+      .then()
+      .catch((reason) => captureError(
+        reason,
+        'Error occurred while deleting temporary PDF file',
+        'warning',
+        { pdfFile },
+      ));
+
+    throw new UserAbortError('Abort requested by user');
   }
 
   return [pdfFile];
@@ -51,18 +77,36 @@ export const startUploadSession = async (
   shouldAbort: () => boolean,
 ): Promise<string> => {
   if (company?.Id === undefined) {
-    throw new Error('Could not determine company Id from given GetCompanyResponseItem');
+    throw new UploadProcessError('Could not determine company Id from given GetCompanyResponseItem');
   }
 
   if (documentType?.documentType === undefined) {
-    throw new Error('Could not determine numeric document type code from given DocumentType');
+    throw new UploadProcessError('Could not determine numeric document type code from given DocumentType');
   }
 
   if (shouldAbort()) {
     throw new UserAbortError();
   }
 
-  return api.file.startUploadSession(company.Id, documentType.documentType);
+  let sessionId: string;
+  try {
+    sessionId = await api.file.startUploadSession(company.Id, documentType.documentType);
+  } catch (error) {
+    if (shouldAbort()) {
+      captureError(
+        error,
+        'Error occurred in API call to start upload session. Not throwing in-app because user has requested abort.',
+        'error',
+        { companyId: company.Id, documentType: documentType.documentType },
+      );
+
+      throw new UserAbortError();
+    }
+
+    throw new UploadProcessError('Error occurred in API call to start upload session', { cause: error });
+  }
+
+  return sessionId;
 };
 
 const uploadPdfDocument = async (api: ApiService, sessionId: string, pdfDocument: string): Promise<void> => {
@@ -73,19 +117,37 @@ const uploadPdfDocument = async (api: ApiService, sessionId: string, pdfDocument
 export const uploadPdfDocuments = async (
   api: ApiService,
   sessionId: string,
-  pdfDocuments: string[],
+  pdfFiles: string[],
   shouldAbort: () => boolean,
 ): Promise<void> => {
-  for (let idx = 0; idx < pdfDocuments.length; idx++) {
+  for (let idx = 0; idx < pdfFiles.length; idx++) {
     if (shouldAbort()) {
       throw new UserAbortError();
     }
 
-    await uploadPdfDocument(api, sessionId, pdfDocuments[idx]);
+    try {
+      await uploadPdfDocument(api, sessionId, pdfFiles[idx]);
+    } catch (error) {
+      if (shouldAbort()) {
+        captureError(
+          error,
+          'Error occurred in API call to upload a file. Not throwing in-app because user has requested abort.',
+          'error',
+          { pdfFile: pdfFiles[idx], sessionId },
+        );
+
+        throw new UserAbortError();
+      }
+
+      throw new UploadProcessError('Error occurred in API call to upload a file', { cause: error });
+    }
   }
 };
 
 export const finishUploadSession = async (api: ApiService, sessionId: string): Promise<void> => {
-  return api.file.finalizeUploadSession(sessionId)
-    .then((_) => { /* ignore empty string response */ });
+  try {
+    await api.file.finalizeUploadSession(sessionId);
+  } catch (error) {
+    throw new UploadProcessError('Error occurred in API call to finalize upload session', { cause: error });
+  }
 };
