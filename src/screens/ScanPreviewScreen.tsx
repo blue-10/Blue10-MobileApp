@@ -186,9 +186,10 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
     setIsUploadModalOpen(false);
 
     if (uploadSuccessful) {
-      reset(false);
+      setHasPendingImages(true);
+      toDashboard();
     }
-  }, [reset, setIsUploadModalOpen]);
+  }, [setHasPendingImages, setIsUploadModalOpen, toDashboard]);
 
   return (
     <View style={styles.screenContainer}>
