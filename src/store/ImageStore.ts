@@ -24,7 +24,7 @@ type ImageStore = {
   deleteImage: () => void;
   documentType: DocumentType | undefined;
   images: string[];
-  reset: (resetCompany?: boolean) => void;
+  reset: () => void;
   selectImage: (index: number) => void;
   selectedImageIndex: number | undefined;
   setCompany: (company: GetCompanyResponseItem) => void;
@@ -76,21 +76,16 @@ export const useImageStore = create<ImageStore>((set) => ({
   },
   documentType: undefined,
   images: [],
-  reset: (resetCompany = true) => {
+  reset: () => {
     set((currentState) => {
       deleteFiles(currentState.images);
 
-      const changes: Partial<ImageStore> = {
+      return {
+        company: undefined,
+        documentType: undefined,
         images: [],
         selectedImageIndex: undefined,
       };
-
-      if (resetCompany) {
-        changes.company = undefined;
-        changes.documentType = undefined;
-      }
-
-      return changes;
     });
   },
   selectImage: (index: number) => {
