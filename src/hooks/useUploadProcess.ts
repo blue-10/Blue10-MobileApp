@@ -1,15 +1,16 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useImageStore } from '../store/ImageStore';
-import { UploadStepState, useUploadStore } from '../store/UploadStore';
-import { deleteFile } from '../utils/fileSystem';
+import { useUploadStore } from '../store/UploadStore';
+import { deleteFilesInBackground } from '../utils/fileSystem';
 import {
   finishUploadSession,
   prepareDocument,
   startUploadSession,
   uploadPdfDocuments,
-  UploadProcessError, UserAbortError,
+  UploadProcessError,
+  UserAbortError,
 } from '../utils/scanUtils';
 import { captureError } from '../utils/sentry';
 import { useGetCurrentCustomer } from './queries/useGetCurrentCustomer';
@@ -21,18 +22,19 @@ export const useUploadProcess = () => {
   const currentCustomer = useGetCurrentCustomer();
   const { currentUser } = useGetCurrentUser();
   const { company, documentType, images } = useImageStore();
-  const [isAbortRequested, setIsAbortRequested] = useState<boolean>(false);
   const { t } = useTranslation();
   const uploadStore = useUploadStore();
 
-  const abortUploadProcess = useCallback(() => setIsAbortRequested(true), [setIsAbortRequested]);
+  const abortUploadProcess = useCallback(
+    () => uploadStore.setIsAbortRequested(true),
+    [uploadStore],
+  );
 
-  const shouldAbort = useCallback(() => isAbortRequested, [isAbortRequested]);
+  const shouldAbort = useCallback(() => uploadStore.isAbortRequested, [uploadStore]);
 
   const startUploadProcess = useCallback(() => {
     uploadStore.reset();
-    uploadStore.setIsStarted(true);
-    uploadStore.setPreparingDocumentState(UploadStepState.BUSY);
+    uploadStore.startPreparingDocuments();
 
     const errorContext: Record<string, unknown> = {
       company: company?.Id,
@@ -50,40 +52,19 @@ export const useUploadProcess = () => {
           throw new UploadProcessError('prepareDocuments finished successfully but 0 PDF documents were created');
         }
 
-        uploadStore.setPreparingDocumentState(UploadStepState.SUCCESS);
-        uploadStore.setStartingSessionState(UploadStepState.BUSY);
-
+        uploadStore.startUploadSession();
         startUploadSession(api, company, documentType, shouldAbort)
           .then((sessionId) => {
             errorContext.sessionId = sessionId;
 
-            uploadStore.setStartingSessionState(UploadStepState.SUCCESS);
-            uploadStore.setDocumentUploadState(UploadStepState.BUSY);
-
+            uploadStore.startUploadingDocuments();
             uploadPdfDocuments(api, sessionId, pdfDocuments, shouldAbort)
               .then(() => {
-                uploadStore.setDocumentUploadState(UploadStepState.SUCCESS);
-                uploadStore.setFinishSessionState(UploadStepState.BUSY);
-
+                uploadStore.startFinalizingSession();
                 finishUploadSession(api, sessionId)
                   .then(() => {
-                    uploadStore.setFinishSessionState(UploadStepState.SUCCESS);
-                    uploadStore.setIsStarted(false);
-                    uploadStore.setIsFinished(true);
-                    uploadStore.setErrorMessage(undefined);
-                    uploadStore.setIsAborted(false);
-                    setIsAbortRequested(false);
-
-                    pdfDocuments.forEach((pdfDocument) => {
-                      deleteFile(pdfDocument)
-                        .then()
-                        .catch((error) => captureError(
-                          error,
-                          'An error occurred while deleting a temporary PDF file',
-                          'warning',
-                          { pdfDocument },
-                        ));
-                    });
+                    uploadStore.setUploadSucceededState();
+                    deleteFilesInBackground(pdfDocuments);
                   })
                   .catch((reason) => {
                     captureError(
@@ -93,70 +74,47 @@ export const useUploadProcess = () => {
                       errorContext,
                     );
 
-                    uploadStore.setIsStarted(false);
-                    uploadStore.setIsFinished(true);
-                    uploadStore.setFinishSessionState(UploadStepState.ERROR);
-                    uploadStore.setErrorMessage(t('scan.upload_finalize_warning') as string);
-                    setIsAbortRequested(false);
-
-                    pdfDocuments.forEach((pdfDocument) => {
-                      deleteFile(pdfDocument)
-                        .then()
-                        .catch((error) => captureError(
-                          error,
-                          'An error occurred while deleting a temporary PDF file',
-                          'warning',
-                          { pdfDocument },
-                        ));
-                    });
+                    uploadStore.failFinalizingSession(t('scan.upload_finalize_warning'));
+                    deleteFilesInBackground(pdfDocuments);
                   });
               })
               .catch((reason) => {
-                uploadStore.setIsStarted(false);
-                uploadStore.setIsFinished(true);
-                uploadStore.setDocumentUploadState(UploadStepState.ERROR);
-                setIsAbortRequested(false);
+                const isUserAbort = reason instanceof UserAbortError;
+                uploadStore.failUploadingDocuments(
+                  t(isUserAbort ? 'scan.upload_user_aborted' : 'scan.upload_upload_error'),
+                  isUserAbort,
+                );
 
-                if (reason instanceof UserAbortError) {
-                  uploadStore.setIsAborted(true);
-                  uploadStore.setErrorMessage(t('scan.upload_user_aborted') as string);
-                } else {
+                if (!isUserAbort) {
                   captureError(reason, 'Failed to upload a document', 'error', errorContext);
-                  uploadStore.setErrorMessage(t('scan.upload_upload_error') as string);
                 }
 
-                pdfDocuments.forEach(deleteFile);
+                deleteFilesInBackground(pdfDocuments);
               });
           })
           .catch((reason) => {
-            uploadStore.setIsStarted(false);
-            uploadStore.setIsFinished(true);
-            uploadStore.setStartingSessionState(UploadStepState.ERROR);
-            setIsAbortRequested(false);
+            const isUserAbort = reason instanceof UserAbortError;
+            uploadStore.failStartingUploadSession(
+              t(isUserAbort ? 'scan.upload_user_aborted' : 'scan.upload_start_session_error'),
+              isUserAbort,
+            );
 
-            if (reason instanceof UserAbortError) {
-              uploadStore.setIsAborted(true);
-              uploadStore.setErrorMessage(t('scan.upload_user_aborted') as string);
-            } else {
+            if (!isUserAbort) {
               captureError(reason, 'Failed to start upload session', 'error', errorContext);
-              uploadStore.setErrorMessage(t('scan.upload_start_session_error') as string);
             }
 
-            pdfDocuments.forEach(deleteFile);
+            deleteFilesInBackground(pdfDocuments);
           });
       })
       .catch((reason) => {
-        uploadStore.setIsStarted(false);
-        uploadStore.setIsFinished(true);
-        uploadStore.setPreparingDocumentState(UploadStepState.ERROR);
-        setIsAbortRequested(false);
+        const isUserAbort = reason instanceof UserAbortError;
+        uploadStore.failPreparingDocuments(
+          t(isUserAbort ? 'scan.upload_user_aborted' : 'scan.upload_generate_document_error'),
+          isUserAbort,
+        );
 
-        if (reason instanceof UserAbortError) {
-          uploadStore.setIsAborted(true);
-          uploadStore.setErrorMessage(t('scan.upload_user_aborted') as string);
-        } else {
+        if (!isUserAbort) {
           captureError(reason, 'Failed to prepare PDF document', 'error', errorContext);
-          uploadStore.setErrorMessage(t('scan.upload_generate_document_error') as string);
         }
       });
   }, [api, company, currentCustomer.customerId, currentUser?.Email, documentType, images, shouldAbort, t, uploadStore]);

@@ -10,27 +10,71 @@ export enum UploadStepState {
 type UploadStore = {
   documentUploadState: UploadStepState;
   errorMessage: string | undefined;
+  failFinalizingSession: (userMessage: string) => void;
+  failPreparingDocuments: (userMessage: string, isUserAbort: boolean) => void;
+  failStartingUploadSession: (userMessage: string, isUserAbort: boolean) => void;
+  failUploadingDocuments: (userMessage: string, isUserAbort: boolean) => void;
   finishSessionState: UploadStepState;
   isAborted: boolean;
+  isAbortRequested: boolean;
   isFinished: boolean;
   isStarted: boolean;
   preparingDocumentState: UploadStepState;
   reset: () => void;
-  setDocumentUploadState: (documentUploadState: UploadStepState) => void;
-  setErrorMessage: (errorMessage: string | undefined) => void;
-  setFinishSessionState: (finishSessionState: UploadStepState) => void;
-  setIsAborted: (isAborted: boolean) => void;
-  setIsFinished: (isFinished: boolean) => void;
-  setIsStarted: (isStarted: boolean) => void;
-  setPreparingDocumentState: (preparingDocumentState: UploadStepState) => void;
-  setStartingSessionState: (startingSessionState: UploadStepState) => void;
+  setIsAbortRequested: (isAbortRequested: boolean) => void;
+  setUploadSucceededState: () => void;
+  startFinalizingSession: () => void;
+  startPreparingDocuments: () => void;
+  startUploadSession: () => void;
+  startUploadingDocuments: () => void;
   startingSessionState: UploadStepState;
 };
 
 export const useUploadStore = create<UploadStore>((set) => ({
   documentUploadState: UploadStepState.READY,
   errorMessage: undefined,
+  failFinalizingSession: (userMessage: string) => {
+    set({
+      errorMessage: userMessage,
+      finishSessionState: UploadStepState.ERROR,
+      isAbortRequested: false,
+      isAborted: false,
+      isFinished: true,
+      isStarted: false,
+    });
+  },
+  failPreparingDocuments: (userMessage: string, isUserAbort: boolean) => {
+    set({
+      errorMessage: userMessage,
+      isAbortRequested: false,
+      isAborted: isUserAbort,
+      isFinished: true,
+      isStarted: false,
+      preparingDocumentState: UploadStepState.ERROR,
+    });
+  },
+  failStartingUploadSession: (userMessage: string, isUserAbort: boolean) => {
+    set({
+      errorMessage: userMessage,
+      isAbortRequested: false,
+      isAborted: isUserAbort,
+      isFinished: true,
+      isStarted: false,
+      startingSessionState: UploadStepState.ERROR,
+    });
+  },
+  failUploadingDocuments: (userMessage: string, isUserAbort: boolean) => {
+    set({
+      documentUploadState: UploadStepState.ERROR,
+      errorMessage: userMessage,
+      isAbortRequested: false,
+      isAborted: isUserAbort,
+      isFinished: true,
+      isStarted: false,
+    });
+  },
   finishSessionState: UploadStepState.READY,
+  isAbortRequested: false,
   isAborted: false,
   isFinished: false,
   isStarted: false,
@@ -40,6 +84,7 @@ export const useUploadStore = create<UploadStore>((set) => ({
       documentUploadState: UploadStepState.READY,
       errorMessage: undefined,
       finishSessionState: UploadStepState.READY,
+      isAbortRequested: false,
       isAborted: false,
       isFinished: false,
       isStarted: false,
@@ -47,29 +92,44 @@ export const useUploadStore = create<UploadStore>((set) => ({
       startingSessionState: UploadStepState.READY,
     });
   },
-  setDocumentUploadState: (documentUploadState) => {
-    set({ documentUploadState });
+  setIsAbortRequested: (isAbortRequested) => {
+    set({ isAbortRequested });
   },
-  setErrorMessage: (errorMessage) => {
-    set({ errorMessage });
+  setUploadSucceededState: () => {
+    set({
+      errorMessage: undefined,
+      finishSessionState: UploadStepState.SUCCESS,
+      isAbortRequested: false,
+      isAborted: false,
+      isFinished: true,
+      isStarted: false,
+    });
   },
-  setFinishSessionState: (finishSessionState) => {
-    set({ finishSessionState });
+  startFinalizingSession: () => {
+    set({
+      documentUploadState: UploadStepState.SUCCESS,
+      finishSessionState: UploadStepState.BUSY,
+    });
   },
-  setIsAborted: (isAborted) => {
-    set({ isAborted });
+  startPreparingDocuments: () => {
+    // resets state entirely
+    set({
+      isAbortRequested: false,
+      isStarted: true,
+      preparingDocumentState: UploadStepState.BUSY,
+    });
   },
-  setIsFinished: (isFinished) => {
-    set({ isFinished });
+  startUploadSession: () => {
+    set({
+      preparingDocumentState: UploadStepState.SUCCESS,
+      startingSessionState: UploadStepState.BUSY,
+    });
   },
-  setIsStarted: (isStarted) => {
-    set({ isStarted });
-  },
-  setPreparingDocumentState: (preparingDocumentState) => {
-    set({ preparingDocumentState });
-  },
-  setStartingSessionState: (startingSessionState) => {
-    set({ startingSessionState });
+  startUploadingDocuments: () => {
+    set({
+      documentUploadState: UploadStepState.BUSY,
+      startingSessionState: UploadStepState.SUCCESS,
+    });
   },
   startingSessionState: UploadStepState.READY,
 }));
