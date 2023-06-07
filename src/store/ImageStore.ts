@@ -81,7 +81,7 @@ export const useImageStore = create<ImageStore>((set) => ({
       deleteFiles(currentState.images);
 
       return {
-        companyId: undefined,
+        company: undefined,
         documentType: undefined,
         images: [],
         selectedImageIndex: undefined,

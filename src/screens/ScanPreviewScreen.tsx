@@ -13,8 +13,6 @@ import {
 } from 'react-native';
 import DocumentScanner, { ResponseType, ScanDocumentResponseStatus } from 'react-native-document-scanner-plugin';
 
-// @ts-ignore
-import DefaultImagePreviewBackground from '../../assets/default-image-preview-background.png';
 import SvgArrowLeftIcon from '../../assets/icons/arrow-round-left.svg';
 import SvgEllipsisIcon from '../../assets/icons/ellipsis-icon.svg';
 import SvgPlusIcon from '../../assets/icons/plus-icon.svg';
@@ -25,9 +23,11 @@ import { useGetCurrentCustomer } from '../hooks/queries/useGetCurrentCustomer';
 import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
 import { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
+import { useUploadStore } from '../store/UploadStore';
 import { colors, dimensions } from '../theme/';
 import { rotateImageIfNeeded } from '../utils/imageUtils';
 import { captureError } from '../utils/sentry';
+import { ScanUploadModalScreen } from './ScanUploadModalScreen';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ScanPreviewScreen'>;
 
@@ -45,7 +45,9 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
     selectedImageIndex,
     selectImage,
   } = useImageStore();
+  const { reset: resetUploadStore } = useUploadStore();
   const [hasPendingImages, setHasPendingImages] = useState<boolean>(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -66,29 +68,51 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
         responseType: ResponseType.ImageFilePath,
       });
 
+      setHasPendingImages(true);
+      const rotatedImagePaths: string[] = [];
+
       // if the status is not Success, the user cancelled
       if (result.status === ScanDocumentResponseStatus.Success) {
-        setHasPendingImages(true);
         const imagePaths = result.scannedImages || [];
-        const rotatedImagePaths: string[] = [];
 
         for (let idx = 0; idx < imagePaths.length; idx++) {
           rotatedImagePaths.push(await rotateImageIfNeeded(imagePaths[idx]));
         }
+      }
 
+      if (images.length === 0 && rotatedImagePaths.length === 0) {
+        navigation.navigate('Dashboard');
+        // note: do not reset hasPendingImages here or the useEffect() hook will re-open the camera while navigating
+      } else {
         addImages(rotatedImagePaths);
         setHasPendingImages(false);
+
+        if (selectedImageIndex === undefined) {
+          selectImage(0);
+        }
       }
     } catch (reason) {
       captureError(reason, 'An error occurred while scanning documents');
       setHasPendingImages(false);
     }
-  }, [addImages, setHasPendingImages]);
+  }, [addImages, images, navigation, selectedImageIndex, setHasPendingImages, selectImage]);
+
+  useEffect(() => {
+    if (!hasPendingImages && images.length === 0) {
+      openCamera()
+        .then()
+        .catch((reason) => {
+          captureError(reason, 'An error occurred while scanning documents');
+        });
+    }
+  }, [images, hasPendingImages, openCamera]);
 
   const backgroundImage = useMemo(
     () => {
       if (images.length === 0 || selectedImageIndex === undefined) {
-        return DefaultImagePreviewBackground;
+        // <ImageBackground /> requires an image, set a 1x1 pixel transparent PNG
+        // eslint-disable-next-line max-len
+        return { uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' };
       }
 
       if (selectedImageIndex >= images.length) {
@@ -153,8 +177,23 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
     toDashboard,
   ]);
 
+  const startUpload = useCallback(() => {
+    resetUploadStore();
+    setIsUploadModalOpen(true);
+  }, [resetUploadStore, setIsUploadModalOpen]);
+
+  const finishUpload = useCallback((uploadSuccessful: boolean) => {
+    setIsUploadModalOpen(false);
+
+    if (uploadSuccessful) {
+      setHasPendingImages(true);
+      toDashboard();
+    }
+  }, [setHasPendingImages, setIsUploadModalOpen, toDashboard]);
+
   return (
     <View style={styles.screenContainer}>
+      <ScanUploadModalScreen isOpen={isUploadModalOpen} onClose={finishUpload} />
       <ImageBackground source={backgroundImage} resizeMode="contain" style={styles.backgroundImage}>
         <View style={styles.header}>
           <Text variant="bodyRegularBold" spaceAfter={10} color={colors.white}>
@@ -195,7 +234,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
                   hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity disabled={!isUploadEnabled} onPress={undefined}>
+              <TouchableOpacity disabled={!isUploadEnabled} onPress={startUpload}>
                 <SvgUploadIcon
                   color={isUploadEnabled ? colors.scan.uploadIconColor : colors.scan.uploadIconDisabledColor}
                   fill={colors.scan.transparentBackground}

@@ -61,6 +61,9 @@ const config: ExpoConfig = {
   ios: {
     buildNumber: getBuildNumber(version),
     bundleIdentifier: 'blue10.InvoiceManagement',
+    infoPlist: {
+      CFBundleLocalizations: ['en', 'nl'],
+    },
     supportsTablet: true,
   },
   name: 'Blue10',
