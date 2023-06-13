@@ -54,7 +54,7 @@ const config: ExpoConfig = {
   extra: {
     authLoginPage: process.env.AUTH_LOGIN_PAGE,
     eas: {
-      projectId: 'e6c8b8ff-a5de-4c93-896a-21e3962ff7a5',
+      projectId: 'eb428ba3-923b-4b72-bdcd-7ab92d0e0321',
     },
   },
   icon: './assets/icon.png',
@@ -68,14 +68,14 @@ const config: ExpoConfig = {
   },
   name: 'Blue10',
   orientation: 'portrait',
-  owner: 'wecreatesolutions',
+  owner: 'blue10',
   plugins: [
     'sentry-expo',
     ['react-native-document-scanner-plugin', {
       cameraPermission: 'To scan documents, camera access is required.',
     }],
   ],
-  slug: 'blue10',
+  slug: 'blue10-app',
   splash: {
     backgroundColor: '#333333',
     image: './assets/splash.png',
