@@ -1,6 +1,6 @@
 {
   "name": "blue10-app",
-  "version": "0.4.0",
+  "version": "1.5.3",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --dev-client",

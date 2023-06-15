@@ -60,7 +60,7 @@ const config: ExpoConfig = {
   icon: './assets/icon.png',
   ios: {
     buildNumber: getBuildNumber(version),
-    bundleIdentifier: 'blue10.InvoiceManagement',
+    bundleIdentifier: 'com.blue10.Scanner',
     infoPlist: {
       CFBundleLocalizations: ['en', 'nl'],
     },
