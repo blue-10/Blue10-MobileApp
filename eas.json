@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 3.7.2"
+    "version": ">= 3.7.2",
+    "promptToConfigurePushNotifications": false
   },
   "build": {
     "development": {
@@ -10,7 +11,7 @@
         "resourceClass": "m-medium"
       },
       "env": {
-        "API_URL": "https://login.blue10development.com/"
+        "AUTH_LOGIN_PAGE": "https://login.blue10development.com/"
       }
     },
     "development-simulator": {
@@ -25,7 +26,7 @@
         "resourceClass": "m-medium"
       },
       "env": {
-        "API_URL": "https://login.blue10development.com/"
+        "AUTH_LOGIN_PAGE": "https://login.blue10development.com/"
       }
     },
     "production": {
@@ -33,7 +34,7 @@
         "resourceClass": "m-medium"
       },
       "env": {
-        "API_URL": "https://login.blue10.com/"
+        "AUTH_LOGIN_PAGE": "https://login.blue10.com/"
       }
     }
   },
