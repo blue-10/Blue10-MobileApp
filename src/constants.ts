@@ -37,4 +37,15 @@ export const apiConversion: Record<string, string> = {
   'https://d2-classic.blue10development.com': 'https://d2-ws.blue10development.com',
   'https://d3.blue10development.com': 'https://d3-ws.blue10development.com',
   'https://d3-classic.blue10development.com': 'https://d3-ws.blue10development.com',
+
+  // production domains
+  'https://eu1.blue10.com/': 'https://eu1-ws.blue10.com',
+  'https://eu2.blue10.com/': 'https://eu2-ws.blue10.com',
+  'https://eu3.blue10.com/': 'https://eu3-ws.blue10.com',
+  'https://eu4.blue10.com/': 'https://eu4-ws.blue10.com',
+  'https://eu5.blue10.com/': 'https://eu5-ws.blue10.com',
+  'https://eu6.blue10.com/': 'https://eu6-ws.blue10.com',
+  'https://eu7.blue10.com/': 'https://eu7-ws.blue10.com',
+  'https://eu8.blue10.com/': 'https://eu8-ws.blue10.com',
+  'https://eu9.blue10.com/': 'https://eu9-ws.blue10.com',
 };
