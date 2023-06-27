@@ -29,6 +29,15 @@
         "AUTH_LOGIN_PAGE": "https://login.blue10development.com/"
       }
     },
+    "production-internal": {
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m-medium"
+      },
+      "env": {
+        "AUTH_LOGIN_PAGE": "https://login.blue10.com/"
+      }
+    },
     "production": {
       "ios": {
         "resourceClass": "m-medium"
