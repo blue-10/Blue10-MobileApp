@@ -62,7 +62,7 @@ const config: ExpoConfig = {
     buildNumber: getBuildNumber(version),
     bundleIdentifier: 'com.blue10.Scanner',
     config: {
-      usesNonExemptEncryption: true,
+      usesNonExemptEncryption: false,
     },
     infoPlist: {
       CFBundleLocalizations: ['en', 'nl'],
