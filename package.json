@@ -10,7 +10,11 @@
     "lint": "eslint App.tsx src --ext .ts,.tsx,.js,.jsx",
     "lint-fix": "npm run lint -- --fix",
     "type-check": "tsc --noEmit",
-    "unimported": "npx unimported"
+    "unimported": "npx unimported",
+    "build:android": "eas build --local --profile development --platform android",
+    "build:ios": "eas build --local --profile development-simulator --platform ios",
+    "eject:android": "expo prebuild --platform android",
+    "eject:ios": "expo prebuild --platform ios"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^4.0.1",
@@ -22,7 +26,7 @@
     "@react-native-segmented-control/segmented-control": "2.4.0",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
-    "@sentry/react-native": "4.13.0",
+    "@sentry/react-native": "4.15.2",
     "@tanstack/react-query": "^4.29.12",
     "@types/react": "~18.0.27",
     "@types/semver": "^7.5.0",
@@ -56,7 +60,7 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-webview": "11.26.0",
     "semver": "^7.5.1",
-    "sentry-expo": "~6.1.0",
+    "sentry-expo": "~6.2.0",
     "typescript": "^4.9.4",
     "unique-slug": "^4.0.0",
     "zustand": "^4.3.8"
