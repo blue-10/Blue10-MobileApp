@@ -18,7 +18,7 @@ export const Toast: React.FC<Props> = ({ item, onClose }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const fadeIn = useCallback(() => {
-    // Will change fadeAnim value to 1 in 5 seconds
+    // will change fadeAnim value to 1 in 5 seconds
     Animated.timing(fadeAnim, {
       duration: 500,
       toValue: 1,
@@ -31,7 +31,7 @@ export const Toast: React.FC<Props> = ({ item, onClose }) => {
       window.clearTimeout(timeoutRef.current);
     }
 
-    // Will change fadeAnim value to 0 in 3 seconds
+    // will change fadeAnim value to 0 in 3 seconds
     Animated.timing(fadeAnim, {
       duration: 250,
       toValue: 0,

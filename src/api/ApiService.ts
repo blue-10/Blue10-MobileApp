@@ -7,6 +7,7 @@ import * as ApiResponse from './ApiResponses';
 import { CompanyApi } from './CompanyApi';
 import { DashboardApi } from './DashboardApi';
 import { PlaceholderResponsesApi } from './FakedResponseApi';
+import { FileApi } from './FileApi';
 import { InvoiceApi } from './InvoiceApi';
 import { TranslationApi } from './TranslationApi';
 import { UserApi } from './UserApi';
@@ -30,6 +31,7 @@ export class ApiService {
   // request that can be done with the api.
   public readonly dashboard: DashboardApi;
   public readonly company: CompanyApi;
+  public readonly file: FileApi;
   public readonly invoice: InvoiceApi;
   public readonly placeholderResponses: PlaceholderResponsesApi;
   public readonly user: UserApi;
@@ -43,6 +45,7 @@ export class ApiService {
     // setup requests collections
     this.dashboard = new DashboardApi(this);
     this.company = new CompanyApi(this);
+    this.file = new FileApi(this);
     this.invoice = new InvoiceApi(this);
     this.user = new UserApi(this);
     this.placeholderResponses = new PlaceholderResponsesApi(this);
@@ -145,7 +148,7 @@ export class ApiService {
 
     this.axiosInstance.interceptors.request.use(
       async (config) => {
-        // No token set yet? then we are getting a new token
+        // no token set yet? then we are getting a new token
 
         if (!this.token) {
           await this.refreshAccessToken(this.refreshToken);

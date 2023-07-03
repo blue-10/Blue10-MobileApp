@@ -2,6 +2,9 @@ export type RootStackParamList = {
   Dashboard: undefined;
   SwitchEnvironment: undefined;
   Settings: undefined;
+  ScanPreviewScreen: undefined;
+  ScanSelectCompanyScreen: undefined;
+  ScanSelectDocumentTypeScreen: undefined;
   InvoicesToApproveScreen: { invoices: number } | undefined;
   InvoiceDetailsScreen: { id: string; disabledAnimation?: boolean };
   InvoiceSelectUserScreen: { id: string; onlyShowUsers?: string[]; selectedUserId?: string};

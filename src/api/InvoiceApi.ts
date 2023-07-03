@@ -125,9 +125,9 @@ export class InvoiceApi extends ApiServiceRequests {
   public async postNewActions(params: PostNewActionParams): Promise<string> {
     const { data } = await this.getAxios().post<string>('/Document/PostNewAction/', params);
 
-    // OK is Document_Saved_Successfully
-    // Error example Document_Changed_By_Other_User
-    // Error Required_Next_User_Id
+    // ok is Document_Saved_Successfully
+    // error example Document_Changed_By_Other_User
+    // error Required_Next_User_Id
     return data;
   }
 }

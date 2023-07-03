@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
@@ -12,6 +13,9 @@ import { InvoiceSelectActionScreen } from './screens/InvoiceSelectActionScreen';
 import { InvoiceSelectUserScreen } from './screens/InvoiceSelectUserScreen';
 import { InvoicesToApproveScreen } from './screens/InvoicesToApproveScreen';
 import { InvoiceTimelineScreen } from './screens/InvoiceTimelineScreen';
+import { ScanPreviewScreen } from './screens/ScanPreviewScreen';
+import { ScanSelectCompanyScreen } from './screens/ScanSelectCompanyScreen';
+import { ScanSelectDocumentTypeScreen } from './screens/ScanSelectDocumentTypeScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { SwitchEnvironmentScreen } from './screens/SwitchEnvironmentScreen';
 import { colors } from './theme';
@@ -98,6 +102,31 @@ const Screens: React.FC = () => {
             component={InvoiceTimelineScreen}
             options={{
               title: t('invoice_timeline.title') ?? '',
+            }}
+          />
+          <Stack.Screen
+            name="ScanSelectCompanyScreen"
+            component={ScanSelectCompanyScreen}
+            options={{
+              headerBackTitle: t('dashboard.screen_title') ?? '',
+              title: t('scan.company_title') ?? '',
+            }}
+          />
+          <Stack.Screen
+            name="ScanSelectDocumentTypeScreen"
+            component={ScanSelectDocumentTypeScreen}
+            options={{
+              headerBackTitle: t('scan.company_title') ?? '',
+              title: t('scan.document_type_title') ?? '',
+            }}
+          />
+          <Stack.Screen
+            name="ScanPreviewScreen"
+            component={ScanPreviewScreen}
+            options={{
+              headerBackTitle: t('dashboard.title') ?? '',
+              headerShown: false,
+              title: t('scan.preview_title') ?? '',
             }}
           />
         </Stack.Navigator>

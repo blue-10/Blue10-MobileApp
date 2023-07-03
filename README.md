@@ -54,4 +54,5 @@ eas build --profile development --platform ios
 eas build --profile development --platform android
 ```
 
-*Note: if you want to run them locally you can use the `--local` flag for it.
+*Note:* if you want to run them locally you can use the `--local` flag for it.
+*Note:* use `--auto-submit` to auto submit directly to the stores.
