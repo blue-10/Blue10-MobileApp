@@ -21,9 +21,9 @@ import SvgUploadIcon from '../../assets/icons/upload-icon.svg';
 import Text from '../components/Text/Text';
 import { useGetCurrentCustomer } from '../hooks/queries/useGetCurrentCustomer';
 import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
+import { useUploadProcess } from '../hooks/useUploadProcess';
 import { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
-import { useUploadStore } from '../store/UploadStore';
 import { colors, dimensions } from '../theme/';
 import { rotateImageIfNeeded } from '../utils/imageUtils';
 import { captureError } from '../utils/sentry';
@@ -45,7 +45,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
     selectedImageIndex,
     selectImage,
   } = useImageStore();
-  const { reset: resetUploadStore } = useUploadStore();
+  const { startUploadProcess } = useUploadProcess();
   const [hasPendingImages, setHasPendingImages] = useState<boolean>(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -178,9 +178,9 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
   ]);
 
   const startUpload = useCallback(() => {
-    resetUploadStore();
+    startUploadProcess();
     setIsUploadModalOpen(true);
-  }, [resetUploadStore, setIsUploadModalOpen]);
+  }, [setIsUploadModalOpen, startUploadProcess]);
 
   const finishUpload = useCallback((uploadSuccessful: boolean) => {
     setIsUploadModalOpen(false);
