@@ -28,6 +28,7 @@ export const enum queryKeys {
 
 export const authConstants = {
   loginPage: Constants.expoConfig?.extra?.authLoginPage,
+  swithcEnvironment: Constants.expoConfig?.extra?.authLoginPage + 'ChangeCustomer',
 };
 
 export const apiConversion: Record<string, string> = {

@@ -6,6 +6,8 @@ import { storeKeyBaseUrl, storeKeyRefreshToken } from '../constants';
 
 type ApiStore = {
   api?: ApiService;
+  baseUrl?: string;
+  refreshToken?: string;
   hasRefreshToken: boolean;
   refreshTokenValidUntil?: Date;
   setBaseUrlAndRefreshToken: (refreshToken: string, baseUrl: string) => Promise<void>;
@@ -16,6 +18,7 @@ type ApiStore = {
 
 const useApiStore = create<ApiStore>((set, get) => ({
   api: undefined,
+  baseUrl: undefined,
   clearRefreshToken: async () => {
     // delete items from SecureStore
     await SecureStore.deleteItemAsync(storeKeyRefreshToken);
@@ -24,7 +27,9 @@ const useApiStore = create<ApiStore>((set, get) => ({
     // reset state
     set({
       api: undefined,
+      baseUrl: undefined,
       hasRefreshToken: false,
+      refreshToken: undefined,
       refreshTokenValidUntil: undefined,
     });
 
@@ -79,7 +84,9 @@ const useApiStore = create<ApiStore>((set, get) => ({
     // set state
     set({
       api: newApi,
+      baseUrl,
       hasRefreshToken: true,
+      refreshToken,
       refreshTokenValidUntil: newApi.getRefreshTokenExpireDate(),
     });
   },

@@ -29,6 +29,7 @@ export const LoginScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
       <LoginSite
+        mode="login"
         onRefreshToken={(refreshToken, baseUrl) => onRefreshToken(refreshToken, baseUrl)}
       />
     </SafeAreaView>

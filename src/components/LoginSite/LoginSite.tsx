@@ -3,10 +3,20 @@ import { Linking, StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 
 import { apiConversion, authConstants } from '../../constants';
-import { parseCookies } from '../../utils/parseCookies';
+import { useApi } from '../../hooks/useApi';
+import { makeCookies, parseCookies } from '../../utils/cookiesUtils';
 import LoginSiteError from './LoginSiteError';
 import LoginSiteLoader from './LoginSiteLoader';
+
 type LoginSiteProps = {
+  /**
+   * set the mode the component must be running on mount.
+   * login = is show the login page,
+   * environment = is show the switch environment.
+   */
+  mode: 'environment' | 'login';
+  /** refresh token to use */
+  refreshToken?: string;
   /** refresh token to use for access token, domain is used for which api you need to get it. */
   onRefreshToken: (refreshToken: string, domain: string) => void;
 }
@@ -41,10 +51,21 @@ const urlToApiUrl = (url: string) => {
 // check if code is redirect (-9 = android, -1007 is iOS)
 const isTooManyRedirectError = (code: number) => (code === -9 || code === -1007);
 
-const LoginSite: React.FC<LoginSiteProps> = ({ onRefreshToken }) => {
+const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToken }) => {
   const webViewRef = useRef<WebView>(null);
   const [webViewError, setWebViewError] = useState<WebViewError| undefined>();
-  const [uri, setUri] = useState(authConstants.loginPage);
+  const [uri, setUri] = useState(mode === 'environment' ? authConstants.swithcEnvironment : authConstants.loginPage);
+
+  const headers = mode === 'environment'
+    ? {
+      Cookie: makeCookies([
+        {
+          name: 'refresh_token',
+          value: refreshToken ?? '',
+        },
+      ]),
+    }
+    : {};
 
   return (
     <>
@@ -53,6 +74,7 @@ const LoginSite: React.FC<LoginSiteProps> = ({ onRefreshToken }) => {
         incognito={true}
         style={styles.webView}
         source={{
+          headers,
           uri,
         }}
         startInLoadingState={true}

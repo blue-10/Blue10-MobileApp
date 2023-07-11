@@ -1,3 +1,6 @@
+# v1.5.7
+* \#87 Omgeving wisselen functionaliteit ontwikkelen
+
 # v0.4.0
 * \#42 Dashboard Page knop toevoegen scannen
 * \#43 Scannen van een document

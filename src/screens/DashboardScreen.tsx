@@ -3,8 +3,8 @@ import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
-// import SvgSwitchIcon from '../../assets/icons/dashboard-switch-icon.svg';
 import SvgCameraShape from '../../assets/icons/camerashape.svg';
+import SvgSwitchIcon from '../../assets/icons/dashboard-switch-icon.svg';
 import SvgGearShape from '../../assets/icons/gearshape.svg';
 import { DashboardItem } from '../components/DashboardItem/DashboardItem';
 import LoaderWrapper from '../components/LoaderWrapper/LoaderWrapper';
@@ -26,9 +26,9 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
   const { reset: resetScannedImages } = useImageStore();
   const { t } = useTranslation();
 
-  // const onSwitchEnv = () => {
-  //   navigation.navigate('SwitchEnvironment');
-  // };
+  const onSwitchEnv = () => {
+    navigation.navigate('SwitchEnvironment');
+  };
 
   const onApproveInvoices = () => {
     navigation.navigate(
@@ -65,16 +65,6 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
         </Text>
       </LoaderWrapper>
       <View style={styles.dashboardItemsContainer}>
-        {/*
-        <DashboardItem
-          isLoading={false}
-          title={t('switch_environments.screen_title')}
-          color={colors.dashboard.switchEnv.background}
-          onPress={onSwitchEnv}
-        >
-          <SvgSwitchIcon style={{ alignSelf: 'center' }} />
-        </DashboardItem>
-        */}
         {canUserUploadOrApprove && (
           <DashboardItem
             isLoading={false}
@@ -96,6 +86,14 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
             onPress={onApproveInvoices}
           />
         )}
+        <DashboardItem
+          isLoading={false}
+          title={t('switch_environments.screen_title')}
+          color={colors.dashboard.switchEnv.background}
+          onPress={onSwitchEnv}
+        >
+          <SvgSwitchIcon style={{ alignSelf: 'center' }} />
+        </DashboardItem>
         <DashboardItem
           isLoading={false}
           title={t('settings.screen_title')}
