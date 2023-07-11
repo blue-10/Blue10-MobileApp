@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Modal, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import SvgArrowLeftIcon from '../../assets/icons/arrow-round-left.svg';
 import SvgRetryIcon from '../../assets/icons/retry-icon.svg';
@@ -64,7 +64,7 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
       onRequestClose={closeDialog}
     >
       <ToastProvider>
-        <View style={styles.modalContainer}>
+        <SafeAreaView style={styles.modalContainer}>
           <View style={styles.headerContainer}>
             <View style={styles.header}>
               <Text variant="bodyRegularBold" spaceAfter={10} color={colors.white}>
@@ -210,7 +210,7 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
             )}
           </View>
           <View style={styles.footer}></View>
-        </View>
+        </SafeAreaView>
       </ToastProvider>
     </Modal>
   );

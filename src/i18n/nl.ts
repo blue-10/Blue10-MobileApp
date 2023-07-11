@@ -9,7 +9,7 @@ export const nl: TranslationKeysType = {
     welcome_title: 'Hoi {{name}}',
   },
   error_view: {
-    description: 'Er is een fout opgetreden in de applicatie die niet hersteld kan worden. Blijft dit probleem zich voortdoen? Gebruik dan de uitloggen knop hieronder.',
+    description: 'Er is een fout opgetreden in de applicatie die niet hersteld kan worden. Blijft dit probleem zich voordoen? Gebruik dan de uitloggen knop hieronder.',
     logout_button: 'Uitloggen',
     reload_button: 'Applicatie herstarten',
     title: 'Er ging iets fout.',
