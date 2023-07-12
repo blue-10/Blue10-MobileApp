@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
 import { queryKeys } from '../../constants';
+import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 
 const lngConvert: Record<string, string> = {
@@ -17,7 +18,7 @@ export const useGetSource = (source: SourceType) => {
   const locale = lngConvert[i18n.language];
 
   return useQuery(
-    [queryKeys.getSource, locale, source],
+    useQueryKeySuffix([queryKeys.getSource, locale, source]),
     () => api.translation.getSource(locale, source),
     {
       staleTime: 60 * 1000 * 10, // 10 minutes

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { queryKeys, queryRefetchInterval } from '../../constants';
+import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 import { useAllCompanies } from './useAllCompanies';
 
@@ -24,7 +25,7 @@ export const useGetApprovedInvoiceCount = () => {
   );
 
   const dashboardQuery = useQuery(
-    [queryKeys.totalInvoices],
+    useQueryKeySuffix([queryKeys.totalInvoices]),
     () => api.dashboard.get(
       {
         CompanyIds: companyIds,

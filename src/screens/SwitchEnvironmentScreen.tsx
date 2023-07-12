@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StatusBar, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 import LoginSite from '../components/LoginSite/LoginSite';
 import { useApi } from '../hooks/useApi';
@@ -17,19 +18,18 @@ export const SwitchEnvironmentScreen: React.FC<Props> = ({ navigation }) => {
   const onRefreshToken = async (refreshToken: string, baseUrl: string) => {
     await setBaseUrlAndRefreshToken(refreshToken, baseUrl);
     // make sure that react query cache is cleared.
-    queryClient.invalidateQueries();
-    // navigate back to dashboard
+    queryClient.resetQueries();
     navigation.navigate('Dashboard');
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <StatusBar barStyle="dark-content" animated />
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar style="dark" animated />
       <LoginSite
         mode="environment"
         refreshToken={api.refreshToken}
         onRefreshToken={(refreshToken, baseUrl) => onRefreshToken(refreshToken, baseUrl)}
       />
-    </View>
+    </SafeAreaView>
   );
 };

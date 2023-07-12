@@ -11,6 +11,7 @@ import { InvoiceAttachment } from '../entity/invoice/types';
 import { useApi } from '../hooks/useApi';
 import { colors } from '../theme';
 import { normalizeMap } from '../utils/normalizerUtils';
+import { useQueryKeySuffix } from '../utils/queryUtils';
 
 type Props = {
   id: string;
@@ -25,7 +26,7 @@ export const InvoiceAttachmentsScreen: React.FC<Props> = ({ id }) => {
     isError,
     refetch,
   } = useQuery(
-    [queryKeys.invoiceAttachments, id],
+    useQueryKeySuffix([queryKeys.invoiceAttachments, id]),
     async () => normalizeMap(
       await api.invoice.getAttachments(id),
       normalizeInvoiceAttachmentFromResponseItem,

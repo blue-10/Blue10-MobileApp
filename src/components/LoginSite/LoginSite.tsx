@@ -3,7 +3,6 @@ import { Linking, StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 
 import { apiConversion, authConstants } from '../../constants';
-import { useApi } from '../../hooks/useApi';
 import { makeCookies, parseCookies } from '../../utils/cookiesUtils';
 import LoginSiteError from './LoginSiteError';
 import LoginSiteLoader from './LoginSiteLoader';

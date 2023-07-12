@@ -5,13 +5,14 @@ import { queryKeys } from '../../constants';
 import { normalizeUserFromResponse } from '../../entity/system/normalizer';
 import { User } from '../../entity/system/types';
 import { normalizeMap } from '../../utils/normalizerUtils';
+import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 
 export const useGetAllUsers = () => {
   const api = useApi();
 
   const query = useQuery(
-    [queryKeys.users],
+    useQueryKeySuffix([queryKeys.users]),
     async () =>
       normalizeMap(
         await api.user.getAllUsers(),

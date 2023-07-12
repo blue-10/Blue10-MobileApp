@@ -16,6 +16,7 @@ import { useApi } from '../hooks/useApi';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme';
 import { normalizeMap } from '../utils/normalizerUtils';
+import { useQueryKeySuffix } from '../utils/queryUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'InvoiceTimelineScreen'>;
 
@@ -25,7 +26,7 @@ const useGetTimelineOfInvoice = (id: string) => {
   const actionIdToText = useActionIdToCompleteText();
 
   const query = useQuery(
-    [queryKeys.invoiceBookings, id],
+    useQueryKeySuffix([queryKeys.invoiceBookings, id]),
     async () =>
       normalizeMap(
         await api.invoice.getInvoiceHistory(id),

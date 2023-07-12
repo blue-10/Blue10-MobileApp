@@ -14,6 +14,7 @@ import { useApi } from '../../hooks/useApi';
 import { RootStackParamList } from '../../navigation/types';
 import { useInvoiceActionFormStore } from '../../store/InvoiceActionFormStore';
 import { colors } from '../../theme';
+import { useQueryKeySuffix } from '../../utils/queryUtils';
 import Box from '../Box/Box';
 import Button from '../Button/Button';
 import Text from '../Text/Text';
@@ -42,7 +43,7 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
     isFetchedAfterMount,
     isFetching,
   } = useQuery(
-    [queryKeys.invoiceActions, invoiceId],
+    useQueryKeySuffix([queryKeys.invoiceActions, invoiceId]),
     async() =>
       normalizeInvoiceActionsFromResponse(
         await api.invoice.getActionsForInvoice(invoiceId),

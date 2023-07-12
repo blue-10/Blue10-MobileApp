@@ -11,6 +11,7 @@ import { InvoicePackingSlip } from '../entity/invoice/types';
 import { useApi } from '../hooks/useApi';
 import { colors } from '../theme';
 import { normalizeMap } from '../utils/normalizerUtils';
+import { useQueryKeySuffix } from '../utils/queryUtils';
 
 type Props = {
   id: string;
@@ -25,7 +26,7 @@ export const InvoicePackingSlipsScreen: React.FC<Props> = ({ id }) => {
     isError,
     refetch,
   } = useQuery(
-    [queryKeys.invoicePackingSlips, id],
+    useQueryKeySuffix([queryKeys.invoicePackingSlips, id]),
     async () => normalizeMap(
       await api.invoice.getPackingSlips(id),
       normalizeInvoicePackingSlipFromResponse,
