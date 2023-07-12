@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Linking, StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 
-import { apiConversion, authConstants } from '../../constants';
+import { apiConversion, authConstants, lngConvert } from '../../constants';
 import { makeCookies, parseCookies } from '../../utils/cookiesUtils';
 import LoginSiteError from './LoginSiteError';
 import LoginSiteLoader from './LoginSiteLoader';
@@ -54,9 +55,16 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
   const webViewRef = useRef<WebView>(null);
   const [webViewError, setWebViewError] = useState<WebViewError| undefined>();
   const [uri, setUri] = useState(mode === 'environment' ? authConstants.swithcEnvironment : authConstants.loginPage);
+  const { i18n } = useTranslation();
+  const locale = lngConvert[i18n.language];
+
+  const defaultHeaders = {
+    'Accept-Language': locale + ',' + i18n.language + ';q=0.5',
+  };
 
   const headers = mode === 'environment'
     ? {
+      ...defaultHeaders,
       Cookie: makeCookies([
         {
           name: 'refresh_token',
@@ -64,8 +72,7 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
         },
       ]),
     }
-    : {};
-
+    : defaultHeaders;
   return (
     <>
       <WebView
