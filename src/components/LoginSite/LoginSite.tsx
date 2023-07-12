@@ -54,7 +54,7 @@ const isTooManyRedirectError = (code: number) => (code === -9 || code === -1007)
 const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToken }) => {
   const webViewRef = useRef<WebView>(null);
   const [webViewError, setWebViewError] = useState<WebViewError| undefined>();
-  const [uri, setUri] = useState(mode === 'environment' ? authConstants.swithcEnvironment : authConstants.loginPage);
+  const [uri, setUri] = useState(mode === 'environment' ? authConstants.switchEnvironment : authConstants.loginPage);
   const { i18n } = useTranslation();
   const locale = lngConvert[i18n.language];
 
