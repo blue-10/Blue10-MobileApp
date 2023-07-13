@@ -4,10 +4,18 @@ import * as dotenv from 'dotenv';
 import { parse } from 'semver';
 dotenv.config();
 
-const getVersion = (): string => {
+const getPackageVersion = (): string => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const packageJson = require('./package.json');
   return packageJson.version || '0.0.0';
+};
+
+const getVersion = (): string => {
+  if (process.env.EAS_BUILD_PROFILE === 'production') {
+    return getPackageVersion();
+  } else {
+    return getPackageVersion() + '-' + (process.env.EAS_BUILD_PROFILE ?? 'develop');
+  }
 };
 
 const getBuildNumber = (version: string): string => {
@@ -35,6 +43,24 @@ const getBuildNumber = (version: string): string => {
   return version;
 };
 
+const getVersionCode = (version: string): number => {
+  const semver = parse(version);
+  if (semver) {
+    const isProduction = semver.prerelease.length === 0;
+    // starting with 2 means production/alpha/beta app
+    // starting with 1 means development app
+    return (
+      (isProduction ? 2 : 1) * 10000000 +
+      semver.major * 1000000 +
+      semver.minor * 10000 +
+      semver.patch * 100 +
+      (semver.prerelease.length > 1 ? Number(semver.prerelease[1]) : 0)
+    );
+  }
+
+  return 1;
+};
+
 const version = getVersion();
 
 const config: ExpoConfig = {
@@ -44,6 +70,7 @@ const config: ExpoConfig = {
       foregroundImage: './assets/adaptive-icon.png',
     },
     package: 'builders.are.we.blue10',
+    versionCode: getVersionCode(version),
   },
   assetBundlePatterns: [
     '**/*',
