@@ -6,7 +6,6 @@ import { inDevelopment } from '../utils/inDevelopment';
 import * as ApiResponse from './ApiResponses';
 import { CompanyApi } from './CompanyApi';
 import { DashboardApi } from './DashboardApi';
-import { PlaceholderResponsesApi } from './FakedResponseApi';
 import { FileApi } from './FileApi';
 import { InvoiceApi } from './InvoiceApi';
 import { TranslationApi } from './TranslationApi';
@@ -33,7 +32,6 @@ export class ApiService {
   public readonly company: CompanyApi;
   public readonly file: FileApi;
   public readonly invoice: InvoiceApi;
-  public readonly placeholderResponses: PlaceholderResponsesApi;
   public readonly user: UserApi;
   public readonly translation: TranslationApi;
 
@@ -48,7 +46,6 @@ export class ApiService {
     this.file = new FileApi(this);
     this.invoice = new InvoiceApi(this);
     this.user = new UserApi(this);
-    this.placeholderResponses = new PlaceholderResponsesApi(this);
     this.translation = new TranslationApi(this);
 
     this.createAxiosInstance();

@@ -2,12 +2,13 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { queryKeys } from '../../constants';
+import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 
 export const useInvoiceGetImages = (id: string) => {
   const api = useApi();
   const imageCountQuery = useQuery(
-    [queryKeys.invoiceImageCount, id],
+    useQueryKeySuffix([queryKeys.invoiceImageCount, id]),
     () => api.invoice.getImageCount(id),
   );
   const imageCount = useMemo(() => imageCountQuery.data ?? 0, [imageCountQuery.data]);

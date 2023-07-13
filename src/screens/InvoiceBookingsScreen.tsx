@@ -15,6 +15,7 @@ import { useApi } from '../hooks/useApi';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme';
 import { normalizeMap } from '../utils/normalizerUtils';
+import { useQueryKeySuffix } from '../utils/queryUtils';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'InvoiceBookingsScreen'>;
 
@@ -30,7 +31,7 @@ export const InvoiceBookingsScreen: React.FC<Props> = ({ route }) => {
     isError,
     dataUpdatedAt,
   } = useQuery(
-    [queryKeys.invoiceBookings],
+    useQueryKeySuffix([queryKeys.invoiceBookings]),
     async () =>
       normalizeMap(
         await api.invoice.getInvoiceLines(id, invoice?.companyId ?? ''),

@@ -8,6 +8,11 @@ export const enum queryRefetchInterval {
   totalInvoices = 300000
 }
 
+export const lngConvert: Record<string, string> = {
+  en: 'en-US',
+  nl: 'nl-NL',
+};
+
 export const enum queryKeys {
   totalInvoices = 'totalInvoices',
   environments = 'environments',
@@ -28,6 +33,7 @@ export const enum queryKeys {
 
 export const authConstants = {
   loginPage: Constants.expoConfig?.extra?.authLoginPage,
+  switchEnvironment: Constants.expoConfig?.extra?.authLoginPage + 'ChangeCustomer',
 };
 
 export const apiConversion: Record<string, string> = {
