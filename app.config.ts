@@ -11,7 +11,7 @@ const getPackageVersion = (): string => {
 };
 
 const getVersion = (): string => {
-  if (process.env.EAS_BUILD_PROFILE === 'production') {
+  if (process.env.RELEASE_TYPE === 'production') {
     return getPackageVersion();
   } else {
     return getPackageVersion() + '-' + (process.env.EAS_BUILD_PROFILE ?? 'develop');
@@ -115,7 +115,7 @@ const config: ExpoConfig = {
     fallbackToCacheTimeout: 0,
   },
   userInterfaceStyle: 'light',
-  version: getVersion(),
+  version: getPackageVersion(),
 };
 
 export default config;
