@@ -39,6 +39,15 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
     isFetchedAfterMount: isInvoiceFetchedAfterMount,
   } = useInvoiceDetails(invoiceId);
   const {
+    comment,
+    reset,
+    selectedActionId,
+    selectedUserId,
+    setComment,
+    setSelectedActionId,
+    setSelectedUserId,
+  } = useInvoiceActionFormStore();
+  const {
     data: formActions,
     isFetchedAfterMount,
     isFetching,
@@ -53,15 +62,19 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
     },
   );
   const {
-    comment,
-    reset,
-    selectedActionId,
-    selectedUserId,
-    setComment,
-    setSelectedActionId,
-    setSelectedUserId,
-  } = useInvoiceActionFormStore();
-
+    data: actionData,
+    isFetchedAfterMount: isFetchedAfterAction,
+    isFetching: isFetchingUsersForAction,
+  } = useQuery(
+    useQueryKeySuffix([queryKeys.invoiceActions, invoiceId, `action-${selectedActionId}`]),
+    async() =>
+      normalizeInvoiceActionsFromResponse(
+        await api.invoice.getUsersForAction(invoiceId, selectedActionId || -1),
+      ),
+    {
+      enabled: !!selectedActionId,
+    },
+  );
   const isDisabled = isFetchingInvoice || isFetching || isMutationLoading;
 
   useEffect(() => reset(), [reset]);
@@ -90,13 +103,23 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
   },
   [formActions?.suggestedAction, isFetchedAfterMount, setSelectedActionId],
   );
+
+  useEffect(() => {
+    if (isFetchedAfterAction) {
+      if (actionData?.suggestedUserId && selectedUserId === '') {
+        setSelectedUserId(actionData.suggestedUserId);
+      } else if (!(actionData?.userIds || []).includes(selectedUserId)) {
+        setSelectedUserId('');
+      }
+    }
+  }, [actionData?.suggestedUserId, actionData?.userIds, isFetchedAfterAction, selectedUserId, setSelectedUserId]);
   // endregion
 
   // region actions
   const onUserPress = () => {
     navigation.navigate('InvoiceSelectUserScreen', {
       id: invoiceId,
-      onlyShowUsers: formActions?.userIds,
+      onlyShowUsers: actionData?.userIds,
       selectedUserId,
     });
   };
@@ -139,7 +162,7 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
             variant="secondary"
             size="S"
             title={getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected')}
-            isDisabled={isDisabled}
+            isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
             onPress={onUserPress}
           />
         </Box>
