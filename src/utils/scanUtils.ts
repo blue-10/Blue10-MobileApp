@@ -28,9 +28,8 @@ export const prepareDocument = async (images: string[], shouldAbort: () => boole
   let pdfFile: string;
   try {
     pdfFile = await createPdf({
-      imagePaths: images,
-      outputDirectory: FileSystem.cacheDirectory!,
-      outputFilename: `scan-${unique_slug()}.pdf`,
+      outputPath: `${FileSystem.cacheDirectory!}/scan-${unique_slug()}.pdf`,
+      pages: images.map((imagePath) => ({ imagePath })),
     });
   } catch (error) {
     if (shouldAbort()) {
