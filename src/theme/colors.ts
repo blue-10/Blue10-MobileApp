@@ -8,11 +8,11 @@ export const colors = {
   borderColor: '#E9E9EA',
   button: {
     grey: {
-      background: '#D1D1D6',
+      background: '#AEAEB2',
       text: whiteColor,
     },
     greyClear: {
-      text: '#D1D1D6',
+      text: '#AEAEB2',
     },
     primary: {
       background: 'rgba(0, 122, 255, 1)',
