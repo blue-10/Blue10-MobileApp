@@ -13,6 +13,7 @@
     "unimported": "npx unimported",
     "build:android": "eas build --local --profile development --platform android",
     "build:ios": "eas build --local --profile development-simulator --platform ios",
+    "build:deploy": "eas build --profile production --platform all --auto-submit",
     "eject:android": "expo prebuild --platform android",
     "eject:ios": "expo prebuild --platform ios"
   },
