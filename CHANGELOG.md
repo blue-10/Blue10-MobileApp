@@ -1,3 +1,6 @@
+# v1.5.9
+* Bugfix: Productie-build app crasht bij opstarten ivm configuratiefout `sentry-expo` en `expo-updates`
+
 # v1.5.8
 * \#77 Backend domein dynamisch bepalen
 * \#89 De teller bij goedkeuren (rode kader) toont altijd 0

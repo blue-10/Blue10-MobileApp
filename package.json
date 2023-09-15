@@ -1,6 +1,6 @@
 {
   "name": "blue10-app",
-  "version": "1.5.8",
+  "version": "1.5.9",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --dev-client",
@@ -44,7 +44,6 @@
     "expo-localization": "~14.3.0",
     "expo-secure-store": "~12.3.1",
     "expo-status-bar": "~1.6.0",
-    "expo-updates": "~0.18.12",
     "i18next": "^23.5.1",
     "jwt-decode": "^3.1.2",
     "react": "18.2.0",
