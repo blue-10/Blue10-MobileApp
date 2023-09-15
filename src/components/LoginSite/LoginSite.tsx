@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking, StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 
-import { apiConversion, authConstants, lngConvert } from '../../constants';
+import { authConstants, lngConvert } from '../../constants';
 import { makeCookies, parseCookies } from '../../utils/cookiesUtils';
 import LoginSiteError from './LoginSiteError';
 import LoginSiteLoader from './LoginSiteLoader';
@@ -39,13 +39,18 @@ const isUrlFromLogin = (url: string) => {
 };
 
 const urlToApiUrl = (url: string) => {
-  const foundUrls = Object.keys(apiConversion).filter((value) => url.startsWith(value));
+  const urlParts = url.split('.');
 
-  if (foundUrls.length > 0) {
-    return apiConversion[foundUrls[0]];
+  if (urlParts[0].endsWith('-ws')) {
+    return url;
   }
 
-  return url;
+  if (urlParts[0].endsWith('-classic')) {
+    urlParts[0] = urlParts[0].substring(0, urlParts[0].lastIndexOf('-classic'));
+  }
+
+  urlParts[0] = `${urlParts[0]}-ws`;
+  return urlParts.join('.');
 };
 
 // check if code is redirect (-9 = android, -1007 is iOS)
