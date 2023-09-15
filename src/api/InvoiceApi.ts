@@ -26,6 +26,18 @@ export class InvoiceApi extends ApiServiceRequests {
   }
 
   /**
+   * Get total invoice count
+   */
+  public async getTotalCount(params: GetInvoiceOverviewParams): Promise<number> {
+    const { data } = await this.getAxios().post<GetInvoiceOverviewResponse>(
+      '/Document/GetOverview?DocumentType=1',
+      params,
+    );
+
+    return data[0]?.Count || 0;
+  }
+
+  /**
    * Get details of a invoice
    */
   public async get(id: string): Promise<GetInvoiceDetailsResponse> {

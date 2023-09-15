@@ -14,7 +14,7 @@ export const useInvoiceGetImages = (id: string) => {
   const imageCount = useMemo(() => imageCountQuery.data ?? 0, [imageCountQuery.data]);
 
   const imagesQuery = useInfiniteQuery(
-    [queryKeys.invoiceImages, id],
+    useQueryKeySuffix([queryKeys.invoiceImages, id]),
     async ({ pageParam = 1 }) => {
       // const data = await api.invoice.getImage(id, pageParam);
       const data = await api.invoice.getImage(id, 1);

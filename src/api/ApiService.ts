@@ -5,7 +5,6 @@ import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { inDevelopment } from '../utils/inDevelopment';
 import * as ApiResponse from './ApiResponses';
 import { CompanyApi } from './CompanyApi';
-import { DashboardApi } from './DashboardApi';
 import { FileApi } from './FileApi';
 import { InvoiceApi } from './InvoiceApi';
 import { TranslationApi } from './TranslationApi';
@@ -28,7 +27,6 @@ export class ApiService {
   public customerName?: string;
 
   // request that can be done with the api.
-  public readonly dashboard: DashboardApi;
   public readonly company: CompanyApi;
   public readonly file: FileApi;
   public readonly invoice: InvoiceApi;
@@ -41,7 +39,6 @@ export class ApiService {
     this.axiosInstance = axios.create();
 
     // setup requests collections
-    this.dashboard = new DashboardApi(this);
     this.company = new CompanyApi(this);
     this.file = new FileApi(this);
     this.invoice = new InvoiceApi(this);
