@@ -1,3 +1,10 @@
+# v1.5.8
+* \#77 Backend domein dynamisch bepalen
+* \#89 De teller bij goedkeuren (rode kader) toont altijd 0
+* \#90 Bij acties zijn er diverse gebruikers te selecteren
+* \#91 Grade out knoppen in design
+* Onderhoud: updates van gebruikte componenten
+
 # v1.5.7
 * \#87 Omgeving wisselen functionaliteit ontwikkelen
 
