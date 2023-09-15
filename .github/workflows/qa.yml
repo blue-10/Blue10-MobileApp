@@ -9,6 +9,8 @@ on:
       - 'bugfix/*'
       - 'feedback/*/*'
       - 'feedback/*'
+      - 'maintenance/*/*'
+      - 'maintenance/*'
       - 'dev-release-*'
       - 'development'
 

@@ -38,16 +38,16 @@ export const SettingsScreen: React.FC = () => {
   const confirmBeforeLogout = () => {
     Alert.alert(
       t('logout_confirm.title'),
-      t('logout_confirm.message') ?? '',
+      t('logout_confirm.message'),
       [
         {
           style: 'cancel',
-          text: t('logout_confirm.cancel_button') ?? '',
+          text: t('logout_confirm.cancel_button'),
         },
         {
           onPress: () => clearRefreshToken(),
           style: 'destructive',
-          text: t('logout_confirm.confirm_button') ?? '',
+          text: t('logout_confirm.confirm_button'),
         },
       ],
     );

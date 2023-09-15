@@ -6,13 +6,14 @@ import { normalizeInvoiceListItemFromResponseItem } from '../../entity/invoice/n
 import { InvoiceListItem } from '../../entity/invoice/types';
 import { PagedResults } from '../../entity/system/types';
 import { normalizeMap } from '../../utils/normalizerUtils';
+import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 
 export const useInvoiceToApproveQuery = () => {
   const api = useApi();
 
   const client = useInfiniteQuery(
-    [queryKeys.invoicesToApprove],
+    useQueryKeySuffix([queryKeys.invoicesToApprove]),
     async ({ pageParam = 1 }) => {
       const results = await api.invoice.overview({
         CurrentPage: pageParam,

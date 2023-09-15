@@ -3,8 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, View } from 'react-native';
-import { RefreshControl } from 'react-native-gesture-handler';
+import { FlatList, RefreshControl, View } from 'react-native';
 
 import { InvoiceToApproveListItem } from '../components/InvoiceToApproveListItem/InvoiceToApproveListItem';
 import { ListFooterSpinner } from '../components/ListFooterSpinner/ListFooterSpinner';

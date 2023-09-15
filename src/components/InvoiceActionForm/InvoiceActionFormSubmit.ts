@@ -75,7 +75,7 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
         [
           {
             style: 'default',
-            text: t('general.button_ok') ?? '',
+            text: t('general.button_ok'),
           },
         ],
       );
@@ -86,11 +86,11 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
       if (err instanceof AxiosError) {
         Alert.alert(
           t('general.error'),
-          getMessageFromKey((err.response?.data.Message ?? '')),
+          getMessageFromKey(err.response?.data.Message || ''),
           [
             {
               style: 'default',
-              text: t('general.button_ok') ?? '',
+              text: t('general.button_ok'),
             },
           ],
         );

@@ -120,7 +120,7 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
           value={comment}
           onChangeText={(value) => setComment(value)}
           isDisabled={isDisabled}
-          label={t('invoice_action_form.comment') ?? ''}
+          label={t('invoice_action_form.comment')}
         />
       </Box>
       <Box style={styles.itemsFlexRow} pt={16} mx={itemsMarginX}>

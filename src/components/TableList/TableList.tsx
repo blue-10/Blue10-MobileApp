@@ -1,12 +1,12 @@
-import { DefaultTFuncReturn } from 'i18next';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
 import Text, { TextPropsWithStyle } from '../Text/Text';
 
 export type TableListItem = {
-  label: DefaultTFuncReturn | string;
-  value: DefaultTFuncReturn | string;
+  label: ReturnType<ReturnType<typeof useTranslation>['t']> | string;
+  value: ReturnType<ReturnType<typeof useTranslation>['t']> | string;
 };
 
 type TableListProps = {

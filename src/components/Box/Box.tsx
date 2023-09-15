@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ColorValue, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { ColorValue, DimensionValue, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 export type BoxStyleProps = {
   // padding;
@@ -26,8 +26,8 @@ export type BoxStyleProps = {
   borderBottom?: number;
   borderLeft?: number;
 
-  height?: number | string;
-  width?: number | string;
+  height?: DimensionValue;
+  width?: DimensionValue;
 }
 
 type Props = BoxStyleProps & {
@@ -46,12 +46,12 @@ const Box: React.FC<React.PropsWithChildren<Props>> = ({ style, children, ...box
 export const createStylesheetForBox = (props: BoxStyleProps) => {
   return StyleSheet.create({
     border: {
-      border: props.border,
       borderBottomWidth: props.borderBottom,
       borderColor: props.borderColor,
       borderLeftWidth: props.borderLeft,
       borderRightWidth: props.borderRight,
       borderTopWidth: props.borderTop,
+      borderWidth: props.border,
     },
     margin: {
       marginBottom: props.mb,
