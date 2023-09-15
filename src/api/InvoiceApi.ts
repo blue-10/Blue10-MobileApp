@@ -132,6 +132,17 @@ export class InvoiceApi extends ApiServiceRequests {
   }
 
   /**
+   * Get actions that you can do on a invoice.
+   */
+  public async getUsersForAction (invoiceId: string, actionId: number): Promise<GetActionsForInvoiceResponse> {
+    const { data } = await this.getAxios().get<GetActionsForInvoiceResponse>(
+      `/DocumentAction/GetActionInformation/?actionId=${actionId}&documentId=${invoiceId}&documentType=1`,
+    );
+
+    return data;
+  }
+
+  /**
    * Post new action to a invoice
    */
   public async postNewActions(params: PostNewActionParams): Promise<string> {
