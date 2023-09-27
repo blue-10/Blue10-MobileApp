@@ -27,6 +27,7 @@ export type InvoiceListItem = {
   companyName: string;
   deadlineDate?: Date;
   currency: string;
+  totalCount: number;
 }
 
 export type InvoiceAttachment = {

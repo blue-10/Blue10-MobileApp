@@ -11,6 +11,7 @@ import { ListSeparator } from '../components/ListSeparator/ListSeparator';
 import { TopBarWithSubTitle } from '../components/TopBarWithSubTitle/TopBarWithSubTitle';
 import { queryKeys } from '../constants';
 import { InvoiceListItem } from '../entity/invoice/types';
+import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
 import { useInvoiceToApproveQuery } from '../hooks/queries/useInvoiceToApproveQuery';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme';
@@ -26,6 +27,7 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
 
   const queryClient = useQueryClient();
   const [totalInvoices, setTotalInvoices] = useState<number>(route.params?.invoices ?? 0);
+  const currentUser = useGetCurrentUser();
 
   // region update screen top bar subtitle
   useEffect(
@@ -56,10 +58,11 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
   } = useInvoiceToApproveQuery();
 
   // region update subtitle total records when data has changed
-  useEffect(
-    () => setTotalInvoices((value) => (value < all.length) ? all.length : value),
-    [all],
-  );
+  useEffect(() => {
+    const totalCount = all.length === 0 ? 0 : (all[0].totalCount || 0);
+
+    setTotalInvoices((value) => (value !== totalCount) ? totalCount : value);
+  }, [all]);
   // endregion
 
   // load more
@@ -104,7 +107,11 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
             onRefresh={() => {
               // we reset the query cache of the paging else if the user has scrolled to 1000's of pages
               // it will get them all of them one by one again.
-              queryClient.resetQueries([queryKeys.invoicesToApprove]);
+              queryClient.resetQueries([
+                queryKeys.invoicesToApprove,
+                `user-${currentUser.currentUser?.Id}`,
+                `belongs-to-${currentUser.currentUser?.BelongsTo}`,
+              ]);
             }}
           />
         )}

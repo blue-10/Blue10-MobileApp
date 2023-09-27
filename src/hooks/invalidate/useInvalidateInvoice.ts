@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 import { queryKeys } from '../../constants';
+import { useGetCurrentUser } from '../queries/useGetCurrentUser';
 
 const invoiceQueryKeys = [
   queryKeys.invoice,
@@ -15,11 +16,25 @@ const invoiceQueryKeys = [
 
 export const useInvalidateInvoice = () => {
   const queryClient = useQueryClient();
+  const currentUser = useGetCurrentUser();
 
   return useCallback((invoiceId: string) => {
     invoiceQueryKeys.forEach((queryKey) => {
       queryClient.invalidateQueries([queryKey, invoiceId]);
     });
+
+    queryClient.invalidateQueries([
+      queryKeys.invoicesToApprove,
+      `user-${currentUser.currentUser?.Id}`,
+      `belongs-to-${currentUser.currentUser?.BelongsTo}`,
+    ]);
+
+    queryClient.invalidateQueries([
+      queryKeys.invoicesToApprove,
+      'totalCount',
+      `user-${currentUser.currentUser?.Id}`,
+      `belongs-to-${currentUser.currentUser?.BelongsTo}`,
+    ]);
   },
-  [queryClient]);
+  [currentUser.currentUser, queryClient]);
 };
