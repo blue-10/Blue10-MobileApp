@@ -146,27 +146,28 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
           label={t('invoice_action_form.comment')}
         />
       </Box>
-      <Box style={styles.itemsFlexRow} pt={16} mx={itemsMarginX}>
-        <Box style={styles.itemFlex1} pr={10}>
-          <Button
-            variant="secondary"
-            size="S"
-            title={selectedActionId ? actionIdToText(selectedActionId) : t('invoice_action_form.no_action_selected')}
-            isDisabled={isDisabled}
-            onPress={onActionSelected}
-          />
-
+      {(formActions?.actions.length || 0) > 0 && (
+        <Box style={styles.itemsFlexRow} pt={16} mx={itemsMarginX}>
+          <Box style={styles.itemFlex1} pr={10}>
+            <Button
+              variant="secondary"
+              size="S"
+              title={selectedActionId ? actionIdToText(selectedActionId) : t('invoice_action_form.no_action_selected')}
+              isDisabled={isDisabled}
+              onPress={onActionSelected}
+            />
+          </Box>
+          <Box style={styles.itemFlex1} pl={10}>
+            <Button
+              variant="secondary"
+              size="S"
+              title={getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected')}
+              isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
+              onPress={onUserPress}
+            />
+          </Box>
         </Box>
-        <Box style={styles.itemFlex1} pl={10}>
-          <Button
-            variant="secondary"
-            size="S"
-            title={getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected')}
-            isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
-            onPress={onUserPress}
-          />
-        </Box>
-      </Box>
+      )}
       <Box style={styles.itemsFlexRow} py={4} mx={itemsMarginX}>
         <Box style={styles.itemFlex1}>
           <Text align="center" color={tableColor}>{t('invoice_action_form.button_action_help_text')}</Text>
