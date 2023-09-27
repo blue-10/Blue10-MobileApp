@@ -56,10 +56,11 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
   } = useInvoiceToApproveQuery();
 
   // region update subtitle total records when data has changed
-  useEffect(
-    () => setTotalInvoices((value) => (value < all.length) ? all.length : value),
-    [all],
-  );
+  useEffect(() => {
+    const totalCount = all.length === 0 ? 0 : (all[0].totalCount || 0);
+
+    setTotalInvoices((value) => (value !== totalCount) ? totalCount : value);
+  }, [all]);
   // endregion
 
   // load more

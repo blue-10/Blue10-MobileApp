@@ -1,3 +1,6 @@
+# v1.5.10
+* \#93 Feedback sprint 23.37-38
+
 # v1.5.9
 * Bugfix: Productie-build app crasht bij opstarten ivm configuratiefout `sentry-expo` en `expo-updates`
 

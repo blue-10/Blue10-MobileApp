@@ -49,6 +49,7 @@ export const normalizeInvoiceListItemFromResponseItem =
     id: response.Id,
     invoiceNumber: response.DocumentNumber,
     price: response.GrossAmount ?? 0,
+    totalCount: response.Count,
   };
 };
 

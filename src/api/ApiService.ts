@@ -3,6 +3,7 @@ import { addMinutes, isBefore } from 'date-fns';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 import { inDevelopment } from '../utils/inDevelopment';
+import { captureError } from '../utils/sentry';
 import * as ApiResponse from './ApiResponses';
 import { CompanyApi } from './CompanyApi';
 import { FileApi } from './FileApi';
@@ -170,6 +171,12 @@ export class ApiService {
 
           return this.axiosInstance(originalRequest);
         }
+
+        captureError(error, 'Error occurred while performing API request', 'error', {
+          baseUrl: originalRequest?.baseURL,
+          method: originalRequest?.method,
+          url: originalRequest?.url,
+        });
 
         return Promise.reject(error);
       });

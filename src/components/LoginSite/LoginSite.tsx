@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 
 import { authConstants, lngConvert } from '../../constants';
@@ -92,13 +92,7 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
         renderLoading={() => <LoginSiteLoader />}
         injectedJavaScript={LOGIN_COOKIE_READER}
         setBuiltInZoomControls={false}
-        onShouldStartLoadWithRequest={(request) => {
-          if (!isUrlFromLogin(request.url) && request.navigationType === 'click') {
-            Linking.openURL(request.url);
-            return false;
-          }
-          return true;
-        }}
+        onShouldStartLoadWithRequest={() => true}
         renderError={() => (<></>)}
         onError={(event) => {
           const { nativeEvent } = event;

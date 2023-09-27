@@ -8,15 +8,25 @@ import { PagedResults } from '../../entity/system/types';
 import { normalizeMap } from '../../utils/normalizerUtils';
 import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
+import { useGetCurrentUser } from './useGetCurrentUser';
 
 export const useInvoiceToApproveQuery = () => {
   const api = useApi();
 
+  const currentUser = useGetCurrentUser();
+
   const client = useInfiniteQuery(
-    useQueryKeySuffix([queryKeys.invoicesToApprove]),
+    useQueryKeySuffix([
+      queryKeys.invoicesToApprove,
+      `user-${currentUser.currentUser?.Id}`,
+      `belongs-to-${currentUser.currentUser?.BelongsTo}`,
+    ]),
     async ({ pageParam = 1 }) => {
       const results = await api.invoice.overview({
         CurrentPage: pageParam,
+        CurrentUser: [currentUser.currentUser?.Id, currentUser.currentUser?.BelongsTo]
+          .filter((s) => typeof s !== 'undefined' && s !== '')
+          .join(','),
         LinkedToDocument: 0,
         PageSize: 25,
         SortAscending: false,
