@@ -86,14 +86,16 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
             onPress={onApproveInvoices}
           />
         )}
-        <DashboardItem
-          isLoading={false}
-          title={t('switch_environments.screen_title')}
-          color={colors.dashboard.switchEnv.background}
-          onPress={onSwitchEnv}
-        >
-          <SvgSwitchIcon style={{ alignSelf: 'center' }} />
-        </DashboardItem>
+        {currentUser?.IsInMultipleEnvironments && (
+          <DashboardItem
+            isLoading={false}
+            title={t('switch_environments.screen_title')}
+            color={colors.dashboard.switchEnv.background}
+            onPress={onSwitchEnv}
+          >
+            <SvgSwitchIcon style={{ alignSelf: 'center' }} />
+          </DashboardItem>
+        )}
         <DashboardItem
           isLoading={false}
           title={t('settings.screen_title')}

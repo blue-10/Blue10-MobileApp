@@ -74,3 +74,11 @@ export enum Action {
   Opmerking = 103,
   Null = 9999,
 }
+
+export enum FreeAction {
+  Vrije_Actie_1 = 1,
+  Vrije_Actie_2 = 2,
+  Vrije_Actie_3 = 3,
+  Vrije_Actie_4 = 4,
+  Vrije_Actie_5 = 5,
+}

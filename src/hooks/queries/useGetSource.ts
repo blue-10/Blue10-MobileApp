@@ -5,7 +5,7 @@ import { lngConvert, queryKeys } from '../../constants';
 import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 
-export type SourceType = 'PurchaseInvoices' | 'Shared'
+export type SourceType = 'Custom' | 'PurchaseInvoices' | 'Shared'
 
 export const useGetSource = (source: SourceType) => {
   const api = useApi();
