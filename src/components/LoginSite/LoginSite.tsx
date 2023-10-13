@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
@@ -65,8 +66,15 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
 
   const defaultHeaders = {
     'Accept-Language': locale + ',' + i18n.language + ';q=0.5',
+    'Blue10-Mobile-App-Version': Constants.expoConfig?.version || 'onbekend',
   };
 
+  // note: these headers will only be sent to the initial URL, not to any follow-up URLs the user clicks. To fix that,
+  // we could implement logic in onShouldStartLoadWithRequest but this breaks the injected javascript to send the
+  // cookies to onMessage. Keeping track of the Blue10-Mobile-App-Version header to indicate a user came from the
+  // mobile app is currently implemented on the backend by Alain.
+  // @see https://github.com/react-native-webview/react-native-webview/blob/master/docs/Guide.md under the header
+  // Working with custom headers, sessions, and cookies
   const headers = mode === 'environment'
     ? {
       ...defaultHeaders,
@@ -119,8 +127,8 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
           errorCode={webViewError.errorCode}
           errorDescription={webViewError.errorDescription}
           onRetry={() => {
-            const isToManyRedirects = isTooManyRedirectError(webViewError.errorCode);
-            if (isToManyRedirects) {
+            const isTooManyRedirects = isTooManyRedirectError(webViewError.errorCode);
+            if (isTooManyRedirects) {
               // there is no function to navigate to page. so we just change the uri to about:blank and back.
               setUri('about:blank');
               requestAnimationFrame(() => setUri(authConstants.loginPage));

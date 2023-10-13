@@ -1,3 +1,6 @@
+# v1.5.11
+* \#97 Custom Blue10-header toevoegen aan Webview requests
+
 # v1.5.10
 * \#93 Feedback sprint 23.37-38
 
