@@ -33,13 +33,17 @@ export const ScanSelectCompanyScreen: React.FC<ScanSelectCompanyScreenProps> = (
   }, [company, navigation, setCompany]);
 
   const selectableCompanies = useMemo(() => {
-    if (currentUser?.MayHandleAllCompanies === true || currentUser?.MayApproveAllCompanies === true) {
+    if (currentUser?.MayValidateAllCompanies === true) {
       return allCompanies;
+    } else if ((currentUser?.ValidateCompanies || []).length > 0) {
+      return allCompanies?.filter((company) => currentUser?.ValidateCompanies.includes(company.Id));
+    } else if (currentUser?.MaySeeAllCompanies === true) {
+      return allCompanies;
+    } else if ((currentUser?.SeeCompanies || []).length > 0) {
+      return allCompanies?.filter((company) => currentUser?.SeeCompanies.includes(company.Id));
     }
 
-    return allCompanies?.filter((company) =>
-      currentUser?.HandleCompanies.includes(company.Id) ||
-      currentUser?.ApproveCompanies.includes(company.Id));
+    return [];
   }, [allCompanies, currentUser]);
 
   return (
