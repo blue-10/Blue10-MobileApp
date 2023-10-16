@@ -32,14 +32,26 @@ export const ScanSelectCompanyScreen: React.FC<ScanSelectCompanyScreenProps> = (
     );
   }, [company, navigation, setCompany]);
 
+  /* Permission flow validated with Alain on 2023-10-13:
+   *
+   * - If a user may validate, this has precedence over anything else
+   * - Only if a user may not validate anything, check the See permissions
+   *
+   * We previously also checked MayHandle*** but this was incorrect, any Blue10 user is allowed to upload new invoices
+   * as long as they can see any companies (which should be all users, otherwise the Blue10 application is pointless).
+   */
   const selectableCompanies = useMemo(() => {
-    if (currentUser?.MayHandleAllCompanies === true || currentUser?.MayApproveAllCompanies === true) {
+    if (currentUser?.MayValidateAllCompanies === true) {
       return allCompanies;
+    } else if ((currentUser?.ValidateCompanies || []).length > 0) {
+      return allCompanies?.filter((company) => currentUser?.ValidateCompanies.includes(company.Id));
+    } else if (currentUser?.MaySeeAllCompanies === true) {
+      return allCompanies;
+    } else if ((currentUser?.SeeCompanies || []).length > 0) {
+      return allCompanies?.filter((company) => currentUser?.SeeCompanies.includes(company.Id));
     }
 
-    return allCompanies?.filter((company) =>
-      currentUser?.HandleCompanies.includes(company.Id) ||
-      currentUser?.ApproveCompanies.includes(company.Id));
+    return [];
   }, [allCompanies, currentUser]);
 
   return (

@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import { addMinutes, isBefore } from 'date-fns';
+import Constants from 'expo-constants';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 import { inDevelopment } from '../utils/inDevelopment';
@@ -59,6 +60,7 @@ export class ApiService {
         baseURL: this.baseUrl,
         headers: {
           Authorization: `Bearer ${refreshToken}`,
+          'Blue10-Mobile-App-Version': Constants.expoConfig?.version || 'onbekend',
           'Content-Type': 'application/json',
         },
       },
@@ -86,6 +88,7 @@ export class ApiService {
         baseURL: this.baseUrl,
         headers: {
           Authorization: `Bearer ${this.refreshToken}`,
+          'Blue10-Mobile-App-Version': Constants.expoConfig?.version || 'onbekend',
           'Content-Type': 'application/json',
         },
       },
@@ -152,6 +155,7 @@ export class ApiService {
         // TODO: check if token is still valid. If not we will create new token
 
         config.headers.setAuthorization(`Bearer ${this.token}`);
+        config.headers.set('Blue10-Mobile-App-Version', Constants.expoConfig?.version || 'onbekend');
 
         return config;
       },
@@ -168,6 +172,8 @@ export class ApiService {
           // set new token in request
           const { Token } = await this.refreshAccessToken(this.refreshToken);
           this.axiosInstance.defaults.headers.common.Authorization = `Bearer ${Token}`;
+          this.axiosInstance.defaults.headers['Blue10-Mobile-App-Version'] =
+            Constants.expoConfig?.version || 'onbekend';
 
           return this.axiosInstance(originalRequest);
         }

@@ -39,12 +39,18 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
     );
   };
 
-  const canUserUploadOrApprove = useMemo(
-    () => currentUser?.MayHandleAllCompanies === true ||
-      currentUser?.MayApproveAllCompanies === true ||
-      (currentUser?.HandleCompanies.length || 0) > 0 ||
-      (currentUser?.ApproveCompanies.length || 0) > 0,
+  const canUserUpload = useMemo(
+    () => currentUser?.MayValidateAllCompanies === true ||
+      currentUser?.MaySeeAllCompanies === true ||
+      (currentUser?.ValidateCompanies || []).length > 0 ||
+      (currentUser?.SeeCompanies || []).length > 0,
     [currentUser],
+  );
+
+  const canUserApprove = useMemo(
+    // disabled temporarily so app can go into production without this button -- permissions will be determined later
+    () => false,
+    [],
   );
 
   const startScannerFlow = useCallback(() => {
@@ -65,7 +71,7 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
         </Text>
       </LoaderWrapper>
       <View style={styles.dashboardItemsContainer}>
-        {canUserUploadOrApprove && (
+        {canUserUpload && (
           <DashboardItem
             isLoading={false}
             title={t('scan.screen_title')}
@@ -76,7 +82,7 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
             <SvgCameraShape color={colors.white} style={{ alignSelf: 'center' }} width={75} height={75} />
           </DashboardItem>
         )}
-        {canUserUploadOrApprove && (
+        {canUserApprove && (
           <DashboardItem
             isLoading={isCountLoading}
             title={t('to_approved_invoices.screen_title')}
