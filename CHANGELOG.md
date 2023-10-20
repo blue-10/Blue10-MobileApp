@@ -1,5 +1,6 @@
 # v1.5.12
 * \#96 Facturen tonen in de app waar de gebruikers (degene die ingelogd is) iets mee moet/kan.
+* \#95 Automatiseren Deployment
 
 # v1.5.11
 * \#97 Custom Blue10-header toevoegen aan Webview requests
