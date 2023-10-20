@@ -1,3 +1,6 @@
+# v1.5.12
+* \#96 Facturen tonen in de app waar de gebruikers (degene die ingelogd is) iets mee moet/kan.
+
 # v1.5.11
 * \#97 Custom Blue10-header toevoegen aan Webview requests
 * \#98 Scan-knop voor alle gebruikers tonen

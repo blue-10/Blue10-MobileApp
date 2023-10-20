@@ -24,13 +24,13 @@ export const useInvalidateInvoice = () => {
     });
 
     queryClient.invalidateQueries([
-      queryKeys.invoicesToApprove,
+      queryKeys.invoicesToDo,
       `user-${currentUser.currentUser?.Id}`,
       `belongs-to-${currentUser.currentUser?.BelongsTo}`,
     ]);
 
     queryClient.invalidateQueries([
-      queryKeys.invoicesToApprove,
+      queryKeys.invoicesToDo,
       'totalCount',
       `user-${currentUser.currentUser?.Id}`,
       `belongs-to-${currentUser.currentUser?.BelongsTo}`,
