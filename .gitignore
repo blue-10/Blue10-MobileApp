@@ -18,3 +18,5 @@ web-build/
 .env
 .vscode/
 _distrobution/
+build-*.apk
+build-*.tar.gz
