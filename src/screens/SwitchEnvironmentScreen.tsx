@@ -23,12 +23,9 @@ export const SwitchEnvironmentScreen: React.FC<Props> = ({ navigation }) => {
     // make sure that react query cache is cleared and that the new company isn't shown until all data from the
     // previous company has been reset
     setIsResetting(true);
-    queryClient
-      .resetQueries()
-      .finally(() => {
-        setIsResetting(false);
-        navigation.navigate('Dashboard');
-      });
+    await queryClient.resetQueries();
+    setIsResetting(false);
+    navigation.navigate('Dashboard');
   };
 
   return (
