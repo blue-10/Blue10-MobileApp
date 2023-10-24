@@ -13,8 +13,15 @@ jobs:
       - name: 🏗 Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
-          cache: yarn
+          node-version: 18
+
+      - name: 🏗 Authenticate Node
+        uses: jgierer12/npm-auth-gpr@v1
+        with:
+          token: ${{ secrets.NPM_ACCESS_TOKEN }}
+
+      - name: 🏗 Setup NPM Registry
+        run: npm config set @wecreatesolutions:registry https://npm.pkg.github.com/
 
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
@@ -23,7 +30,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: 📦 Install dependencies
-        run: npm i install
+        run: npm ci
 
       - name: 🚀 Build and submit app
         run: eas build --non-interactive --profile production --platform all --auto-submit
