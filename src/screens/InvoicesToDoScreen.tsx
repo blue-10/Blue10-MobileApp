@@ -5,20 +5,20 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, RefreshControl, View } from 'react-native';
 
-import { InvoiceToApproveListItem } from '../components/InvoiceToApproveListItem/InvoiceToApproveListItem';
+import { InvoiceToDoListItem } from '../components/InvoiceToDoListItem/InvoiceToDoListItem';
 import { ListFooterSpinner } from '../components/ListFooterSpinner/ListFooterSpinner';
 import { ListSeparator } from '../components/ListSeparator/ListSeparator';
 import { TopBarWithSubTitle } from '../components/TopBarWithSubTitle/TopBarWithSubTitle';
 import { queryKeys } from '../constants';
 import { InvoiceListItem } from '../entity/invoice/types';
 import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
-import { useInvoiceToApproveQuery } from '../hooks/queries/useInvoiceToApproveQuery';
+import { useInvoiceToDoQuery } from '../hooks/queries/useInvoiceToDoQuery';
 import { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme';
 
-export type InvoicesToApproveScreenProps = NativeStackScreenProps<RootStackParamList, 'InvoicesToApproveScreen'>;
+export type InvoicesToDoScreenProps = NativeStackScreenProps<RootStackParamList, 'InvoicesToDoScreen'>;
 
-export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
+export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = (
   {
     navigation,
     route,
@@ -37,7 +37,7 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
           headerTitle: (props) => (
             <TopBarWithSubTitle
               title={props.children}
-              subTitle={t('to_approved_invoices.count_results_header', { count: totalInvoices })}
+              subTitle={t('to_do_invoices.count_results_header', { count: totalInvoices })}
             />
           ),
         },
@@ -55,7 +55,7 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
       isFetchingNextPage,
       fetchNextPage,
     },
-  } = useInvoiceToApproveQuery();
+  } = useInvoiceToDoQuery();
 
   // region update subtitle total records when data has changed
   useEffect(() => {
@@ -75,7 +75,7 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
   // region render methods
   const renderItem = useCallback(({ item, index }: { item: InvoiceListItem; index: number }) => {
     return (
-      <InvoiceToApproveListItem
+      <InvoiceToDoListItem
         item={item}
         index={index}
         onPress={() => {
@@ -108,7 +108,7 @@ export const InvoicesToApproveScreen: React.FC<InvoicesToApproveScreenProps> = (
               // we reset the query cache of the paging else if the user has scrolled to 1000's of pages
               // it will get them all of them one by one again.
               queryClient.resetQueries([
-                queryKeys.invoicesToApprove,
+                queryKeys.invoicesToDo,
                 `user-${currentUser.currentUser?.Id}`,
                 `belongs-to-${currentUser.currentUser?.BelongsTo}`,
               ]);

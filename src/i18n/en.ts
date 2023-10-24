@@ -146,10 +146,10 @@ export const en: TranslationKeysType = {
   switch_environments: {
     screen_title: 'Change environment',
   },
-  to_approved_invoices: {
+  to_do_invoices: {
     count_results_header_one: '1 result',
     count_results_header_other: '{{count}} results',
     count_results_header_zero: '0 results',
-    screen_title: 'To approve',
+    screen_title: 'To-do',
   },
 };

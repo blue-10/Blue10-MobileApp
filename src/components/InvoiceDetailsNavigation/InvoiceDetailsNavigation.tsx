@@ -5,7 +5,7 @@ import { Platform, StyleSheet } from 'react-native';
 
 import ArrowLeftIcon from '../../../assets/icons/arrow-round-left.svg';
 import ArrowRightIcon from '../../../assets/icons/arrow-round-right.svg';
-import { useInvoiceToApproveQuery } from '../../hooks/queries/useInvoiceToApproveQuery';
+import { useInvoiceToDoQuery } from '../../hooks/queries/useInvoiceToDoQuery';
 import { colors } from '../../theme';
 import Box from '../Box/Box';
 import Button from '../Button/Button';
@@ -34,7 +34,7 @@ export const InvoiceDetailsNavigation: React.FC<Props> = (
       hasNextPage,
       fetchNextPage,
     },
-  } = useInvoiceToApproveQuery();
+  } = useInvoiceToDoQuery();
 
   const indexInInvoice = getIndexById(currentInvoiceId);
 
