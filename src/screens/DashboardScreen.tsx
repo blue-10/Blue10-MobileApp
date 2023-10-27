@@ -10,9 +10,9 @@ import { DashboardItem } from '../components/DashboardItem/DashboardItem';
 import LoaderWrapper from '../components/LoaderWrapper/LoaderWrapper';
 import { ScreenWithStatusBarAndHeader } from '../components/ScreenWithStatusBarAndHeader';
 import Text from '../components/Text/Text';
+import { useGetApprovedInvoiceCount } from '../hooks/queries/useGetApproveInvoicesCount';
 import { useGetCurrentCustomer } from '../hooks/queries/useGetCurrentCustomer';
 import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
-import { useGetToDoInvoiceCount } from '../hooks/queries/useGetToDoInvoicesCount';
 import { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions, text } from '../theme/';
@@ -22,7 +22,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Dashboard'>;
 export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
   const { currentUser, query: { isLoading } } = useGetCurrentUser();
   const currentCustomer = useGetCurrentCustomer();
-  const { count: invoices, isLoading: isCountLoading } = useGetToDoInvoiceCount();
+  const { count: invoices, isLoading: isCountLoading } = useGetApprovedInvoiceCount();
   const { reset: resetScannedImages } = useImageStore();
   const { t } = useTranslation();
 
@@ -30,9 +30,9 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate('SwitchEnvironment');
   };
 
-  const onToDoInvoices = () => {
+  const onApproveInvoices = () => {
     navigation.navigate(
-      'InvoicesToDoScreen',
+      'InvoicesToApproveScreen',
       {
         invoices: Number(invoices),
       },
@@ -45,6 +45,12 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
       (currentUser?.ValidateCompanies || []).length > 0 ||
       (currentUser?.SeeCompanies || []).length > 0,
     [currentUser],
+  );
+
+  const canUserApprove = useMemo(
+    // disabled temporarily so app can go into production without this button -- permissions will be determined later
+    () => false,
+    [],
   );
 
   const startScannerFlow = useCallback(() => {
@@ -76,14 +82,16 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
             <SvgCameraShape color={colors.white} style={{ alignSelf: 'center' }} width={75} height={75} />
           </DashboardItem>
         )}
-        <DashboardItem
-          isLoading={isCountLoading}
-          title={t('to_do_invoices.screen_title')}
-          color={colors.dashboard.toDo.background}
-          textColor={colors.dashboard.toDo.text}
-          contentTitle={invoices.toString()}
-          onPress={onToDoInvoices}
-        />
+        {canUserApprove && (
+          <DashboardItem
+            isLoading={isCountLoading}
+            title={t('to_approved_invoices.screen_title')}
+            color={colors.dashboard.approval.background}
+            textColor={colors.dashboard.approval.text}
+            contentTitle={invoices.toString()}
+            onPress={onApproveInvoices}
+          />
+        )}
         {currentUser?.IsInMultipleEnvironments && (
           <DashboardItem
             isLoading={false}

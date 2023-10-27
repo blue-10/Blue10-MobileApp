@@ -41,16 +41,14 @@ export const ScanSelectCompanyScreen: React.FC<ScanSelectCompanyScreenProps> = (
    * as long as they can see any companies (which should be all users, otherwise the Blue10 application is pointless).
    */
   const selectableCompanies = useMemo(() => {
-    const companies = allCompanies ?? [];
-
     if (currentUser?.MayValidateAllCompanies === true) {
-      return companies;
+      return allCompanies;
     } else if ((currentUser?.ValidateCompanies || []).length > 0) {
-      return companies.filter((company) => currentUser?.ValidateCompanies.includes(company.Id));
+      return allCompanies?.filter((company) => currentUser?.ValidateCompanies.includes(company.Id));
     } else if (currentUser?.MaySeeAllCompanies === true) {
-      return companies;
+      return allCompanies;
     } else if ((currentUser?.SeeCompanies || []).length > 0) {
-      return companies.filter((company) => currentUser?.SeeCompanies.includes(company.Id));
+      return allCompanies?.filter((company) => currentUser?.SeeCompanies.includes(company.Id));
     }
 
     return [];

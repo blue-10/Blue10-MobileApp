@@ -11,7 +11,7 @@ import { InvoiceDetailsScreen } from './screens/InvoiceDetailsScreen';
 import { InvoiceOriginalsScreen } from './screens/InvoiceOriginalsScreen';
 import { InvoiceSelectActionScreen } from './screens/InvoiceSelectActionScreen';
 import { InvoiceSelectUserScreen } from './screens/InvoiceSelectUserScreen';
-import { InvoicesToDoScreen } from './screens/InvoicesToDoScreen';
+import { InvoicesToApproveScreen } from './screens/InvoicesToApproveScreen';
 import { InvoiceTimelineScreen } from './screens/InvoiceTimelineScreen';
 import { ScanPreviewScreen } from './screens/ScanPreviewScreen';
 import { ScanSelectCompanyScreen } from './screens/ScanSelectCompanyScreen';
@@ -54,10 +54,10 @@ const Screens: React.FC = () => {
             }}
           />
           <Stack.Screen
-            name="InvoicesToDoScreen"
-            component={InvoicesToDoScreen}
+            name="InvoicesToApproveScreen"
+            component={InvoicesToApproveScreen}
             options={{
-              title: t('to_do_invoices.screen_title'),
+              title: t('to_approved_invoices.screen_title'),
             }}
           />
           <Stack.Screen

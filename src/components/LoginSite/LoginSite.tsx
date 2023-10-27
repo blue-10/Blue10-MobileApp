@@ -112,7 +112,7 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
         }}
         onMessage={(data) => {
           const { url, data: cookieData } = data.nativeEvent;
-          if (url && !isUrlFromLogin(url)) {
+          if (!isUrlFromLogin(url)) {
             const { refresh_token } = parseCookies(cookieData);
             if (refresh_token) {
               onRefreshToken(refresh_token, urlToApiUrl(url));

@@ -10,14 +10,14 @@ import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 import { useGetCurrentUser } from './useGetCurrentUser';
 
-export const useInvoiceToDoQuery = () => {
+export const useInvoiceToApproveQuery = () => {
   const api = useApi();
 
   const currentUser = useGetCurrentUser();
 
   const client = useInfiniteQuery(
     useQueryKeySuffix([
-      queryKeys.invoicesToDo,
+      queryKeys.invoicesToApprove,
       `user-${currentUser.currentUser?.Id}`,
       `belongs-to-${currentUser.currentUser?.BelongsTo}`,
     ]),
@@ -31,7 +31,7 @@ export const useInvoiceToDoQuery = () => {
         PageSize: 25,
         SortAscending: false,
         SortName: 'DocumentDate',
-        Status: 11,
+        Status: 7,
       });
 
       return {

@@ -17,7 +17,7 @@ export type TranslationKeysType = {
     welcome_description: string;
     title: string;
   };
-  to_do_invoices: {
+  to_approved_invoices: {
     screen_title: string;
     count_results_header_zero: string;
     count_results_header_one: string;
