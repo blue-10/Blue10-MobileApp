@@ -30,16 +30,16 @@ export const colors = {
     },
   },
   dashboard: {
+    approval: {
+      background: 'rgba(255, 59, 48, 1)',
+      text: whiteColor,
+    },
     scan: {
       background: 'rgba(90, 200, 250, 1)',
       text: whiteColor,
     },
     switchEnv: {
       background: 'rgba(209, 209, 214, 1)',
-    },
-    toDo: {
-      background: 'rgba(255, 59, 48, 1)',
-      text: whiteColor,
     },
   },
   error: 'red',

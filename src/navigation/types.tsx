@@ -5,7 +5,7 @@ export type RootStackParamList = {
   ScanPreviewScreen: undefined;
   ScanSelectCompanyScreen: undefined;
   ScanSelectDocumentTypeScreen: undefined;
-  InvoicesToDoScreen: { invoices: number } | undefined;
+  InvoicesToApproveScreen: { invoices: number } | undefined;
   InvoiceDetailsScreen: { id: string; disabledAnimation?: boolean };
   InvoiceSelectUserScreen: { id: string; onlyShowUsers?: string[]; selectedUserId?: string};
   InvoiceSelectActionScreen: { id: string; onlyShowActions?: number[]; selectedActionId?: number};

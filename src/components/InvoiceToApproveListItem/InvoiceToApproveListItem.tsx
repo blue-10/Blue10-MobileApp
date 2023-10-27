@@ -12,7 +12,7 @@ type Props = {
   index: number;
 }
 
-export const InvoiceToDoListItem: React.FC<Props> = (
+export const InvoiceToApproveListItem: React.FC<Props> = (
   {
     item,
     index,
