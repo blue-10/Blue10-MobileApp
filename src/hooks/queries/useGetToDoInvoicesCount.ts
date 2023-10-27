@@ -5,14 +5,14 @@ import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 import { useGetCurrentUser } from './useGetCurrentUser';
 
-export const useGetApprovedInvoiceCount = () => {
+export const useGetToDoInvoiceCount = () => {
   const api = useApi();
 
   const currentUser = useGetCurrentUser();
 
   const query = useQuery(
     useQueryKeySuffix([
-      queryKeys.invoicesToApprove,
+      queryKeys.invoicesToDo,
       'totalCount',
       `user-${currentUser.currentUser?.Id}`,
       `belongs-to-${currentUser.currentUser?.BelongsTo}`,
@@ -26,7 +26,7 @@ export const useGetApprovedInvoiceCount = () => {
       PageSize: 1,
       SortAscending: false,
       SortName: 'DocumentDate',
-      Status: 7,
+      Status: 11,
     }),
   );
 
