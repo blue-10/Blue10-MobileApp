@@ -1,3 +1,6 @@
+# v1.5.14
+* \#100 Update back to v1.5.12 for next version functionality
+
 # v1.5.13
 * \#100 Revert to v1.5.11 for resubmission to App Store
 

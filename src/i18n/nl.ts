@@ -146,10 +146,10 @@ export const nl: TranslationKeysType = {
   switch_environments: {
     screen_title: 'Wissel omgeving',
   },
-  to_approved_invoices: {
+  to_do_invoices: {
     count_results_header_one: '1 resultaat',
     count_results_header_other: '{{count}} resultaten',
     count_results_header_zero: '0 resultaten',
-    screen_title: 'Goedkeuren',
+    screen_title: 'To-do',
   },
 };
