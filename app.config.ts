@@ -101,10 +101,22 @@ const config: ExpoConfig = {
   owner: 'blue10',
   plugins: [
     'expo-localization',
-    'sentry-expo',
-    ['react-native-document-scanner-plugin', {
-      cameraPermission: 'To scan documents, camera access is required.',
-    }],
+    // disabled for now, this upload the execution symbols to sentry. no needed for now.
+    // [
+    //   '@sentry/react-native/expo',
+    //   {
+    //     organization: 'sentry',
+    //     project: 'blue10-mobile-app',
+    //     url: 'https://sentry.wecreatesolutions.nl/',
+    //   },
+    // ],
+    'expo-secure-store',
+    [
+      'react-native-document-scanner-plugin',
+      {
+        cameraPermission: 'To scan documents, camera access is required.',
+      },
+    ],
   ],
   slug: 'blue10-app',
   splash: {

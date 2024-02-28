@@ -14,11 +14,11 @@ import './src/i18n/i18n.config';
 
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { defaultTheme, Provider } from '@react-native-material/core';
+import * as Sentry from '@sentry/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import addMinutes from 'date-fns/addMinutes';
 import React, { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import * as Sentry from 'sentry-expo';
 
 import { REFRESH_GET_BEFORE_IN_MINUTES } from './src/api/ApiService';
 import { ToastProvider } from './src/components/Toast/ToastProvider';

@@ -1,9 +1,9 @@
+import * as Sentry from '@sentry/react-native';
 import { Extras, SeverityLevel } from '@sentry/types';
-import * as Sentry from 'sentry-expo';
 
 import { inDevelopment } from './inDevelopment';
 
-export const getSentry = () => Sentry.Native;
+export const getSentry = () => Sentry;
 
 export const captureError = (
   reason: unknown,

@@ -1,5 +1,5 @@
+import * as Sentry from '@sentry/react-native';
 import React from 'react';
-import * as Sentry from 'sentry-expo';
 
 import ErrorView from './ErrorView';
 
@@ -18,7 +18,7 @@ class ErrorBoundary extends React.Component<any, ErrorBoundaryState> {
   }
 
   componentDidCatch(error: any, errorInfo: any) {
-    Sentry.Native.captureException(error, errorInfo);
+    Sentry.captureException(error, errorInfo);
   }
 
   render() {
