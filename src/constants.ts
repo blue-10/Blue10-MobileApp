@@ -5,7 +5,7 @@ export const storeKeyRefreshToken = 'user.refreshToken';
 export const storeKeyLanguage = 'language.selected';
 
 export const enum queryRefetchInterval {
-  totalInvoices = 300000
+  totalInvoices = 300000,
 }
 
 export const lngConvert: Record<string, string> = {
@@ -28,10 +28,10 @@ export const enum queryKeys {
   currentUser = 'currentUsers',
   companies = 'companies',
   getSource = 'getSource',
-  newAction = 'newAction'
+  newAction = 'newAction',
 }
 
 export const authConstants = {
   loginPage: Constants.expoConfig?.extra?.authLoginPage,
-  switchEnvironment: Constants.expoConfig?.extra?.authLoginPage + 'ChangeCustomer',
+  switchEnvironment: `${Constants.expoConfig?.extra?.authLoginPage}ChangeCustomer`,
 };

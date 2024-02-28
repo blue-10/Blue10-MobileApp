@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { TranslationKeysType } from './types';
+import type { TranslationKeysType } from './types';
 
 export const nl: TranslationKeysType = {
   dashboard: {
@@ -9,7 +9,8 @@ export const nl: TranslationKeysType = {
     welcome_title: 'Hoi {{name}}',
   },
   error_view: {
-    description: 'Er is een fout opgetreden in de applicatie die niet hersteld kan worden. Blijft dit probleem zich voordoen? Gebruik dan de uitloggen knop hieronder.',
+    description:
+      'Er is een fout opgetreden in de applicatie die niet hersteld kan worden. Blijft dit probleem zich voordoen? Gebruik dan de uitloggen knop hieronder.',
     logout_button: 'Uitloggen',
     reload_button: 'Applicatie herstarten',
     title: 'Er ging iets fout.',
@@ -125,8 +126,10 @@ export const nl: TranslationKeysType = {
     preview_upload_success_title: 'UPLOAD GELUKT!',
     screen_title: 'Scannen',
     upload_busy_toast: 'Wacht totdat de upload is afgerond...',
-    upload_finalize_warning: 'Het document is succesvol geüploaded, maar er is een fout opgetreden bij het afsluiten van de uploadsessie.',
-    upload_generate_document_error: 'Er is een fout opgetreden bij het omzetten van de afbeeldingen naar een PDF-document.',
+    upload_finalize_warning:
+      'Het document is succesvol geüploaded, maar er is een fout opgetreden bij het afsluiten van de uploadsessie.',
+    upload_generate_document_error:
+      'Er is een fout opgetreden bij het omzetten van de afbeeldingen naar een PDF-document.',
     upload_start_session_error: 'Er is een fout opgetreden bij het starten van een uploadsessie.',
     upload_success: 'Uw scan is succesvol geüploaded.',
     upload_table_company: 'Bedrijf',

@@ -7,19 +7,16 @@ import Text from '../Text/Text';
 
 type Props = {
   lastUpdatedAt: number;
-}
+};
 
 export const ListHeaderLastUpdatedAt: React.FC<Props> = ({ lastUpdatedAt }) => {
   const { t } = useTranslation();
   return (
-    <Box
-      px={dimensions.list.singleItem.paddingHorizontal}
-      py={dimensions.list.singleItem.paddingVertical}
-    >
-      <Text variant="bodyRegular" color={colors.labelLightSecondary}>
+    <Box px={dimensions.list.singleItem.paddingHorizontal} py={dimensions.list.singleItem.paddingVertical}>
+      <Text color={colors.labelLightSecondary} variant="bodyRegular">
         {format(new Date(lastUpdatedAt), 'dd-MM-yyyy HH:mm')}
       </Text>
-      <Text variant="caption1Regular" color={colors.labelLightSecondary}>
+      <Text color={colors.labelLightSecondary} variant="caption1Regular">
         <Trans t={t}>list_header.last_updated_at</Trans>
       </Text>
     </Box>

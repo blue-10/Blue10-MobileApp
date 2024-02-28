@@ -7,8 +7,8 @@ type InvoiceActionFormStore = {
   reset: () => void;
   setComment: (value: string) => void;
   setSelectedUserId: (value: string) => void;
-  setSelectedActionId: (value: number| undefined) => void;
-}
+  setSelectedActionId: (value: number | undefined) => void;
+};
 
 const useInvoiceActionFormStore = create<InvoiceActionFormStore>((set) => ({
   comment: '',

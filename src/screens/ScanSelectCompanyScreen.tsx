@@ -1,14 +1,15 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useMemo } from 'react';
+import type React from 'react';
+import { useCallback, useMemo } from 'react';
 import { FlatList, View } from 'react-native';
 
-import { GetCompanyResponseItem } from '../api/ApiResponses';
+import type { GetCompanyResponseItem } from '../api/ApiResponses';
 import { ListItem } from '../components/ListItem/ListItem';
 import { ListSeparator } from '../components/ListSeparator/ListSeparator';
 import { useAllCompanies } from '../hooks/queries/useAllCompanies';
 import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
-import { RootStackParamList } from '../navigation/types';
+import type { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
 
 export type ScanSelectCompanyScreenProps = NativeStackScreenProps<RootStackParamList, 'ScanSelectCompanyScreen'>;
@@ -18,19 +19,22 @@ export const ScanSelectCompanyScreen: React.FC<ScanSelectCompanyScreenProps> = (
   const { currentUser } = useGetCurrentUser();
   const { company, setCompany } = useImageStore();
 
-  const renderItem = useCallback(({ item, index }: { item: GetCompanyResponseItem; index: number }) => {
-    return (
-      <ListItem
-        title={item.DisplayName}
-        isEven={index % 2 === 0}
-        isChecked={company?.Id === item.Id}
-        onPress={() => {
-          setCompany(item);
-          navigation.navigate('ScanSelectDocumentTypeScreen');
-        }}
-      />
-    );
-  }, [company, navigation, setCompany]);
+  const renderItem = useCallback(
+    ({ item, index }: { item: GetCompanyResponseItem; index: number }) => {
+      return (
+        <ListItem
+          isChecked={company?.Id === item.Id}
+          isEven={index % 2 === 0}
+          title={item.DisplayName}
+          onPress={() => {
+            setCompany(item);
+            navigation.navigate('ScanSelectDocumentTypeScreen');
+          }}
+        />
+      );
+    },
+    [company, navigation, setCompany],
+  );
 
   /* Permission flow validated with Alain on 2023-10-13:
    *
@@ -58,14 +62,14 @@ export const ScanSelectCompanyScreen: React.FC<ScanSelectCompanyScreenProps> = (
 
   return (
     <View>
-      <StatusBar style="dark" animated />
+      <StatusBar animated style="dark" />
       <FlatList<GetCompanyResponseItem>
-        style={{ minHeight: 90 }} // without height the refresh indicator is not visible during reload
         data={selectableCompanies}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.Id}
         ItemSeparatorComponent={ListSeparator}
+        keyExtractor={(item) => item.Id}
         ListEmptyComponent={View}
+        renderItem={renderItem}
+        style={{ minHeight: 90 }} // without height the refresh indicator is not visible during reload
       />
     </View>
   );

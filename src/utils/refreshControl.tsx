@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/react-query';
+import type { QueryClient } from '@tanstack/react-query';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
 import { RefreshControl } from 'react-native';
@@ -15,10 +15,10 @@ import { colors } from '../theme';
  */
 export const getRefreshControl = (queryClient: QueryClient, queryKeys: string[], isRefreshing: boolean) => (
   <RefreshControl
-    enabled={true}
     colors={[colors.primary]} // android
-    tintColor={colors.primary} // ios
+    enabled={true}
     refreshing={isRefreshing}
+    tintColor={colors.primary} // ios
     onRefresh={async () => {
       queryClient.cancelQueries({ queryKey: queryKeys }).then();
       queryClient.invalidateQueries({ queryKey: queryKeys }).then();

@@ -10,9 +10,9 @@ export const useGetToDoInvoiceCount = () => {
 
   const currentUser = useGetCurrentUser();
 
-  const query = useQuery(
-    {
-      queryFn: async () => api.invoice.getTotalCount({
+  const query = useQuery({
+    queryFn: async () =>
+      api.invoice.getTotalCount({
         CurrentPage: 1,
         CurrentUser: [currentUser.currentUser?.Id, currentUser.currentUser?.BelongsTo]
           .filter((s) => typeof s !== 'undefined' && s !== '')
@@ -23,13 +23,13 @@ export const useGetToDoInvoiceCount = () => {
         SortName: 'DocumentDate',
         Status: 11,
       }),
-      queryKey: useQueryKeySuffix([
-        queryKeys.invoicesToDo,
-        'totalCount',
-        `user-${currentUser.currentUser?.Id}`,
-        `belongs-to-${currentUser.currentUser?.BelongsTo}`,
-      ]),
-    });
+    queryKey: useQueryKeySuffix([
+      queryKeys.invoicesToDo,
+      'totalCount',
+      `user-${currentUser.currentUser?.Id}`,
+      `belongs-to-${currentUser.currentUser?.BelongsTo}`,
+    ]),
+  });
 
   return {
     count: query.data || 0,

@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react-native';
-import { Extras, SeverityLevel } from '@sentry/types';
+import type { Extras, SeverityLevel } from '@sentry/types';
 
 import { inDevelopment } from './inDevelopment';
 

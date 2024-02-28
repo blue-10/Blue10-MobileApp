@@ -7,21 +7,24 @@ export const useStatusIdToText = () => {
   const { data: customData } = useGetSource('Custom');
   const { data: sourceData } = useGetSource('Shared');
 
-  return useCallback((statusId: number) => {
-    const statusName = Status[statusId].toUpperCase();
+  return useCallback(
+    (statusId: number) => {
+      const statusName = Status[statusId].toUpperCase();
 
-    if (customData) {
-      if (statusName in customData) {
-        return customData[statusName];
+      if (customData) {
+        if (statusName in customData) {
+          return customData[statusName];
+        }
       }
-    }
 
-    if (sourceData) {
-      if (statusName in sourceData) {
-        return sourceData[statusName];
+      if (sourceData) {
+        if (statusName in sourceData) {
+          return sourceData[statusName];
+        }
       }
-    }
 
-    return [statusId, ': ', statusName].join('');
-  }, [customData, sourceData]);
+      return [statusId, ': ', statusName].join('');
+    },
+    [customData, sourceData],
+  );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import Svg, { Rect } from 'react-native-svg';
 
@@ -7,16 +7,16 @@ import logo from '../../../assets/logo.png';
 
 type Props = {
   buttonContainer?: React.ReactNode;
-}
+};
 
 export const PageHeader: React.FC<Props> = ({ buttonContainer }) => {
   return (
     <View style={styles.headerContainer}>
-      <Svg style={styles.svg} height="100%" width="100%">
-        <Rect x="-20" y="0" width="150%" height="120" stroke="black" strokeWidth="2" fill="black" rotation={-10} />
+      <Svg height="100%" style={styles.svg} width="100%">
+        <Rect fill="black" height="120" rotation={-10} stroke="black" strokeWidth="2" width="150%" x="-20" y="0" />
       </Svg>
-      <Image resizeMode="cover" style={styles.logo} source={logo} />
-      {buttonContainer && (<View style={styles.buttonContainer}>{buttonContainer}</View>)}
+      <Image resizeMode="cover" source={logo} style={styles.logo} />
+      {buttonContainer && <View style={styles.buttonContainer}>{buttonContainer}</View>}
     </View>
   );
 };

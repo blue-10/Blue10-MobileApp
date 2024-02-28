@@ -1,4 +1,4 @@
-import { PagedItem } from '../entity/system/types';
+import type { PagedItem } from '../entity/system/types';
 
 export type RefreshAccessTokenResponse = {
   Token: string;
@@ -7,9 +7,9 @@ export type RefreshAccessTokenResponse = {
   IsReadOnly: boolean;
   RefreshAfterSeconds: number;
   Domain: string;
-}
+};
 
-export type RefreshRefreshTokenResponse = RefreshAccessTokenResponse
+export type RefreshRefreshTokenResponse = RefreshAccessTokenResponse;
 
 export type GetCurrentUserResponse = {
   FirstNAme: string;
@@ -60,7 +60,7 @@ export type GetCurrentUserResponse = {
   MaySeeConfidentialDocuments: boolean;
   SeeDocumentsWithPurchaseOrder: boolean;
   Selectable: boolean;
-}
+};
 
 export type GetDashboardResponse = DashboardResponseItem[];
 
@@ -70,7 +70,7 @@ export type DashboardResponseItem = {
   DashboardSubItems: DashboardResponseSubItem[];
   ArrowCount: number;
   RuleStatus: number;
-}
+};
 
 export type DashboardResponseSubItem = {
   StepStatus: number;
@@ -81,9 +81,9 @@ export type DashboardResponseSubItem = {
   OutstandingAmount: number;
   Currency: string;
   RuleStatus: number;
-}
+};
 
-export type GetCompanyResponse = GetCompanyResponseItem[]
+export type GetCompanyResponse = GetCompanyResponseItem[];
 
 export type GetCompanyResponseItem = {
   VatNumber: string;
@@ -121,7 +121,7 @@ export type GetCompanyResponseItem = {
   IsOnlineErpAdapter: boolean;
   SupportsCoding: boolean;
   CodingProperties: number[];
-}
+};
 
 export type GetInvoiceOverviewResponse = GetInvoiceOverviewResponseItem[];
 
@@ -145,9 +145,9 @@ export type GetInvoiceOverviewResponseItem = PagedItem & {
   DocumentDate: string;
   ImportDate: string;
   PaymentDate?: string;
-  DueDate?: string | null ;
+  DueDate?: string | null;
   LastHistory: string;
-}
+};
 
 export type GetInvoiceDetailsResponse = {
   Id: string;
@@ -211,13 +211,13 @@ export type GetInvoiceDetailsResponse = {
   Status: number;
   VatCategory: string;
   WorkflowId: string;
-}
+};
 
 export type GetInvoiceImageResponse = {
   Id: string;
   Image: string;
   Rotation: string;
-}
+};
 
 export type GetInvoiceAttachmentResponse = GetInvoiceAttachmentItem[];
 
@@ -225,7 +225,7 @@ export type GetInvoiceAttachmentItem = {
   Id: string;
   FileName: string;
   CanDelete: boolean;
-}
+};
 
 export type GetInvoicePackingSlipResponse = GetInvoicePackingSlipItem[];
 
@@ -247,7 +247,7 @@ export type GetInvoicePackingSlipItem = {
   RelationContractManagementId: string;
   CompanyDisplayName: string;
   ErpAdapter: number;
-}
+};
 
 export type GetInvoiceLinesResponse = GetInvoiceLineItem[];
 
@@ -294,7 +294,7 @@ export type GetInvoiceLineItem = {
   Asset: string;
   DryMatterPercentage: number;
   Weight: number;
-}
+};
 
 export type GetInvoiceHistoryResponse = GetInvoiceHistoryItem[];
 
@@ -307,7 +307,7 @@ export type GetInvoiceHistoryItem = {
   Remark: string;
   UserId: string;
   ByRoute: boolean;
-}
+};
 
 export type getAllUsersResponse = UserResponseItem[];
 
@@ -345,9 +345,9 @@ export type UserResponseItem = {
   MaySeeConfidentialDocuments: boolean;
   SeeDocumentsWithPurchaseOrder: boolean;
   Selectable: boolean;
-}
+};
 
-export type GetSourceResponse = Record<string, string>
+export type GetSourceResponse = Record<string, string>;
 
 export type GetActionsForInvoiceResponse = {
   DocumentId: string;
@@ -370,8 +370,8 @@ export type GetActionsForInvoiceResponse = {
     LastAction: number;
     Status: number;
   };
-}
+};
 
 export type PostNewActionErrorResponse = {
   Message: string;
-}
+};

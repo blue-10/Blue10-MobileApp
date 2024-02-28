@@ -1,15 +1,15 @@
 import { useCallback, useId, useState } from 'react';
 import { create } from 'zustand';
 
-import { ToastItem } from './types';
+import type { ToastItem } from './types';
 
 type ToastStore = {
   toasts: ToastItem[];
   deleteToast: (index: number) => void;
   addToast: (item: ToastItem) => void;
-}
+};
 
-const useToastStore = create < ToastStore >((set, get) => ({
+const useToastStore = create<ToastStore>((set, get) => ({
   addToast: (toast: ToastItem) => {
     set({
       toasts: [...get().toasts, toast],
@@ -28,14 +28,17 @@ const useAddToast = () => {
   const id = useId();
   const [counter, setCounter] = useState(0);
 
-  return useCallback((message: string, timeout?: number) => {
-    addToast({
-      id: `${id}_${counter}`,
-      message,
-      timeout,
-    });
-    setCounter((value) => value + 1);
-  }, [addToast, id, counter]);
+  return useCallback(
+    (message: string, timeout?: number) => {
+      addToast({
+        id: `${id}_${counter}`,
+        message,
+        timeout,
+      });
+      setCounter((value) => value + 1);
+    },
+    [addToast, id, counter],
+  );
 };
 
 export { useAddToast, useToastStore };

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 
 import { colors, dimensions } from '../theme';
@@ -6,18 +6,16 @@ import { PageHeader } from './PageHeader/PageHeader';
 
 type Props = {
   headerElement?: React.ReactNode;
-}
+};
 
 export const ScreenWithStatusBarAndHeader: React.FC<React.PropsWithChildren<Props>> = ({ headerElement, children }) => {
   return (
     <View style={styles.screenContainer}>
       <SafeAreaView style={styles.safeAreaView}>
-        <StatusBar barStyle="light-content" backgroundColor="black" animated />
+        <StatusBar animated backgroundColor="black" barStyle="light-content" />
       </SafeAreaView>
       <PageHeader buttonContainer={headerElement} />
-      <View style={styles.contentContainer}>
-        {children}
-      </View>
+      <View style={styles.contentContainer}>{children}</View>
     </View>
   );
 };

@@ -1,10 +1,11 @@
-import { InfiniteData, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
+import type { InfiniteData, QueryKey } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
 import { queryKeys } from '../../constants';
 import { normalizeInvoiceListItemFromResponseItem } from '../../entity/invoice/normalizer';
-import { InvoiceListItem } from '../../entity/invoice/types';
-import { PagedResults } from '../../entity/system/types';
+import type { InvoiceListItem } from '../../entity/invoice/types';
+import type { PagedResults } from '../../entity/system/types';
 import { normalizeMap } from '../../utils/normalizerUtils';
 import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
@@ -18,11 +19,11 @@ export const useInvoiceToDoQuery = () => {
   const currentUser = useGetCurrentUser();
 
   const client = useInfiniteQuery<
-  PagedInvoiceListItems,
-  Error,
-  InfiniteData<PagedInvoiceListItems, number>,
-  QueryKey,
-  number
+    PagedInvoiceListItems,
+    Error,
+    InfiniteData<PagedInvoiceListItems, number>,
+    QueryKey,
+    number
   >({
     getNextPageParam: (lastPage) => lastPage.paging.next,
     getPreviousPageParam: (firstPage) => firstPage.paging.previous,
@@ -50,13 +51,15 @@ export const useInvoiceToDoQuery = () => {
       `user-${currentUser.currentUser?.Id}`,
       `belongs-to-${currentUser.currentUser?.BelongsTo}`,
     ]),
-  },
-  );
+  });
 
-  const all = useMemo(() => client.data ? client.data.pages.flatMap((page) => page.data) : [], [client.data]);
-  const getIndexById = useCallback((invoiceId: string) => {
-    return all.findIndex((item) => item.id === invoiceId);
-  }, [all]);
+  const all = useMemo(() => (client.data ? client.data.pages.flatMap((page) => page.data) : []), [client.data]);
+  const getIndexById = useCallback(
+    (invoiceId: string) => {
+      return all.findIndex((item) => item.id === invoiceId);
+    },
+    [all],
+  );
 
   return {
     all,

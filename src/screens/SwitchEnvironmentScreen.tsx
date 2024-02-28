@@ -1,13 +1,14 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
 import LoginSite from '../components/LoginSite/LoginSite';
 import LoginSiteLoader from '../components/LoginSite/LoginSiteLoader';
 import { useApi } from '../hooks/useApi';
-import { RootStackParamList } from '../navigation/types';
+import type { RootStackParamList } from '../navigation/types';
 import { useApiStore } from '../store/ApiStore';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SwitchEnvironment'>;
@@ -30,16 +31,16 @@ export const SwitchEnvironmentScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar style="dark" animated />
-      {isResetting
-        ? <LoginSiteLoader />
-        : (
-          <LoginSite
-            mode="environment"
-            refreshToken={api.refreshToken}
-            onRefreshToken={(refreshToken, baseUrl) => onRefreshToken(refreshToken, baseUrl)}
-          />
-        )}
+      <StatusBar animated style="dark" />
+      {isResetting ? (
+        <LoginSiteLoader />
+      ) : (
+        <LoginSite
+          mode="environment"
+          refreshToken={api.refreshToken}
+          onRefreshToken={(refreshToken, baseUrl) => onRefreshToken(refreshToken, baseUrl)}
+        />
+      )}
     </SafeAreaView>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { colors, dimensions } from '../../theme';

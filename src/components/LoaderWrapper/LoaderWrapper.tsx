@@ -1,8 +1,10 @@
-import React from 'react';
+import type React from 'react';
 import ContentLoader, { Rect } from 'react-content-loader/native';
 
-import { colors, text, TextStyleType } from '../../theme';
-import Box, { BoxStyleProps } from '../Box/Box';
+import type { TextStyleType } from '../../theme';
+import { colors, text } from '../../theme';
+import type { BoxStyleProps } from '../Box/Box';
+import Box from '../Box/Box';
 
 type Props = BoxStyleProps & {
   isLoading?: boolean;
@@ -10,7 +12,7 @@ type Props = BoxStyleProps & {
   width?: number;
   heightOfTextStyle?: TextStyleType;
   children: React.ReactElement;
-}
+};
 
 const LoaderWrapper: React.FC<Props> = ({
   height = 17,
@@ -31,28 +33,28 @@ const LoaderWrapper: React.FC<Props> = ({
     boxPropsUse.mb = (textStyle.lineHeight ?? 0) - useHeight;
   }
 
-  return isLoading
-    ? (
-      <Box
-        {...boxPropsUse}
-        style={{
-          height: useHeight,
-          width: useWidth,
-        }}
+  return isLoading ? (
+    <Box
+      {...boxPropsUse}
+      style={{
+        height: useHeight,
+        width: useWidth,
+      }}
+    >
+      <ContentLoader
+        backgroundColor={colors.white}
+        foregroundColor={colors.borderColor}
+        height={useHeight}
+        preserveAspectRatio="left"
+        viewBox={`0 0 ${useWidth} ${useHeight}`}
+        width={useWidth}
       >
-        <ContentLoader
-          viewBox={`0 0 ${useWidth} ${useHeight}`}
-          width={useWidth}
-          height={useHeight}
-          backgroundColor={colors.white}
-          foregroundColor={colors.borderColor}
-          preserveAspectRatio="left"
-        >
-          <Rect x={0} y={0} width={useWidth} height={useHeight} />
-        </ContentLoader>
-      </Box>
-    )
-    : children;
+        <Rect height={useHeight} width={useWidth} x={0} y={0} />
+      </ContentLoader>
+    </Box>
+  ) : (
+    children
+  );
 };
 
 export default LoaderWrapper;

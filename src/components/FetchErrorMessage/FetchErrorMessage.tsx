@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 
@@ -9,13 +9,9 @@ import Text from '../Text/Text';
 type Props = {
   isError?: boolean;
   onRetry?: () => void;
-}
+};
 
-export const FetchErrorMessage: React.FC<PropsWithChildren<Props>> = ({
-  isError,
-  children,
-  onRetry,
-}) => {
+export const FetchErrorMessage: React.FC<PropsWithChildren<Props>> = ({ isError, children, onRetry }) => {
   const { t } = useTranslation();
 
   if (!isError) {
@@ -23,15 +19,19 @@ export const FetchErrorMessage: React.FC<PropsWithChildren<Props>> = ({
   }
 
   return (
-    <Box style={styles.container} px={32} py={32}>
+    <Box px={32} py={32} style={styles.container}>
       <Box style={styles.content}>
-        <Text variant="title" spaceAfter={16}>{t('fetch_error_message.title')}</Text>
-        <Text variant="bodyRegular" spaceAfter={32}>{t('fetch_error_message.description')}</Text>
+        <Text spaceAfter={16} variant="title">
+          {t('fetch_error_message.title')}
+        </Text>
+        <Text spaceAfter={32} variant="bodyRegular">
+          {t('fetch_error_message.description')}
+        </Text>
         {onRetry && (
           <Button
+            size="M"
             style={styles.button}
             title={t('fetch_error_message.button_retry')}
-            size="M"
             variant="primary"
             onPress={onRetry}
           />

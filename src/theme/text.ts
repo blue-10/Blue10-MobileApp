@@ -1,16 +1,16 @@
-import { TextStyle } from 'react-native';
+import type { TextStyle } from 'react-native';
 
 export type TextStyleType =
-'bodyRegular' |
-'bodyRegularBold' |
-'buttonLarge' |
-'buttonMedium' |
-'buttonSmall' |
-'caption1Regular' |
-'largeTitle' |
-'title';
+  | 'bodyRegular'
+  | 'bodyRegularBold'
+  | 'buttonLarge'
+  | 'buttonMedium'
+  | 'buttonSmall'
+  | 'caption1Regular'
+  | 'largeTitle'
+  | 'title';
 
-type TextStyles = Record<TextStyleType, TextStyle>
+type TextStyles = Record<TextStyleType, TextStyle>;
 
 export const text: TextStyles = {
   bodyRegular: {

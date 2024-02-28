@@ -1,13 +1,14 @@
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useMemo, useState } from 'react';
+import type React from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet, View } from 'react-native';
 
 import Box from '../components/Box/Box';
 import { queryKeys } from '../constants';
-import { RootStackParamList } from '../navigation/types';
+import type { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme';
 import { InvoiceAttachmentsScreen } from './InvoiceAttachmentsScreen';
 import { InvoicePackingSlipsScreen } from './InvoicePackingSlipsScreen';
@@ -29,35 +30,38 @@ export const InvoiceOriginalsScreen: React.FC<Props> = ({ route, navigation }) =
     return unsubscribe;
   }, [id, navigation, queryClient]);
 
-  const tabs = useMemo(() => [
-    t('invoice_originals.tab_invoice'),
-    t('invoice_originals.tab_attachments'),
-    t('invoice_originals.tab_packing_slips'),
-  ], [t]);
+  const tabs = useMemo(
+    () => [
+      t('invoice_originals.tab_invoice'),
+      t('invoice_originals.tab_attachments'),
+      t('invoice_originals.tab_packing_slips'),
+    ],
+    [t],
+  );
 
   return (
     <View style={{ flex: 1 }}>
       <Box
-        style={styles.toolbar}
-        py={16}
-        px={26}
-        borderTop={Platform.OS === 'ios' ? 1 : 0}
         borderBottom={1}
         borderColor={colors.borderColor}
+        borderTop={Platform.OS === 'ios' ? 1 : 0}
+        px={26}
+        py={16}
+        style={styles.toolbar}
       >
         {/* @ts-ignore (problem with typing.) */}
         <SegmentedControl
-          values={tabs}
-          selectedIndex={selectedTab}
           appearance="light"
+          selectedIndex={selectedTab}
+          values={tabs}
           onChange={(event: any) => {
             setSelectedTab(event.nativeEvent.selectedSegmentIndex);
           }}
         />
       </Box>
-      {selectedTab === 0 && (<InvoicePreviewScreen id={id} />)}
-      {selectedTab === 1 && (<InvoiceAttachmentsScreen id={id} />)}
-      {selectedTab === 2 && (<InvoicePackingSlipsScreen id={id} />)}
+      {selectedTab === 0 && <InvoicePreviewScreen id={id} />}
+      {selectedTab === 1 && <InvoiceAttachmentsScreen id={id} />}
+      {selectedTab === 2 && <InvoicePackingSlipsScreen id={id} />}
     </View>
   );
 };

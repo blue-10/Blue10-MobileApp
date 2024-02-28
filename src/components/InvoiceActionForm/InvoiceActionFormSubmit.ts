@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 
-import { PostNewActionParams } from '../../api/ApiRequests';
+import type { PostNewActionParams } from '../../api/ApiRequests';
 import { queryKeys } from '../../constants';
 import { useInvalidateInvoice } from '../../hooks/invalidate/useInvalidateInvoice';
 import { useNewActionMutation } from '../../hooks/mutations/useNewActionMutation';
@@ -25,29 +25,28 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
   const invalidateInvoice = useInvalidateInvoice();
   const actionIdToText = useActionIdToText();
   const { t } = useTranslation();
-  const {
-    data: item,
-    isFetching: isFetchingInvoice,
-    refetch: refetchInvoice,
-  } = useInvoiceDetails(invoiceId);
+  const { data: item, isFetching: isFetchingInvoice, refetch: refetchInvoice } = useInvoiceDetails(invoiceId);
 
   const isFetchingInvoiceActions = useIsFetching({
     queryKey: [queryKeys.invoiceActions, invoiceId],
   });
 
-  const getMessageFromKey = useCallback((errorMessage: string) => {
-    let retValue = errorMessage;
-    let messageKey = retValue.toUpperCase();
-    if (messageKey in errorRemap) {
-      messageKey = errorRemap[messageKey];
-    }
+  const getMessageFromKey = useCallback(
+    (errorMessage: string) => {
+      let retValue = errorMessage;
+      let messageKey = retValue.toUpperCase();
+      if (messageKey in errorRemap) {
+        messageKey = errorRemap[messageKey];
+      }
 
-    if ((messageKey !== '') && (purchaseInvoiceSource) && (messageKey in purchaseInvoiceSource)) {
-      retValue = purchaseInvoiceSource[messageKey];
-    }
+      if (messageKey !== '' && purchaseInvoiceSource && messageKey in purchaseInvoiceSource) {
+        retValue = purchaseInvoiceSource[messageKey];
+      }
 
-    return retValue;
-  }, [purchaseInvoiceSource]);
+      return retValue;
+    },
+    [purchaseInvoiceSource],
+  );
 
   const submit = useCallback(async () => {
     if (!item) {
@@ -84,16 +83,12 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
       await refetchInvoice(); // refetch invoice
     } catch (err) {
       if (err instanceof AxiosError) {
-        Alert.alert(
-          t('general.error'),
-          getMessageFromKey(err.response?.data.Message || ''),
-          [
-            {
-              style: 'default',
-              text: t('general.button_ok'),
-            },
-          ],
-        );
+        Alert.alert(t('general.error'), getMessageFromKey(err.response?.data.Message || ''), [
+          {
+            style: 'default',
+            text: t('general.button_ok'),
+          },
+        ]);
       }
     }
   }, [
@@ -108,10 +103,10 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
     refetchInvoice,
   ]);
 
-  const isSubmitDisabled = (isFetchingInvoiceActions > 0) || isFetchingInvoice || newActionMutation.isLoading;
+  const isSubmitDisabled = isFetchingInvoiceActions > 0 || isFetchingInvoice || newActionMutation.isPending;
 
   return {
-    isMutating: newActionMutation.isLoading,
+    isMutating: newActionMutation.isPending,
     isSubmitDisabled,
     submit,
   };

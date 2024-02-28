@@ -1,6 +1,6 @@
 module.exports = {
-  extends: [require.resolve("@wecreatesolutions/config-eslint")],
+  extends: [require.resolve('@wecreatesolutions/config-eslint')],
   parserOptions: {
-    project: './tsconfig.json'
+    project: './tsconfig.json',
   },
-}
+};

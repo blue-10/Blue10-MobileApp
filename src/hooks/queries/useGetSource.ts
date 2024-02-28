@@ -5,7 +5,7 @@ import { lngConvert, queryKeys } from '../../constants';
 import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 
-export type SourceType = 'Custom' | 'PurchaseInvoices' | 'Shared'
+export type SourceType = 'Custom' | 'PurchaseInvoices' | 'Shared';
 
 export const useGetSource = (source: SourceType) => {
   const api = useApi();
@@ -16,6 +16,5 @@ export const useGetSource = (source: SourceType) => {
     queryFn: () => api.translation.getSource(locale, source),
     queryKey: useQueryKeySuffix([queryKeys.getSource, locale, source]),
     staleTime: 60 * 1000 * 10, // 10 minutes
-  },
-  );
+  });
 };

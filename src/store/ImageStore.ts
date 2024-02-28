@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { GetCompanyResponseItem } from '../api/ApiResponses';
+import type { GetCompanyResponseItem } from '../api/ApiResponses';
 import { deleteFile } from '../utils/fileSystem';
 import { captureError } from '../utils/sentry';
 
@@ -10,8 +10,10 @@ export class DocumentType {
   static readonly PACKING_SLIP = new DocumentType('packing_slip', 3);
 
   // eslint-disable-next-line no-useless-constructor
-  private constructor(public readonly key: string, public readonly documentType: number) {
-  }
+  private constructor(
+    public readonly key: string,
+    public readonly documentType: number,
+  ) {}
 
   toString() {
     return this.key;
@@ -50,8 +52,10 @@ export const useImageStore = create<ImageStore>((set) => ({
   company: undefined,
   deleteImage: () => {
     set((currentState) => {
-      if (currentState.selectedImageIndex === undefined ||
-        currentState.selectedImageIndex >= currentState.images.length) {
+      if (
+        currentState.selectedImageIndex === undefined ||
+        currentState.selectedImageIndex >= currentState.images.length
+      ) {
         return {};
       }
 
@@ -90,9 +94,7 @@ export const useImageStore = create<ImageStore>((set) => ({
   },
   selectImage: (index: number) => {
     set((currentState) => ({
-      selectedImageIndex: index >= currentState.images.length
-        ? undefined
-        : index,
+      selectedImageIndex: index >= currentState.images.length ? undefined : index,
     }));
   },
   selectedImageIndex: undefined,

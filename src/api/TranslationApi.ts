@@ -1,4 +1,4 @@
-import { GetSourceResponse } from './ApiResponses';
+import type { GetSourceResponse } from './ApiResponses';
 import { ApiServiceRequests } from './ApiServiceRequests';
 
 export class TranslationApi extends ApiServiceRequests {

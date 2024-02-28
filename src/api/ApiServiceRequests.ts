@@ -1,12 +1,12 @@
-import { AxiosInstance } from 'axios';
+import type { AxiosInstance } from 'axios';
 
-import { PagedResults } from '../entity/system/types';
-import { ApiService } from './ApiService';
+import type { PagedResults } from '../entity/system/types';
+import type { ApiService } from './ApiService';
 
 export class ApiServiceRequests {
   private apiService: ApiService;
 
-  constructor (apiService: ApiService) {
+  constructor(apiService: ApiService) {
     this.apiService = apiService;
   }
 
@@ -15,9 +15,9 @@ export class ApiServiceRequests {
   }
 
   protected wrapDataInPagedResult<T>(data: T, page = 1, pageSize = 25): PagedResults<T> {
-    const dataLength = (data instanceof Array) ? data.length : 0;
-    const totalResults = ((data instanceof Array) && data.length > 0) ? data[0].Count : 0;
-    const currentPagePosition = (page * pageSize) + dataLength;
+    const dataLength = data instanceof Array ? data.length : 0;
+    const totalResults = data instanceof Array && data.length > 0 ? data[0].Count : 0;
+    const currentPagePosition = page * pageSize + dataLength;
 
     return {
       data,

@@ -1,12 +1,9 @@
-import React, { createRef, useRef, useState } from 'react';
-import { Animated, ImageProps, View, ViewStyle } from 'react-native';
-import {
-  GestureHandlerRootView,
-  HandlerStateChangeEvent,
-  PanGestureHandler,
-  PinchGestureHandler,
-  State,
-} from 'react-native-gesture-handler';
+import type React from 'react';
+import { createRef, useRef, useState } from 'react';
+import type { ImageProps, ViewStyle } from 'react-native';
+import { Animated, View } from 'react-native';
+import type { HandlerStateChangeEvent } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, PanGestureHandler, PinchGestureHandler, State } from 'react-native-gesture-handler';
 
 // code from: https://dev.to/naderalfakesh/react-native-dealing-with-images-loading-viewing-zooming-and-caching-3p45
 
@@ -16,14 +13,9 @@ type Props = {
   onLoadEnd?: ImageProps['onLoadEnd'];
   onError?: ImageProps['onError'];
   style?: ViewStyle;
-}
+};
 
-export const ImageZoomPan: React.FC<Props> = (
-  {
-    style,
-    ...imageProps
-  },
-) => {
+export const ImageZoomPan: React.FC<Props> = ({ style, ...imageProps }) => {
   const [isPanEnabled, setIsPanEnabled] = useState(false);
   const scale = useRef(new Animated.Value(1)).current;
   const translateX = useRef(new Animated.Value(0)).current;
@@ -31,18 +23,26 @@ export const ImageZoomPan: React.FC<Props> = (
   const pinchRef = createRef();
   const panRef = createRef();
 
-  const onPinchEvent = Animated.event([{
-    nativeEvent: { scale },
-  }],
-  { useNativeDriver: true });
+  const onPinchEvent = Animated.event(
+    [
+      {
+        nativeEvent: { scale },
+      },
+    ],
+    { useNativeDriver: true },
+  );
 
-  const onPanEvent = Animated.event([{
-    nativeEvent: {
-      translationX: translateX,
-      translationY: translateY,
-    },
-  }],
-  { useNativeDriver: true });
+  const onPanEvent = Animated.event(
+    [
+      {
+        nativeEvent: {
+          translationX: translateX,
+          translationY: translateY,
+        },
+      },
+    ],
+    { useNativeDriver: true },
+  );
 
   const handlePinchStateChange = ({ nativeEvent }: HandlerStateChangeEvent<any>) => {
     // enabled pan only after pinch-zoom
@@ -76,18 +76,18 @@ export const ImageZoomPan: React.FC<Props> = (
     <GestureHandlerRootView style={style}>
       <View style={{ flex: 1, overflow: 'hidden' }}>
         <PanGestureHandler
-          onGestureEvent={onPanEvent}
           ref={panRef}
-          simultaneousHandlers={[pinchRef]}
+          shouldCancelWhenOutside
           enabled={isPanEnabled}
           failOffsetX={[-1000, 1000]}
-          shouldCancelWhenOutside
+          simultaneousHandlers={[pinchRef]}
+          onGestureEvent={onPanEvent}
         >
           <Animated.View>
             <PinchGestureHandler
               ref={pinchRef}
-              onGestureEvent={onPinchEvent}
               simultaneousHandlers={[panRef]}
+              onGestureEvent={onPinchEvent}
               onHandlerStateChange={handlePinchStateChange}
             >
               <Animated.Image

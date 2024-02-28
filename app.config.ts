@@ -72,9 +72,7 @@ const config: ExpoConfig = {
     package: 'builders.are.we.blue10',
     versionCode: getVersionCode(version),
   },
-  assetBundlePatterns: [
-    '**/*',
-  ],
+  assetBundlePatterns: ['**/*'],
   developmentClient: {
     silentLaunch: true,
   },

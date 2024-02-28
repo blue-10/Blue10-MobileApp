@@ -3,9 +3,9 @@ import { createPdf } from 'react-native-images-to-pdf';
 // @ts-ignore
 import unique_slug from 'unique-slug';
 
-import { GetCompanyResponseItem } from '../api/ApiResponses';
-import { ApiService } from '../api/ApiService';
-import { DocumentType } from '../store/ImageStore';
+import type { GetCompanyResponseItem } from '../api/ApiResponses';
+import type { ApiService } from '../api/ApiService';
+import type { DocumentType } from '../store/ImageStore';
 import { deleteFile } from './fileSystem';
 import { captureError } from './sentry';
 
@@ -43,7 +43,9 @@ export const prepareDocument = async (images: string[], shouldAbort: () => boole
       throw new UserAbortError();
     }
 
-    throw new UploadProcessError('Error occurred during createPdf', { cause: error });
+    throw new UploadProcessError('Error occurred during createPdf', {
+      cause: error,
+    });
   }
 
   if (!pdfFile.startsWith('file:')) {
@@ -56,12 +58,9 @@ export const prepareDocument = async (images: string[], shouldAbort: () => boole
   if (shouldAbort()) {
     deleteFile(pdfFile)
       .then()
-      .catch((reason) => captureError(
-        reason,
-        'Error occurred while deleting temporary PDF file',
-        'warning',
-        { pdfFile },
-      ));
+      .catch((reason) =>
+        captureError(reason, 'Error occurred while deleting temporary PDF file', 'warning', { pdfFile }),
+      );
 
     throw new UserAbortError('Abort requested by user');
   }

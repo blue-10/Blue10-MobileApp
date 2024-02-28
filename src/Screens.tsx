@@ -1,10 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import type React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
-import { RootStackParamList } from './navigation/types';
+import type { RootStackParamList } from './navigation/types';
 import { DashboardScreen } from './screens/DashboardScreen';
 import { InvoiceBookingsScreen } from './screens/InvoiceBookingsScreen';
 import { InvoiceDetailsScreen } from './screens/InvoiceDetailsScreen';
@@ -34,93 +34,94 @@ const Screens: React.FC = () => {
           }}
         >
           <Stack.Screen
-            name="Dashboard"
             component={DashboardScreen}
+            name="Dashboard"
             options={{
               headerShown: false,
             }}
           />
           <Stack.Screen
-            name="Settings"
             component={SettingsScreen}
+            name="Settings"
             options={{
               title: t('settings.screen_title'),
             }}
           />
           <Stack.Screen
+            component={SwitchEnvironmentScreen}
             name="SwitchEnvironment"
-            component={SwitchEnvironmentScreen} options={{
+            options={{
               title: t('switch_environments.screen_title'),
             }}
           />
           <Stack.Screen
-            name="InvoicesToDoScreen"
             component={InvoicesToDoScreen}
+            name="InvoicesToDoScreen"
             options={{
               title: t('to_do_invoices.screen_title'),
             }}
           />
           <Stack.Screen
-            name="InvoiceDetailsScreen"
             component={InvoiceDetailsScreen}
+            name="InvoiceDetailsScreen"
             options={({ route }) => ({
               animation: route.params.disabledAnimation ? 'none' : 'default',
               title: t('invoice_details.title'),
             })}
           />
           <Stack.Screen
-            name="InvoiceSelectUserScreen"
             component={InvoiceSelectUserScreen}
+            name="InvoiceSelectUserScreen"
             options={{
               title: t('invoice_user_select.title'),
             }}
           />
           <Stack.Screen
-            name="InvoiceSelectActionScreen"
             component={InvoiceSelectActionScreen}
+            name="InvoiceSelectActionScreen"
             options={{
               title: t('invoice_action_select.title'),
             }}
           />
           <Stack.Screen
-            name="InvoiceOriginalsScreen"
             component={InvoiceOriginalsScreen}
+            name="InvoiceOriginalsScreen"
             options={{
               title: t('invoice_originals.title'),
             }}
           />
           <Stack.Screen
-            name="InvoiceBookingsScreen"
             component={InvoiceBookingsScreen}
+            name="InvoiceBookingsScreen"
             options={{
               title: t('invoice_bookings.title'),
             }}
           />
           <Stack.Screen
-            name="InvoiceTimelineScreen"
             component={InvoiceTimelineScreen}
+            name="InvoiceTimelineScreen"
             options={{
               title: t('invoice_timeline.title'),
             }}
           />
           <Stack.Screen
-            name="ScanSelectCompanyScreen"
             component={ScanSelectCompanyScreen}
+            name="ScanSelectCompanyScreen"
             options={{
               title: t('scan.company_title'),
             }}
           />
           <Stack.Screen
-            name="ScanSelectDocumentTypeScreen"
             component={ScanSelectDocumentTypeScreen}
+            name="ScanSelectDocumentTypeScreen"
             options={{
               headerBackTitle: t('scan.company_title'),
               title: t('scan.document_type_title'),
             }}
           />
           <Stack.Screen
-            name="ScanPreviewScreen"
             component={ScanPreviewScreen}
+            name="ScanPreviewScreen"
             options={{
               headerShown: false,
               title: t('scan.preview_title'),

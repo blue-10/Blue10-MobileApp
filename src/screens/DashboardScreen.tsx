@@ -1,5 +1,6 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useMemo } from 'react';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type React from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
@@ -13,14 +14,17 @@ import Text from '../components/Text/Text';
 import { useGetCurrentCustomer } from '../hooks/queries/useGetCurrentCustomer';
 import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
 import { useGetToDoInvoiceCount } from '../hooks/queries/useGetToDoInvoicesCount';
-import { RootStackParamList } from '../navigation/types';
+import type { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions, text } from '../theme/';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Dashboard'>;
 
 export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
-  const { currentUser, query: { isLoading } } = useGetCurrentUser();
+  const {
+    currentUser,
+    query: { isLoading },
+  } = useGetCurrentUser();
   const currentCustomer = useGetCurrentCustomer();
   const { count: invoices, isLoading: isCountLoading } = useGetToDoInvoiceCount();
   const { reset: resetScannedImages } = useImageStore();
@@ -31,16 +35,14 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const onToDoInvoices = () => {
-    navigation.navigate(
-      'InvoicesToDoScreen',
-      {
-        invoices: Number(invoices),
-      },
-    );
+    navigation.navigate('InvoicesToDoScreen', {
+      invoices: Number(invoices),
+    });
   };
 
   const canUserUpload = useMemo(
-    () => currentUser?.MayValidateAllCompanies === true ||
+    () =>
+      currentUser?.MayValidateAllCompanies === true ||
       currentUser?.MaySeeAllCompanies === true ||
       (currentUser?.ValidateCompanies || []).length > 0 ||
       (currentUser?.SeeCompanies || []).length > 0,
@@ -54,53 +56,55 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <ScreenWithStatusBarAndHeader>
-      <LoaderWrapper isLoading={isLoading} width={300} height={text.largeTitle.lineHeight} mb={10}>
-        <Text variant="largeTitle" spaceAfter={10}>
+      <LoaderWrapper height={text.largeTitle.lineHeight} isLoading={isLoading} mb={10} width={300}>
+        <Text spaceAfter={10} variant="largeTitle">
           {t('dashboard.welcome_title', { name: currentUser?.Name ?? '' })}
         </Text>
       </LoaderWrapper>
-      <LoaderWrapper isLoading={isLoading} width={190} height={text.caption1Regular.lineHeight} mb={10}>
-        <Text variant="caption1Regular" spaceAfter={10}>
-          {t('dashboard.welcome_description', { environment: currentCustomer.customerName ?? '' })}
+      <LoaderWrapper height={text.caption1Regular.lineHeight} isLoading={isLoading} mb={10} width={190}>
+        <Text spaceAfter={10} variant="caption1Regular">
+          {t('dashboard.welcome_description', {
+            environment: currentCustomer.customerName ?? '',
+          })}
         </Text>
       </LoaderWrapper>
       <View style={styles.dashboardItemsContainer}>
         {canUserUpload && (
           <DashboardItem
-            isLoading={false}
-            title={t('scan.screen_title')}
             color={colors.dashboard.scan.background}
+            isLoading={false}
             textColor={colors.dashboard.scan.text}
+            title={t('scan.screen_title')}
             onPress={startScannerFlow}
           >
-            <SvgCameraShape color={colors.white} style={{ alignSelf: 'center' }} width={75} height={75} />
+            <SvgCameraShape color={colors.white} height={75} style={{ alignSelf: 'center' }} width={75} />
           </DashboardItem>
         )}
         <DashboardItem
-          isLoading={isCountLoading}
-          title={t('to_do_invoices.screen_title')}
           color={colors.dashboard.toDo.background}
-          textColor={colors.dashboard.toDo.text}
           contentTitle={invoices.toString()}
+          isLoading={isCountLoading}
+          textColor={colors.dashboard.toDo.text}
+          title={t('to_do_invoices.screen_title')}
           onPress={onToDoInvoices}
         />
         {currentUser?.IsInMultipleEnvironments && (
           <DashboardItem
+            color={colors.dashboard.switchEnv.background}
             isLoading={false}
             title={t('switch_environments.screen_title')}
-            color={colors.dashboard.switchEnv.background}
             onPress={onSwitchEnv}
           >
             <SvgSwitchIcon style={{ alignSelf: 'center' }} />
           </DashboardItem>
         )}
         <DashboardItem
+          color={colors.dashboard.switchEnv.background}
           isLoading={false}
           title={t('settings.screen_title')}
-          color={colors.dashboard.switchEnv.background}
           onPress={() => navigation.navigate('Settings')}
         >
-          <SvgGearShape color={colors.white} style={{ alignSelf: 'center' }} width={75} height={75} />
+          <SvgGearShape color={colors.white} height={75} style={{ alignSelf: 'center' }} width={75} />
         </DashboardItem>
       </View>
     </ScreenWithStatusBarAndHeader>

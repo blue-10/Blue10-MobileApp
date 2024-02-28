@@ -1,6 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 
@@ -36,47 +36,38 @@ export const SettingsScreen: React.FC = () => {
   };
 
   const confirmBeforeLogout = () => {
-    Alert.alert(
-      t('logout_confirm.title'),
-      t('logout_confirm.message'),
-      [
-        {
-          style: 'cancel',
-          text: t('logout_confirm.cancel_button'),
-        },
-        {
-          onPress: () => clearRefreshToken(),
-          style: 'destructive',
-          text: t('logout_confirm.confirm_button'),
-        },
-      ],
-    );
+    Alert.alert(t('logout_confirm.title'), t('logout_confirm.message'), [
+      {
+        style: 'cancel',
+        text: t('logout_confirm.cancel_button'),
+      },
+      {
+        onPress: () => clearRefreshToken(),
+        style: 'destructive',
+        text: t('logout_confirm.confirm_button'),
+      },
+    ]);
   };
 
   return (
     <Box>
-      <StatusBar style="dark" animated />
-      <Box py={16} px={42}>
+      <StatusBar animated style="dark" />
+      <Box px={42} py={16}>
         <Text variant="bodyRegularBold">{t('settings.language_subtitle')}</Text>
       </Box>
       {selectableLanguages.map((item, index) => (
         <ListItem
           key={item.id}
-          variant="checkbox"
           isChecked={item.id === i18n.language}
           isEven={index % 2 === 0}
-          title={item.title}
           subTitle={item.subTitle}
+          title={item.title}
+          variant="checkbox"
           onPress={() => onChangeLanguage(item.id)}
         />
       ))}
-      <Box py={24} px={24}>
-        <Button
-          variant="secondary"
-          size="M"
-          title={t('settings.logout')}
-          onPress={() => confirmBeforeLogout()}
-        />
+      <Box px={24} py={24}>
+        <Button size="M" title={t('settings.logout')} variant="secondary" onPress={() => confirmBeforeLogout()} />
       </Box>
     </Box>
   );
