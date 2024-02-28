@@ -352,7 +352,7 @@ export type GetSourceResponse = Record<string, string>
 export type GetActionsForInvoiceResponse = {
   DocumentId: string;
   DocumentType: string;
-  Actions: number[];
+  Actions?: number[];
   UserIds: string[];
   ApprovalAmount: number;
   UsesRoutes: boolean;

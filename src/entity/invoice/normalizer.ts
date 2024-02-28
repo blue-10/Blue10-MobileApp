@@ -83,7 +83,7 @@ export const normalizeInvoiceHistoryItemFromResponse = (response: GetInvoiceHist
 });
 
 export const normalizeInvoiceActionsFromResponse = (response: GetActionsForInvoiceResponse): InvoiceActions => ({
-  actions: response.Actions,
+  actions: response.Actions ?? [],
   suggestedAction: response.SuggestedAction,
   suggestedRemark: response.SuggestedRemark,
   suggestedUserId: response.SuggestedUserId,
