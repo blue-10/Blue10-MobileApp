@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import { addMinutes, isBefore } from 'date-fns';
 import Constants from 'expo-constants';
-import jwtDecode, { JwtPayload } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 import { inDevelopment } from '../utils/inDevelopment';
 import { captureError } from '../utils/sentry';
