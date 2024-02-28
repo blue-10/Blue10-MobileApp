@@ -25,17 +25,15 @@ const useGetTimelineOfInvoice = (id: string) => {
   const { getUserById, data: allUsers = [] } = useGetAllUsers();
   const actionIdToText = useActionIdToCompleteText();
 
-  const query = useQuery(
-    useQueryKeySuffix([queryKeys.invoiceBookings, id]),
-    async () =>
+  const query = useQuery({
+    enabled: allUsers.length > 0,
+    queryFn: async () =>
       normalizeMap(
         await api.invoice.getInvoiceHistory(id),
         normalizeInvoiceHistoryItemFromResponse,
       ),
-    {
-      enabled: allUsers.length > 0,
-    },
-  );
+    queryKey: useQueryKeySuffix([queryKeys.invoiceBookings, id]),
+  });
 
   const data: InvoiceHistoryItem[] = useMemo(() => {
     return (query.data ?? []).map(

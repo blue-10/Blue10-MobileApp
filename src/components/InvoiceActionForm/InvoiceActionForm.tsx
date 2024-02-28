@@ -33,7 +33,7 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
   const { getUserById } = useGetAllUsers();
   const actionIdToText = useActionIdToText();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const { isLoading: isMutationLoading } = useNewActionMutation(invoiceId);
+  const { isPending: isMutationLoading } = useNewActionMutation(invoiceId);
   const {
     isFetching: isFetchingInvoice,
     isFetchedAfterMount: isInvoiceFetchedAfterMount,
@@ -52,13 +52,13 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
     isFetchedAfterMount,
     isFetching,
   } = useQuery(
-    useQueryKeySuffix([queryKeys.invoiceActions, invoiceId]),
-    async() =>
-      normalizeInvoiceActionsFromResponse(
-        await api.invoice.getActionsForInvoice(invoiceId),
-      ),
     {
       enabled: isInvoiceFetchedAfterMount,
+      queryFn: async() =>
+        normalizeInvoiceActionsFromResponse(
+          await api.invoice.getActionsForInvoice(invoiceId),
+        ),
+      queryKey: useQueryKeySuffix([queryKeys.invoiceActions, invoiceId]),
     },
   );
   const {
@@ -66,13 +66,13 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
     isFetchedAfterMount: isFetchedAfterAction,
     isFetching: isFetchingUsersForAction,
   } = useQuery(
-    useQueryKeySuffix([queryKeys.invoiceActions, invoiceId, `action-${selectedActionId}`]),
-    async() =>
-      normalizeInvoiceActionsFromResponse(
-        await api.invoice.getUsersForAction(invoiceId, selectedActionId || -1),
-      ),
     {
       enabled: !!selectedActionId,
+      queryFn: async() =>
+        normalizeInvoiceActionsFromResponse(
+          await api.invoice.getUsersForAction(invoiceId, selectedActionId || -1),
+        ),
+      queryKey: useQueryKeySuffix([queryKeys.invoiceActions, invoiceId, `action-${selectedActionId}`]),
     },
   );
   const isDisabled = isFetchingInvoice || isFetching || isMutationLoading;

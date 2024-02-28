@@ -30,16 +30,15 @@ export const InvoiceBookingsScreen: React.FC<Props> = ({ route }) => {
     refetch,
     isError,
     dataUpdatedAt,
-  } = useQuery(
-    useQueryKeySuffix([queryKeys.invoiceBookings]),
-    async () =>
+  } = useQuery({
+    enabled: !!invoice,
+    queryFn: async () =>
       normalizeMap(
         await api.invoice.getInvoiceLines(id, invoice?.companyId ?? ''),
         normalizeInvoiceLineFromResponse,
       ),
-    {
-      enabled: !!invoice,
-    },
+    queryKey: useQueryKeySuffix([queryKeys.invoiceBookings]),
+  },
   );
   const renderItem: ListRenderItem<InvoiceLine> = useCallback(({ item, index }) => (
     <InvoiceBookingItem

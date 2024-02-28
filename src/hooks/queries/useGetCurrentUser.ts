@@ -7,10 +7,10 @@ import { useApi } from '../useApi';
 export const useGetCurrentUser = () => {
   const api = useApi();
 
-  const query = useQuery(
-    useQueryKeySuffix([queryKeys.currentUser]),
-    () => api.user.getCurrentUser(),
-  );
+  const query = useQuery({
+    queryFn: () => api.user.getCurrentUser(),
+    queryKey: useQueryKeySuffix([queryKeys.currentUser]),
+  });
 
   return { currentUser: query.data, query };
 };

@@ -12,11 +12,10 @@ export const useGetSource = (source: SourceType) => {
   const { i18n } = useTranslation();
   const locale = lngConvert[i18n.language];
 
-  return useQuery(
-    useQueryKeySuffix([queryKeys.getSource, locale, source]),
-    () => api.translation.getSource(locale, source),
-    {
-      staleTime: 60 * 1000 * 10, // 10 minutes
-    },
+  return useQuery({
+    queryFn: () => api.translation.getSource(locale, source),
+    queryKey: useQueryKeySuffix([queryKeys.getSource, locale, source]),
+    staleTime: 60 * 1000 * 10, // 10 minutes
+  },
   );
 };

@@ -25,12 +25,13 @@ export const InvoiceAttachmentsScreen: React.FC<Props> = ({ id }) => {
     isFetching,
     isError,
     refetch,
-  } = useQuery(
-    useQueryKeySuffix([queryKeys.invoiceAttachments, id]),
-    async () => normalizeMap(
+  } = useQuery({
+    queryFn: async () => normalizeMap(
       await api.invoice.getAttachments(id),
       normalizeInvoiceAttachmentFromResponseItem,
     ),
+    queryKey: useQueryKeySuffix([queryKeys.invoiceAttachments, id]),
+  },
   );
 
   const renderItem: ListRenderItem<InvoiceAttachment> = useCallback(({ item, index }) => (

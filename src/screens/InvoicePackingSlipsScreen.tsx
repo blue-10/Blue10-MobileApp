@@ -25,13 +25,13 @@ export const InvoicePackingSlipsScreen: React.FC<Props> = ({ id }) => {
     isFetching,
     isError,
     refetch,
-  } = useQuery(
-    useQueryKeySuffix([queryKeys.invoicePackingSlips, id]),
-    async () => normalizeMap(
+  } = useQuery({
+    queryFn: async () => normalizeMap(
       await api.invoice.getPackingSlips(id),
       normalizeInvoicePackingSlipFromResponse,
     ),
-  );
+    queryKey: useQueryKeySuffix([queryKeys.invoicePackingSlips, id]),
+  });
   const renderItem: ListRenderItem<InvoicePackingSlip> = useCallback(({ item, index }) => (
     <ListItem
       isEven={(index % 2 === 0)}

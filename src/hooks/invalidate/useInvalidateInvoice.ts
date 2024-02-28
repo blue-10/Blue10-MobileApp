@@ -20,21 +20,26 @@ export const useInvalidateInvoice = () => {
 
   return useCallback((invoiceId: string) => {
     invoiceQueryKeys.forEach((queryKey) => {
-      queryClient.invalidateQueries([queryKey, invoiceId]);
+      queryClient.invalidateQueries({ queryKey: [queryKey, invoiceId] });
     });
 
-    queryClient.invalidateQueries([
-      queryKeys.invoicesToDo,
-      `user-${currentUser.currentUser?.Id}`,
-      `belongs-to-${currentUser.currentUser?.BelongsTo}`,
-    ]);
+    queryClient.invalidateQueries(
+      {
+        queryKey: [
+          queryKeys.invoicesToDo,
+          `user-${currentUser.currentUser?.Id}`,
+          `belongs-to-${currentUser.currentUser?.BelongsTo}`,
+        ],
+      });
 
-    queryClient.invalidateQueries([
-      queryKeys.invoicesToDo,
-      'totalCount',
-      `user-${currentUser.currentUser?.Id}`,
-      `belongs-to-${currentUser.currentUser?.BelongsTo}`,
-    ]);
+    queryClient.invalidateQueries({
+      queryKey: [
+        queryKeys.invoicesToDo,
+        'totalCount',
+        `user-${currentUser.currentUser?.Id}`,
+        `belongs-to-${currentUser.currentUser?.BelongsTo}`,
+      ],
+    });
   },
   [currentUser.currentUser, queryClient]);
 };

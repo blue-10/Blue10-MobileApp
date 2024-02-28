@@ -20,9 +20,9 @@ export const getRefreshControl = (queryClient: QueryClient, queryKeys: string[],
     tintColor={colors.primary} // ios
     refreshing={isRefreshing}
     onRefresh={async () => {
-      queryClient.cancelQueries(queryKeys).then();
-      queryClient.invalidateQueries(queryKeys).then();
-      queryClient.removeQueries(queryKeys);
+      queryClient.cancelQueries({ queryKey: queryKeys }).then();
+      queryClient.invalidateQueries({ queryKey: queryKeys }).then();
+      queryClient.removeQueries({ queryKey: queryKeys });
     }}
   />
 );

@@ -6,8 +6,9 @@ import { useApi } from '../useApi';
 
 export const useAllCompanies = () => {
   const api = useApi();
-  return useQuery<GetCompanyResponse>(
-    [queryKeys.companies],
-    () => api.company.all(),
+  return useQuery<GetCompanyResponse>({
+    queryFn: () => api.company.all(),
+    queryKey: [queryKeys.companies],
+  },
   );
 };

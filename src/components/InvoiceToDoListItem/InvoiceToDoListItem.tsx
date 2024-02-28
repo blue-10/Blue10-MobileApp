@@ -1,4 +1,4 @@
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
@@ -38,7 +38,7 @@ export const InvoiceToDoListItem: React.FC<Props> = (
             {item.invoiceNumber}
           </Text>
           <Text style={styles.invoiceDateText}>
-            {item.date && format(item.date, 'dd MM Y')}
+            {item.date && format(item.date, 'dd MM y')}
           </Text>
         </View>
       </>

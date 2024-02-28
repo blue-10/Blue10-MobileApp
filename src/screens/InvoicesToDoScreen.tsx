@@ -107,11 +107,13 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = (
             onRefresh={() => {
               // we reset the query cache of the paging else if the user has scrolled to 1000's of pages
               // it will get them all of them one by one again.
-              queryClient.resetQueries([
-                queryKeys.invoicesToDo,
-                `user-${currentUser.currentUser?.Id}`,
-                `belongs-to-${currentUser.currentUser?.BelongsTo}`,
-              ]);
+              queryClient.resetQueries({
+                queryKey: [
+                  queryKeys.invoicesToDo,
+                  `user-${currentUser.currentUser?.Id}`,
+                  `belongs-to-${currentUser.currentUser?.BelongsTo}`,
+                ],
+              });
             }}
           />
         )}

@@ -10,6 +10,7 @@ import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en'; // locale-data for en
 import '@formatjs/intl-numberformat/locale-data/nl'; // locale-data for nl
 // endregion
+import 'core-js/stable/atob';
 import './src/i18n/i18n.config';
 
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';

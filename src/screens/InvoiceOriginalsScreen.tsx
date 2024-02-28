@@ -23,7 +23,7 @@ export const InvoiceOriginalsScreen: React.FC<Props> = ({ route, navigation }) =
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('blur', () => {
-      queryClient.resetQueries([queryKeys.invoiceImages, id]);
+      queryClient.resetQueries({ queryKey: [queryKeys.invoiceImages, id] });
     });
 
     return unsubscribe;

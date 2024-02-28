@@ -12,13 +12,14 @@ export const useGetAllUsers = () => {
   const api = useApi();
 
   const query = useQuery(
-    useQueryKeySuffix([queryKeys.users]),
-    async () =>
-      normalizeMap(
-        await api.user.getAllUsers(),
-        normalizeUserFromResponse,
-      ),
     {
+      queryFn: async () =>
+        normalizeMap(
+          await api.user.getAllUsers(),
+          normalizeUserFromResponse,
+        ),
+      queryKey: useQueryKeySuffix([queryKeys.users]),
+
       staleTime: 60 * 1000 * 10, // 5 minutes
     },
   );

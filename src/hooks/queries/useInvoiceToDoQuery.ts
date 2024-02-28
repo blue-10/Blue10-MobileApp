@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { InfiniteData, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
 import { queryKeys } from '../../constants';
@@ -10,18 +10,24 @@ import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 import { useGetCurrentUser } from './useGetCurrentUser';
 
+type PagedInvoiceListItems = PagedResults<InvoiceListItem[]>;
+
 export const useInvoiceToDoQuery = () => {
   const api = useApi();
 
   const currentUser = useGetCurrentUser();
 
-  const client = useInfiniteQuery(
-    useQueryKeySuffix([
-      queryKeys.invoicesToDo,
-      `user-${currentUser.currentUser?.Id}`,
-      `belongs-to-${currentUser.currentUser?.BelongsTo}`,
-    ]),
-    async ({ pageParam = 1 }) => {
+  const client = useInfiniteQuery<
+  PagedInvoiceListItems,
+  Error,
+  InfiniteData<PagedInvoiceListItems, number>,
+  QueryKey,
+  number
+  >({
+    getNextPageParam: (lastPage) => lastPage.paging.next,
+    getPreviousPageParam: (firstPage) => firstPage.paging.previous,
+    initialPageParam: 1,
+    queryFn: async ({ pageParam = 1 }) => {
       const results = await api.invoice.overview({
         CurrentPage: pageParam,
         CurrentUser: [currentUser.currentUser?.Id, currentUser.currentUser?.BelongsTo]
@@ -37,12 +43,14 @@ export const useInvoiceToDoQuery = () => {
       return {
         data: normalizeMap<InvoiceListItem>(results.data, normalizeInvoiceListItemFromResponseItem),
         paging: results.paging,
-      } as PagedResults<InvoiceListItem[]>;
+      } as PagedInvoiceListItems;
     },
-    {
-      getNextPageParam: (lastPage) => lastPage.paging.next,
-      getPreviousPageParam: (firstPage) => firstPage.paging.previous,
-    },
+    queryKey: useQueryKeySuffix([
+      queryKeys.invoicesToDo,
+      `user-${currentUser.currentUser?.Id}`,
+      `belongs-to-${currentUser.currentUser?.BelongsTo}`,
+    ]),
+  },
   );
 
   const all = useMemo(() => client.data ? client.data.pages.flatMap((page) => page.data) : [], [client.data]);
