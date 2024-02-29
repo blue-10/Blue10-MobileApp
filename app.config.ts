@@ -1,4 +1,4 @@
-import { ExpoConfig } from '@expo/config-types';
+import type { ExpoConfig } from '@expo/config-types';
 // load .env
 import * as dotenv from 'dotenv';
 import { parse } from 'semver';
@@ -14,7 +14,7 @@ const getVersion = (): string => {
   if (process.env.RELEASE_TYPE === 'production') {
     return getPackageVersion();
   } else {
-    return getPackageVersion() + '-' + (process.env.EAS_BUILD_PROFILE ?? 'develop');
+    return `${getPackageVersion()}-${process.env.EAS_BUILD_PROFILE ?? 'develop'}`;
   }
 };
 
@@ -37,7 +37,7 @@ const getBuildNumber = (version: string): string => {
           break;
       }
     }
-    return `${semver.major}.${semver.minor}.${semver.patch}` + suffix;
+    return `${semver.major}.${semver.minor}.${semver.patch}${suffix}`;
   }
 
   return version;
@@ -99,7 +99,7 @@ const config: ExpoConfig = {
   owner: 'blue10',
   plugins: [
     'expo-localization',
-    // disabled for now, this upload the execution symbols to sentry. no needed for now.
+    // disabled for now, this uploads the execution symbols to sentry. this not needed for now.
     // [
     //   '@sentry/react-native/expo',
     //   {
