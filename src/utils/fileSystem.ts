@@ -1,10 +1,14 @@
 import { Buffer } from 'buffer';
-import { deleteAsync, readAsStringAsync } from 'expo-file-system';
+import { readAsStringAsync } from 'expo-file-system';
+import { FileSystem } from 'react-native-file-access';
 
 import { captureError } from './sentry';
 
 export const deleteFile = async (fileUri: string): Promise<void> => {
-  return deleteAsync(fileUri, { idempotent: true });
+  const canExists = await FileSystem.exists(fileUri);
+  if (canExists) {
+    return FileSystem.unlink(fileUri);
+  }
 };
 
 export const deleteFilesInBackground = (fileUris: string[]): void => {
