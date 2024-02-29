@@ -36,6 +36,7 @@ export const normalizeInvoiceFromResponse = (response: GetInvoiceDetailsResponse
     statusId: response.Status,
     subtotal: response.NetAmount,
     totalToPay: response.GrossAmount,
+    userList: response.UserList ?? [],
     vatTotal: response.GrossAmount - response.NetAmount,
   };
 };

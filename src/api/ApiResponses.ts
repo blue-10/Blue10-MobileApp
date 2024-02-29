@@ -133,6 +133,7 @@ export type GetInvoiceOverviewResponseItem = PagedItem & {
   RelationCode: string;
   RelationName: string;
   CurrentUserId: string;
+  UserList?: string[];
   LedgerEntryNumber: string;
   CompanyId: string;
   CompanyDisplayName: string;
@@ -158,6 +159,7 @@ export type GetInvoiceDetailsResponse = {
   CompanyId: string;
   Currency: string;
   CurrentUserId: string;
+  UserList?: string[];
   DocumentDate: string;
   DocumentNumber: string;
   DocumentType: number;
