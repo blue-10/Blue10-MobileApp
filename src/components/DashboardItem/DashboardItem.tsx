@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { DimensionValue } from 'react-native';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { colors, dimensions } from '../../theme';
@@ -9,6 +10,7 @@ type Props = {
   contentTitle?: string;
   color: string;
   textColor?: string;
+  buttonSize?: DimensionValue;
   onPress?: () => void;
 };
 
@@ -18,18 +20,28 @@ export const DashboardItem: React.FC<React.PropsWithChildren<Props>> = ({
   contentTitle,
   color,
   textColor = colors.white,
+  buttonSize = 158,
   onPress,
   children,
 }) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          width: buttonSize,
+        },
+      ]}
+    >
       <TouchableOpacity
         disabled={isLoading}
         style={[
           styles.button,
           {
             backgroundColor: color,
+            height: buttonSize,
             opacity: isLoading ? 0.5 : 1,
+            width: buttonSize,
           },
         ]}
         onPress={onPress}
@@ -45,23 +57,19 @@ export const DashboardItem: React.FC<React.PropsWithChildren<Props>> = ({
 
 const styles = StyleSheet.create({
   button: {
+    aspectRatio: 1,
     borderRadius: 20,
-    flex: 1,
     justifyContent: 'center',
-    marginBottom: 5,
+    marginBottom: 10,
   },
   container: {
-    borderRadius: 20,
-    height: 180,
-    marginBottom: 10,
-    width: '48%',
+    marginBottom: 4,
   },
   contentTitle: {
     fontSize: 50,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-
   loader: {
     bottom: '50%',
     left: '50%',

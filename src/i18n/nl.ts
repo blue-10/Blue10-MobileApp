@@ -147,6 +147,9 @@ export const nl: TranslationKeysType = {
     upload_upload_error: 'Er is een fout opgetreden bij het uploaden van het document naar de server.',
     upload_user_aborted: 'Uploadproces afgebroken.',
   },
+  search: {
+    screen_title: 'Zoeken',
+  },
   settings: {
     language_subtitle: 'Taal',
     logout: 'Uitloggen',

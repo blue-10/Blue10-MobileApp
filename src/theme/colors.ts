@@ -34,6 +34,9 @@ export const colors = {
       background: 'rgba(90, 200, 250, 1)',
       text: whiteColor,
     },
+    search: {
+      background: '#FF9500',
+    },
     switchEnv: {
       background: 'rgba(209, 209, 214, 1)',
     },

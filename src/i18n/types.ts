@@ -156,4 +156,7 @@ export type TranslationKeysType = {
   invoice_attachnment_add: {
     title: string;
   };
+  search: {
+    screen_title: string;
+  };
 };

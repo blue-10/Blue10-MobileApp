@@ -146,6 +146,9 @@ export const en: TranslationKeysType = {
     upload_upload_error: 'An error occurred while uploading the document to the server.',
     upload_user_aborted: 'Upload process aborted.',
   },
+  search: {
+    screen_title: 'Search',
+  },
   settings: {
     language_subtitle: 'Language',
     logout: 'Logout',

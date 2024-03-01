@@ -3,6 +3,8 @@
 * \#106 Comprimeren van afbeeldingen
 * \#103 Wijziging aan API voor ophalen facturen
 * \#70 Knop toevoegen 'voeg scan toe' aan Factuur originelen bijlage
+* \#41 Landing Page knop toevoegen zoeken
+* \#47 Factuur zoeken
 
 # v1.5.14
 * \#100 Update back to v1.5.12 for next version functionality
