@@ -6,20 +6,10 @@ type Props = {
   onChangeText?: (text: string) => void;
   isSecureTextEntry?: boolean;
   isDisabled?: boolean;
-}
+};
 
-const TextInput: React.FC<Props> = ({
-  label,
-  isSecureTextEntry,
-  isDisabled = false,
-  ...props
-}) => (
-  <ReactTextInput
-    helperText={label}
-    editable={!isDisabled}
-    selectTextOnFocus={!isDisabled}
-    {...props}
-  />
+const TextInput: React.FC<Props> = ({ label, isSecureTextEntry, isDisabled = false, ...props }) => (
+  <ReactTextInput editable={!isDisabled} helperText={label} selectTextOnFocus={!isDisabled} {...props} />
 );
 
 export default TextInput;

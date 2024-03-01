@@ -1,4 +1,4 @@
-import { ApiService } from '../api/ApiService';
+import type { ApiService } from '../api/ApiService';
 import { useApiStore } from '../store/ApiStore';
 
 /**

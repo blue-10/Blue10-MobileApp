@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import { dimensions } from '../../theme';
@@ -6,13 +6,9 @@ import { dimensions } from '../../theme';
 type Props = {
   title: string;
   subTitle: string;
-}
+};
 
-export const TopBarWithSubTitle: React.FC<Props> = (
-  {
-    title,
-    subTitle,
-  }) => {
+export const TopBarWithSubTitle: React.FC<Props> = ({ title, subTitle }) => {
   return (
     <View>
       <Text style={styles.topBarMultilineHeaderText}>{title}</Text>

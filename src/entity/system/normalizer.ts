@@ -1,5 +1,5 @@
-import { UserResponseItem } from '../../api/ApiResponses';
-import { User } from './types';
+import type { UserResponseItem } from '../../api/ApiResponses';
+import type { User } from './types';
 
 export const normalizeUserFromResponse = (response: UserResponseItem): User => ({
   abbreviation: response.Abbreviation,

@@ -1,4 +1,4 @@
-import {
+import type {
   GetActionsForInvoiceResponse,
   GetInvoiceAttachmentItem,
   GetInvoiceDetailsResponse,
@@ -8,7 +8,7 @@ import {
   GetInvoicePackingSlipItem,
 } from '../../api/ApiResponses';
 import { parseDate, parseDateWithMicro } from '../../utils/parseDate';
-import {
+import type {
   Invoice,
   InvoiceActions,
   InvoiceAttachment,
@@ -40,8 +40,7 @@ export const normalizeInvoiceFromResponse = (response: GetInvoiceDetailsResponse
   };
 };
 
-export const normalizeInvoiceListItemFromResponseItem =
-(response: GetInvoiceOverviewResponseItem): InvoiceListItem => {
+export const normalizeInvoiceListItemFromResponseItem = (response: GetInvoiceOverviewResponseItem): InvoiceListItem => {
   return {
     companyName: response.CompanyDisplayName,
     currency: response.Currency,
@@ -53,8 +52,7 @@ export const normalizeInvoiceListItemFromResponseItem =
   };
 };
 
-export const normalizeInvoiceAttachmentFromResponseItem =
-(response: GetInvoiceAttachmentItem): InvoiceAttachment => ({
+export const normalizeInvoiceAttachmentFromResponseItem = (response: GetInvoiceAttachmentItem): InvoiceAttachment => ({
   filename: response.FileName,
   id: response.Id,
 });
@@ -83,7 +81,7 @@ export const normalizeInvoiceHistoryItemFromResponse = (response: GetInvoiceHist
 });
 
 export const normalizeInvoiceActionsFromResponse = (response: GetActionsForInvoiceResponse): InvoiceActions => ({
-  actions: response.Actions,
+  actions: response.Actions ?? [],
   suggestedAction: response.SuggestedAction,
   suggestedRemark: response.SuggestedRemark,
   suggestedUserId: response.SuggestedUserId,

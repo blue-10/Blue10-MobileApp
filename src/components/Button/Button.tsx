@@ -1,9 +1,12 @@
 import React, { useMemo } from 'react';
-import { ActivityIndicator, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
-import { SvgProps } from 'react-native-svg';
+import type { ViewStyle } from 'react-native';
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import type { SvgProps } from 'react-native-svg';
 
-import { colors, TextStyleType } from '../../theme';
-import Text, { TextPropsWithStyle } from '../Text/Text';
+import type { TextStyleType } from '../../theme';
+import { colors } from '../../theme';
+import type { TextPropsWithStyle } from '../Text/Text';
+import Text from '../Text/Text';
 
 type Props = {
   isLoading?: boolean;
@@ -17,23 +20,21 @@ type Props = {
   iconRight?: React.FunctionComponent<SvgProps>;
   iconSize?: number;
   textAlign?: TextPropsWithStyle['align'];
-}
+};
 
-const Button: React.FC<Props> = (
-  {
-    isDisabled = false,
-    isLoading = false,
-    title,
-    size,
-    variant,
-    style,
-    iconLeft,
-    iconRight,
-    iconSize = 34,
-    textAlign = 'center',
-    onPress,
-  },
-) => {
+const Button: React.FC<Props> = ({
+  isDisabled = false,
+  isLoading = false,
+  title,
+  size,
+  variant,
+  style,
+  iconLeft,
+  iconRight,
+  iconSize = 34,
+  textAlign = 'center',
+  onPress,
+}) => {
   const containerStyles = useMemo(() => {
     const retValue = [];
 
@@ -77,6 +78,7 @@ const Button: React.FC<Props> = (
 
   return (
     <TouchableOpacity
+      disabled={isLoading || isDisabled}
       style={[
         styles.container,
         ...containerStyles,
@@ -84,33 +86,29 @@ const Button: React.FC<Props> = (
         isDisabled ? styles.isDisabled : {},
         style,
       ]}
-      disabled={isLoading || isDisabled}
       onPress={onPress}
     >
-      {iconLeft && React.createElement(
-        iconLeft,
-        {
+      {iconLeft &&
+        React.createElement(iconLeft, {
           color: colors.button[variant].text,
           height: iconSize,
           width: iconSize,
-        },
-      )}
+        })}
       <Text
         align={textAlign}
-        variant={textVariant}
         color={colors.button[variant].text}
         style={{
           ...styles.text,
           paddingLeft: iconLeft ? 8 : 0,
           paddingRight: iconRight ? 8 : 0,
         }}
+        variant={textVariant}
       >
         {title}
       </Text>
-      {isLoading && (<ActivityIndicator style={styles.loader} size="large" color={colors.button[variant].text} />)}
-      {iconRight && React.createElement(
-        iconRight,
-        {
+      {isLoading && <ActivityIndicator color={colors.button[variant].text} size="large" style={styles.loader} />}
+      {iconRight &&
+        React.createElement(iconRight, {
           color: colors.button[variant].text,
           height: iconSize,
           width: iconSize,

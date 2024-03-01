@@ -10,28 +10,26 @@ const LoginSiteLoader: React.FC = () => {
   return (
     <Box style={styles.container}>
       <Box pb={16}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator color={colors.primary} size="large" />
       </Box>
       <Text variant="bodyRegularBold">{t('login_site.loading')}</Text>
     </Box>
   );
 };
 
-const styles = StyleSheet.create(
-  {
-    container: {
-      alignItems: 'center',
-      backgroundColor: 'white',
-      bottom: 0,
-      height: '100%',
-      justifyContent: 'center',
-      left: 0,
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      width: '100%',
-    },
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    bottom: 0,
+    height: '100%',
+    justifyContent: 'center',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: '100%',
   },
-);
+});
 
 export default LoginSiteLoader;

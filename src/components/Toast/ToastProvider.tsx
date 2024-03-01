@@ -24,18 +24,14 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         ]}
       >
         {toats.map((toast, index) => (
-          <Toast
-            key={toast.id}
-            item={toast}
-            onClose={() => deleteToast(index)}
-          />
+          <Toast key={toast.id} item={toast} onClose={() => deleteToast(index)} />
         ))}
       </Box>
     </>
   );
 };
 
-const styles = StyleSheet.create(({
+const styles = StyleSheet.create({
   toastContainer: {
     bottom: 0,
     height: 'auto',
@@ -43,4 +39,4 @@ const styles = StyleSheet.create(({
     pointerEvents: 'box-none',
     position: 'absolute',
   },
-}));
+});

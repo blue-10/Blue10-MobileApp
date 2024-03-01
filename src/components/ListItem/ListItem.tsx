@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { StyleSheet, TouchableHighlight } from 'react-native';
 
 import CheckMarkIcon from '../../../assets/icons/checkmark-icon.svg';
@@ -13,30 +13,30 @@ type Props = {
   title: string;
   subTitle?: string | null;
   onPress: () => void;
-}
+};
 
-export const ListItem: React.FC<Props> = ({
-  variant = 'default',
-  isEven,
-  isChecked,
-  title,
-  subTitle,
-  onPress,
-}) => {
+export const ListItem: React.FC<Props> = ({ variant = 'default', isEven, isChecked, title, subTitle, onPress }) => {
   return (
     <TouchableHighlight
-      underlayColor={colors.primary} style={[styles.item, isEven ? styles.even : styles.odd]}
+      style={[styles.item, isEven ? styles.even : styles.odd]}
+      underlayColor={colors.primary}
       onPress={onPress}
     >
       <>
         {variant === 'checkbox' && (
-          <Box style={styles.checkboxView} mr={8}>
-            {isChecked && <CheckMarkIcon color={colors.primary} width={16} height={16} />}
+          <Box mr={8} style={styles.checkboxView}>
+            {isChecked && <CheckMarkIcon color={colors.primary} height={16} width={16} />}
           </Box>
         )}
         <Box>
-          <Text variant="bodyRegular" spaceAfter={2}>{title}</Text>
-          {subTitle && <Text variant="caption1Regular" color={colors.labelLightSecondary}>{subTitle}</Text>}
+          <Text spaceAfter={2} variant="bodyRegular">
+            {title}
+          </Text>
+          {subTitle && (
+            <Text color={colors.labelLightSecondary} variant="caption1Regular">
+              {subTitle}
+            </Text>
+          )}
         </Box>
       </>
     </TouchableHighlight>

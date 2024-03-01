@@ -1,4 +1,4 @@
-import { GetCompanyResponse } from './ApiResponses';
+import type { GetCompanyResponse } from './ApiResponses';
 import { ApiServiceRequests } from './ApiServiceRequests';
 
 export class CompanyApi extends ApiServiceRequests {

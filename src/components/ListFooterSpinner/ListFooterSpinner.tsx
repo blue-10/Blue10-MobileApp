@@ -1,11 +1,11 @@
-import React from 'react';
+import type React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { colors, dimensions } from '../../theme';
 
 export const ListFooterSpinner: React.FC = () => (
   <View style={styles.footerSpinner}>
-    <ActivityIndicator size="large" color={colors.primary} />
+    <ActivityIndicator color={colors.primary} size="large" />
   </View>
 );
 

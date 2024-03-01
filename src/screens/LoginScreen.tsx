@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect } from 'react';
+import type React from 'react';
+import { useEffect } from 'react';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 
 import LoginSite from '../components/LoginSite/LoginSite';
@@ -27,18 +28,15 @@ export const LoginScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="black" />
-      <LoginSite
-        mode="login"
-        onRefreshToken={(refreshToken, baseUrl) => onRefreshToken(refreshToken, baseUrl)}
-      />
+      <StatusBar backgroundColor="black" barStyle="light-content" />
+      <LoginSite mode="login" onRefreshToken={(refreshToken, baseUrl) => onRefreshToken(refreshToken, baseUrl)} />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create(({
+const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.black,
     flex: 1,
   },
-}));
+});

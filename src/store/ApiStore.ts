@@ -35,7 +35,7 @@ const useApiStore = create<ApiStore>((set, get) => ({
 
     return Promise.resolve();
   },
-  getNewRefreshToken: async() => {
+  getNewRefreshToken: async () => {
     if (!get().api) {
       return false;
     }
@@ -51,7 +51,8 @@ const useApiStore = create<ApiStore>((set, get) => ({
         // failed to get request, we cannot get a refresh token. logout and clear the store
         get().clearRefreshToken();
       }
-    } else { // cannot get a new refresh token.
+    } else {
+      // cannot get a new refresh token.
       get().clearRefreshToken();
     }
 

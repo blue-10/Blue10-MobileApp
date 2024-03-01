@@ -20,7 +20,7 @@ type LoginSiteProps = {
   refreshToken?: string;
   /** refresh token to use for access token, domain is used for which api you need to get it. */
   onRefreshToken: (refreshToken: string, domain: string) => void;
-}
+};
 
 // script that is used in the webview to send the document cookie to the app.
 const LOGIN_COOKIE_READER = `
@@ -33,10 +33,10 @@ type WebViewError = {
   errorName?: string;
   errorCode: number;
   errorDescription: string;
-}
+};
 
 const isUrlFromLogin = (url: string) => {
-  return (url.startsWith(authConstants.loginPage));
+  return url.startsWith(authConstants.loginPage);
 };
 
 const urlToApiUrl = (url: string) => {
@@ -55,17 +55,17 @@ const urlToApiUrl = (url: string) => {
 };
 
 // check if code is redirect (-9 = android, -1007 is iOS)
-const isTooManyRedirectError = (code: number) => (code === -9 || code === -1007);
+const isTooManyRedirectError = (code: number) => code === -9 || code === -1007;
 
 const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToken }) => {
   const webViewRef = useRef<WebView>(null);
-  const [webViewError, setWebViewError] = useState<WebViewError| undefined>();
+  const [webViewError, setWebViewError] = useState<WebViewError | undefined>();
   const [uri, setUri] = useState(mode === 'environment' ? authConstants.switchEnvironment : authConstants.loginPage);
   const { i18n } = useTranslation();
   const locale = lngConvert[i18n.language];
 
   const defaultHeaders = {
-    'Accept-Language': locale + ',' + i18n.language + ';q=0.5',
+    'Accept-Language': `${locale},${i18n.language};q=0.5`,
     'Blue10-Mobile-App-Version': Constants.expoConfig?.version || 'onbekend',
   };
 
@@ -75,33 +75,32 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
   // mobile app is currently implemented on the backend by Alain.
   // @see https://github.com/react-native-webview/react-native-webview/blob/master/docs/Guide.md under the header
   // Working with custom headers, sessions, and cookies
-  const headers = mode === 'environment'
-    ? {
-      ...defaultHeaders,
-      Cookie: makeCookies([
-        {
-          name: 'refresh_token',
-          value: refreshToken ?? '',
-        },
-      ]),
-    }
-    : defaultHeaders;
+  const envHeaders = {
+    ...defaultHeaders,
+    Cookie: makeCookies([
+      {
+        name: 'refresh_token',
+        value: refreshToken ?? '',
+      },
+    ]),
+  };
+  const headers = mode === 'environment' ? envHeaders : defaultHeaders;
   return (
     <>
       <WebView
         ref={webViewRef}
+        hideKeyboardAccessoryView
         incognito={true}
-        style={styles.webView}
+        injectedJavaScript={LOGIN_COOKIE_READER}
+        renderError={() => <></>}
+        renderLoading={() => <LoginSiteLoader />}
+        setBuiltInZoomControls={false}
         source={{
           headers,
           uri,
         }}
         startInLoadingState={true}
-        renderLoading={() => <LoginSiteLoader />}
-        injectedJavaScript={LOGIN_COOKIE_READER}
-        setBuiltInZoomControls={false}
-        onShouldStartLoadWithRequest={() => true}
-        renderError={() => (<></>)}
+        style={styles.webView}
         onError={(event) => {
           const { nativeEvent } = event;
           setWebViewError({
@@ -119,13 +118,13 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
             }
           }
         }}
-        hideKeyboardAccessoryView
+        onShouldStartLoadWithRequest={() => true}
       />
       {webViewError && (
         <LoginSiteError
-          errorName={webViewError.errorName}
           errorCode={webViewError.errorCode}
           errorDescription={webViewError.errorDescription}
+          errorName={webViewError.errorName}
           onRetry={() => {
             const isTooManyRedirects = isTooManyRedirectError(webViewError.errorCode);
             if (isTooManyRedirects) {

@@ -17,7 +17,7 @@ export type Invoice = {
   lastActionId: number;
   lastUpdate: string;
   currentUserId: string;
-}
+};
 
 export type InvoiceListItem = {
   id: string;
@@ -28,18 +28,18 @@ export type InvoiceListItem = {
   deadlineDate?: Date;
   currency: string;
   totalCount: number;
-}
+};
 
 export type InvoiceAttachment = {
   id: string;
   filename: string;
-}
+};
 
 export type InvoicePackingSlip = {
   id: string;
   relationName: string;
   relationCode: string;
-}
+};
 
 export type InvoiceLine = {
   id: string;
@@ -47,7 +47,7 @@ export type InvoiceLine = {
   description?: string;
   grossAmount: number;
   netAmount: number;
-}
+};
 
 export type InvoiceHistoryItem = {
   id: string;
@@ -59,7 +59,7 @@ export type InvoiceHistoryItem = {
   toUserAbbreviation?: string;
   userId: string;
   userAbbreviation?: string;
-}
+};
 
 export type InvoiceActions = {
   actions: number[];
@@ -67,4 +67,4 @@ export type InvoiceActions = {
   suggestedAction: number;
   suggestedUserId: string;
   suggestedRemark: string;
-}
+};

@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 
-import { InvoiceHistoryItem } from '../../entity/invoice/types';
+import type { InvoiceHistoryItem } from '../../entity/invoice/types';
 import { colors, dimensions } from '../../theme';
 import Box from '../Box/Box';
 import Text from '../Text/Text';
@@ -10,30 +10,30 @@ import Text from '../Text/Text';
 type Props = {
   item: InvoiceHistoryItem;
   isEven: boolean;
-}
+};
 
 const InvoiceTimelineItem: React.FC<Props> = ({ item, isEven }) => {
   const { t } = useTranslation();
 
   return (
     <Box
-      style={[styles.container, !isEven ? styles.even : styles.odd]}
       px={dimensions.list.singleItem.paddingHorizontal}
       py={dimensions.list.singleItem.paddingVertical}
+      style={[styles.container, !isEven ? styles.even : styles.odd]}
     >
       <Box style={styles.leftBox}>
         <Text variant="bodyRegular">{format(item.date, 'dd MM yy')}</Text>
-        <Text variant="caption1Regular" color={colors.labelLightSecondary}>
+        <Text color={colors.labelLightSecondary} variant="caption1Regular">
           {t('invoice_timeline_item.date')}
         </Text>
       </Box>
       <Box style={styles.rightBox}>
         <Text variant="bodyRegular">{item.actionText}</Text>
         <Box style={styles.subTitleContainer}>
-          <Text variant="caption1Regular" color={colors.labelLightSecondary} style={styles.actionLabel}>
+          <Text color={colors.labelLightSecondary} style={styles.actionLabel} variant="caption1Regular">
             {t('invoice_timeline_item.action')}
           </Text>
-          <Text variant="caption1Regular" color={colors.labelLightSecondary} align="right">
+          <Text align="right" color={colors.labelLightSecondary} variant="caption1Regular">
             {item.userAbbreviation} &gt; {item.toUserAbbreviation}
           </Text>
         </Box>

@@ -25,10 +25,7 @@ export const useUploadProcess = () => {
   const { t } = useTranslation();
   const uploadStore = useUploadStore();
 
-  const abortUploadProcess = useCallback(
-    () => uploadStore.setIsAbortRequested(true),
-    [uploadStore],
-  );
+  const abortUploadProcess = useCallback(() => uploadStore.setIsAbortRequested(true), [uploadStore]);
 
   const shouldAbort = useCallback(() => uploadStore.isAbortRequested, [uploadStore]);
 
@@ -67,12 +64,7 @@ export const useUploadProcess = () => {
                     deleteFilesInBackground(pdfDocuments);
                   })
                   .catch((reason) => {
-                    captureError(
-                      reason,
-                      'An error occurred during the upload process.',
-                      'warning',
-                      errorContext,
-                    );
+                    captureError(reason, 'An error occurred during the upload process.', 'warning', errorContext);
 
                     uploadStore.failFinalizingSession(t('scan.upload_finalize_warning'));
                     deleteFilesInBackground(pdfDocuments);

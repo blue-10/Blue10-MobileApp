@@ -1,8 +1,9 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import type React from 'react';
+import type { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
-import Text, { TextPropsWithStyle } from '../Text/Text';
+import type { TextPropsWithStyle } from '../Text/Text';
+import Text from '../Text/Text';
 
 export type TableListItem = {
   label: ReturnType<ReturnType<typeof useTranslation>['t']> | string;
@@ -13,17 +14,21 @@ type TableListProps = {
   items: TableListItem[];
   labelTextProps?: Partial<TextPropsWithStyle>;
   valueTextProps?: Partial<TextPropsWithStyle>;
-}
+};
 
 export const TableList: React.FC<TableListProps> = ({ items, labelTextProps, valueTextProps }) => (
   <View style={styles.tableListContainer}>
     {items.map((item) => (
-      <View style={styles.tableListItem} key={`table_list_item_${item.label}`}>
+      <View key={`table_list_item_${item.label}`} style={styles.tableListItem}>
         <View style={styles.tableListItemLabel}>
-          <Text variant="bodyRegular" {...labelTextProps}>{item.label}</Text>
+          <Text variant="bodyRegular" {...labelTextProps}>
+            {item.label}
+          </Text>
         </View>
         <View style={styles.tableListItemValue}>
-          <Text variant="bodyRegular" {...valueTextProps}>{item.value}</Text>
+          <Text variant="bodyRegular" {...valueTextProps}>
+            {item.value}
+          </Text>
         </View>
       </View>
     ))}

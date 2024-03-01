@@ -1,4 +1,4 @@
-import { TextProps } from 'react-native';
+import type { TextProps } from 'react-native';
 
 import { colors } from '../../theme';
 import LoaderWrapper from '../LoaderWrapper/LoaderWrapper';
@@ -18,47 +18,46 @@ type Props = {
   valueEllipsizeMode?: TextProps['ellipsizeMode'];
   // eslint-disable-next-line react/boolean-prop-naming
   valueAdjustsFontSizeToFit?: boolean;
-}
+};
 
-export const InvoiceLabelValue: React.FC<Props> = (
-  {
-    value,
-    isValueLoading = false,
-    valueLoadingWidth = 80,
-    valueNumberOfLines,
-    valueEllipsizeMode,
-    valueAdjustsFontSizeToFit,
+export const InvoiceLabelValue: React.FC<Props> = ({
+  value,
+  isValueLoading = false,
+  valueLoadingWidth = 80,
+  valueNumberOfLines,
+  valueEllipsizeMode,
+  valueAdjustsFontSizeToFit,
 
-    label,
-    isLabelLoading = false,
-    labelLoadingWidth = 80,
-    labelNumberOfLines,
-    labelEllipsizeMode,
-  },
-) => {
+  label,
+  isLabelLoading = false,
+  labelLoadingWidth = 80,
+  labelNumberOfLines,
+  labelEllipsizeMode,
+}) => {
   const tableColor = colors.labelLightSecondary;
   return (
     <>
-      <LoaderWrapper isLoading={isValueLoading} heightOfTextStyle="bodyRegular" width={valueLoadingWidth}>
+      <LoaderWrapper heightOfTextStyle="bodyRegular" isLoading={isValueLoading} width={valueLoadingWidth}>
         <Text
-          variant="bodyRegular"
+          adjustsFontSizeToFit={valueAdjustsFontSizeToFit}
           color={tableColor}
           ellipsizeMode={valueEllipsizeMode}
           numberOfLines={valueNumberOfLines}
-          adjustsFontSizeToFit={valueAdjustsFontSizeToFit}
+          variant="bodyRegular"
         >
           {value}
         </Text>
       </LoaderWrapper>
-      <LoaderWrapper isLoading={isLabelLoading} heightOfTextStyle="caption1Regular" width={labelLoadingWidth}>
+      <LoaderWrapper heightOfTextStyle="caption1Regular" isLoading={isLabelLoading} width={labelLoadingWidth}>
         <Text
-          variant="caption1Regular"
           color={tableColor}
           ellipsizeMode={labelEllipsizeMode}
           numberOfLines={labelNumberOfLines}
+          variant="caption1Regular"
         >
           {label}
         </Text>
       </LoaderWrapper>
-    </>);
+    </>
+  );
 };

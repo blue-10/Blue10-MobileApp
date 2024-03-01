@@ -5,18 +5,16 @@ import { lngConvert, queryKeys } from '../../constants';
 import { useQueryKeySuffix } from '../../utils/queryUtils';
 import { useApi } from '../useApi';
 
-export type SourceType = 'Custom' | 'PurchaseInvoices' | 'Shared'
+export type SourceType = 'Custom' | 'PurchaseInvoices' | 'Shared';
 
 export const useGetSource = (source: SourceType) => {
   const api = useApi();
   const { i18n } = useTranslation();
   const locale = lngConvert[i18n.language];
 
-  return useQuery(
-    useQueryKeySuffix([queryKeys.getSource, locale, source]),
-    () => api.translation.getSource(locale, source),
-    {
-      staleTime: 60 * 1000 * 10, // 10 minutes
-    },
-  );
+  return useQuery({
+    queryFn: () => api.translation.getSource(locale, source),
+    queryKey: useQueryKeySuffix([queryKeys.getSource, locale, source]),
+    staleTime: 60 * 1000 * 10, // 10 minutes
+  });
 };

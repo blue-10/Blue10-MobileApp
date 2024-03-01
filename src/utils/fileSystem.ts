@@ -11,12 +11,9 @@ export const deleteFilesInBackground = (fileUris: string[]): void => {
   fileUris.forEach((fileUri) => {
     deleteFile(fileUri)
       .then()
-      .catch((error) => captureError(
-        error,
-        'An error occurred while deleting a temporary PDF file',
-        'warning',
-        { fileUri },
-      ));
+      .catch((error) =>
+        captureError(error, 'An error occurred while deleting a temporary PDF file', 'warning', { fileUri }),
+      );
   });
 };
 

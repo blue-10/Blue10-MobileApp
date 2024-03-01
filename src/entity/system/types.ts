@@ -6,7 +6,7 @@ export type User = {
   isSelectable: boolean;
   isDeleted: boolean;
   isActive: boolean;
-}
+};
 
 export type Paging = {
   current: number;
@@ -14,13 +14,13 @@ export type Paging = {
   previous?: number;
   next?: number;
   totalResults: number;
-}
+};
 
 export type PagedResults<T> = {
   data: T;
   paging: Paging;
-}
+};
 
 export type PagedItem = {
   Count: number;
-}
+};

@@ -7,13 +7,11 @@ import { useApi } from '../useApi';
 
 export const useInvoiceDetails = (id: string) => {
   const api = useApi();
-  const query = useQuery(
-    useQueryKeySuffix([queryKeys.invoice, id]),
-    async () => normalizeInvoiceFromResponse(await api.invoice.get(id)),
-    {
-      enabled: !!id,
-    },
-  );
+  const query = useQuery({
+    enabled: !!id,
+    queryFn: async () => normalizeInvoiceFromResponse(await api.invoice.get(id)),
+    queryKey: useQueryKeySuffix([queryKeys.invoice, id]),
+  });
 
   return query;
 };

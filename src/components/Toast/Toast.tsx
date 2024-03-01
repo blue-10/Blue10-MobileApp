@@ -6,12 +6,12 @@ import { colors, dimensions } from '../../theme';
 import Box from '../Box/Box';
 import IconButton from '../IconButton/IconButton';
 import Text from '../Text/Text';
-import { ToastItem } from './types';
+import type { ToastItem } from './types';
 
 type Props = {
   item: ToastItem;
   onClose: () => void;
-}
+};
 
 export const Toast: React.FC<Props> = ({ item, onClose }) => {
   const timeoutRef = useRef<number | null>(null);
@@ -63,25 +63,15 @@ export const Toast: React.FC<Props> = ({ item, onClose }) => {
         ],
       }}
     >
-      <Box
-        style={[
-          styles.container,
-        ]}
-        px={dimensions.spacing.normal}
-        py={dimensions.spacing.narrow}
-      >
-        <Text
-          color="white"
-          variant="bodyRegular"
-          style={styles.text}
-        >
+      <Box px={dimensions.spacing.normal} py={dimensions.spacing.narrow} style={[styles.container]}>
+        <Text color="white" style={styles.text} variant="bodyRegular">
           {item.message}
         </Text>
         {!item.timeout && (
           <IconButton
+            color={colors.toast.buttonColor}
             icon={XMarkIcon}
             size={12}
-            color={colors.toast.buttonColor}
             onPress={() => {
               onClose();
             }}

@@ -50,7 +50,7 @@ jobs:
         run: npm ci
   linting:
     runs-on: ubuntu-latest
-    needs: [ npm_install ]
+    needs: [npm_install]
     steps:
       - uses: actions/checkout@v3
       - name: Cache node modules
@@ -63,7 +63,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.node_version }}
-      - name: NPM lint
+      - name: NPM Prettier
+        run: npm run prettier
+      - name: NPM ESLint
         run: npm run lint
       - name: Typescript checking
         run: npm run type-check

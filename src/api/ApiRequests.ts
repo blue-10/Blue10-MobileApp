@@ -1,7 +1,7 @@
 export type GetDashboardParams = {
   CompanyIds: string[];
   DocumentTypes?: number[];
-}
+};
 
 export type GetInvoiceOverviewParams = {
   CurrentPage: number;
@@ -25,7 +25,7 @@ export type GetInvoiceOverviewParams = {
   CostCenter?: string;
   CostUnit?: string;
   LinkedToDocument?: number;
-}
+};
 
 export type PostNewActionParams = {
   NextAction: number;
@@ -40,4 +40,4 @@ export type PostNewActionParams = {
   RouteId: string;
   RouteOption: number;
   LastInvoiceUpdate: string;
-}
+};

@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import type React from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Modal, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
@@ -49,52 +50,59 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
   ]);
 
   const tableListItems = [
-    { label: t('scan.upload_table_user'), value: currentUser?.Name || t('general.unknown') },
-    { label: t('scan.upload_table_customer'), value: currentCustomer.customerName || t('general.unknown') },
-    { label: t('scan.upload_table_company'), value: company?.DisplayName || t('general.unknown') },
-    { label: t('scan.upload_table_document_type'), value: t(`scan.document_type_${documentType?.key}`) },
+    {
+      label: t('scan.upload_table_user'),
+      value: currentUser?.Name || t('general.unknown'),
+    },
+    {
+      label: t('scan.upload_table_customer'),
+      value: currentCustomer.customerName || t('general.unknown'),
+    },
+    {
+      label: t('scan.upload_table_company'),
+      value: company?.DisplayName || t('general.unknown'),
+    },
+    {
+      label: t('scan.upload_table_document_type'),
+      value: t(`scan.document_type_${documentType?.key}`),
+    },
     { label: t('scan.upload_table_images'), value: `${images.length}` },
   ];
 
   return (
-    <Modal
-      animationType="slide"
-      transparent
-      visible={isOpen}
-      onRequestClose={closeDialog}
-    >
+    <Modal transparent animationType="slide" visible={isOpen} onRequestClose={closeDialog}>
       <ToastProvider>
         <SafeAreaView style={styles.modalContainer}>
           <View style={styles.headerContainer}>
             <View style={styles.header}>
-              <Text variant="bodyRegularBold" spaceAfter={10} color={colors.white}>
+              <Text color={colors.white} spaceAfter={10} variant="bodyRegularBold">
                 {t('scan.upload_title')}
               </Text>
             </View>
             <TableList
               items={tableListItems}
-              labelTextProps={{ color: colors.white, variant: 'bodyRegularBold' }}
+              labelTextProps={{
+                color: colors.white,
+                variant: 'bodyRegularBold',
+              }}
               valueTextProps={{ color: colors.white }}
             />
-            {(!uploadStore.isStarted && !uploadStore.isFinished) && (
+            {!uploadStore.isStarted && !uploadStore.isFinished && (
               <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  disabled={uploadStore.isStarted}
-                  onPress={closeDialog}
-                >
+                <TouchableOpacity disabled={uploadStore.isStarted} onPress={closeDialog}>
                   <SvgArrowLeftIcon
                     color={colors.scan.uploadIconColor}
                     fill={colors.scan.transparentBackground}
-                    width={48}
                     height={48}
+                    width={48}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity disabled={uploadStore.isStarted} onPress={startUploadProcess}>
                   <SvgUploadIcon
                     color={colors.scan.uploadIconColor}
                     fill={colors.scan.transparentBackground}
-                    width={48}
                     height={48}
+                    width={48}
                   />
                 </TouchableOpacity>
               </View>
@@ -107,7 +115,9 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
                       <UploadStepIcon state={uploadStore.preparingDocumentState} />
                     </View>
                     <View style={styles.stepListItemText}>
-                      <Text variant="bodyRegular" color={colors.white}>Document voorbereiden</Text>
+                      <Text color={colors.white} variant="bodyRegular">
+                        Document voorbereiden
+                      </Text>
                     </View>
                   </View>
                   <View style={styles.stepListItem}>
@@ -115,7 +125,9 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
                       <UploadStepIcon state={uploadStore.startingSessionState} />
                     </View>
                     <View style={styles.stepListItemText}>
-                      <Text variant="bodyRegular" color={colors.white}>Uploadsessie starten</Text>
+                      <Text color={colors.white} variant="bodyRegular">
+                        Uploadsessie starten
+                      </Text>
                     </View>
                   </View>
                   <View style={styles.stepListItem}>
@@ -123,7 +135,9 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
                       <UploadStepIcon state={uploadStore.documentUploadState} />
                     </View>
                     <View style={styles.stepListItemText}>
-                      <Text variant="bodyRegular" color={colors.white}>Document uploaden</Text>
+                      <Text color={colors.white} variant="bodyRegular">
+                        Document uploaden
+                      </Text>
                     </View>
                   </View>
                   <View style={styles.stepListItem}>
@@ -131,7 +145,9 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
                       <UploadStepIcon state={uploadStore.finishSessionState} />
                     </View>
                     <View style={styles.stepListItemText}>
-                      <Text variant="bodyRegular" color={colors.white}>Uploadsessie afronden</Text>
+                      <Text color={colors.white} variant="bodyRegular">
+                        Uploadsessie afronden
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -141,16 +157,16 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
                       disabled={shouldAbort() || uploadStore.finishSessionState === UploadStepState.BUSY}
                       onPress={abortUploadProcess}
                     >
-                      {shouldAbort()
-                        ? <ActivityIndicator color={colors.scan.uploadIconColor} size={48} />
-                        : (
-                          <SvgStopIcon
-                            color={colors.scan.uploadIconColor}
-                            fill={colors.scan.transparentBackground}
-                            width={48}
-                            height={48}
-                          />
-                        )}
+                      {shouldAbort() ? (
+                        <ActivityIndicator color={colors.scan.uploadIconColor} size={48} />
+                      ) : (
+                        <SvgStopIcon
+                          color={colors.scan.uploadIconColor}
+                          fill={colors.scan.transparentBackground}
+                          height={48}
+                          width={48}
+                        />
+                      )}
                     </TouchableOpacity>
                   </View>
                 )}
@@ -158,49 +174,47 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
             )}
             {(uploadStore.isAborted || uploadStore.isFinished) && (
               <>
-                {(uploadStore.errorMessage !== undefined) && (
+                {uploadStore.errorMessage !== undefined && (
                   <>
                     <View style={styles.errorMessageContainer}>
-                      <Text variant="bodyRegularBold" color={colors.white}>{uploadStore.errorMessage}</Text>
+                      <Text color={colors.white} variant="bodyRegularBold">
+                        {uploadStore.errorMessage}
+                      </Text>
                     </View>
                     <View style={styles.buttonContainer}>
-                      <TouchableOpacity
-                        disabled={uploadStore.isStarted}
-                        onPress={closeDialog}
-                      >
+                      <TouchableOpacity disabled={uploadStore.isStarted} onPress={closeDialog}>
                         <SvgArrowLeftIcon
                           color={colors.scan.uploadIconColor}
                           fill={colors.scan.transparentBackground}
-                          width={48}
                           height={48}
+                          width={48}
                         />
                       </TouchableOpacity>
                       <TouchableOpacity disabled={uploadStore.isStarted} onPress={startUploadProcess}>
                         <SvgRetryIcon
                           color={colors.scan.uploadIconColor}
                           fill={colors.scan.transparentBackground}
-                          width={48}
                           height={48}
+                          width={48}
                         />
                       </TouchableOpacity>
                     </View>
                   </>
                 )}
-                {(uploadStore.errorMessage === undefined) && (
+                {uploadStore.errorMessage === undefined && (
                   <>
                     <View style={styles.successMessageContainer}>
-                      <Text variant="bodyRegularBold" color={colors.white}>{t('scan.upload_success')}</Text>
+                      <Text color={colors.white} variant="bodyRegularBold">
+                        {t('scan.upload_success')}
+                      </Text>
                     </View>
                     <View style={styles.buttonContainer}>
-                      <TouchableOpacity
-                        disabled={uploadStore.isStarted}
-                        onPress={closeDialog}
-                      >
+                      <TouchableOpacity disabled={uploadStore.isStarted} onPress={closeDialog}>
                         <SvgArrowLeftIcon
                           color={colors.scan.uploadIconColor}
                           fill={colors.scan.transparentBackground}
-                          width={48}
                           height={48}
+                          width={48}
                         />
                       </TouchableOpacity>
                     </View>
@@ -245,8 +259,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 40,
   },
-  headerContainer: {
-  },
+  headerContainer: {},
   modalContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
     color: colors.white,

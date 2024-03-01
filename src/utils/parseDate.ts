@@ -1,7 +1,7 @@
 import { parse, parseJSON } from 'date-fns';
 
 // example like: 2022-10-20T06:23:51+00:00
-const PARSE_DATE_FORMAT = 'yyyy-MM-dd\'T\'HH:mm:ssxxx';
+const PARSE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssxxx";
 
 export const parseDate = (value: string) => {
   return parse(value, PARSE_DATE_FORMAT, new Date());

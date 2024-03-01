@@ -1,4 +1,5 @@
-import { Action, FlipType, manipulateAsync, SaveFormat } from 'expo-image-manipulator';
+import type { Action } from 'expo-image-manipulator';
+import { FlipType, manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 import { deleteFile, readFileAsArrayBuffer } from './fileSystem';
 
@@ -8,7 +9,7 @@ export const getExifOrientation = async (filePath: string): Promise<number> => {
   const rawData = await readFileAsArrayBuffer(filePath);
   const dataView = new DataView(rawData);
 
-  if (dataView.getUint16(0, false) === 0xFFD8) {
+  if (dataView.getUint16(0, false) === 0xffd8) {
     const length = dataView.byteLength;
     let offset = 2;
 
@@ -20,24 +21,24 @@ export const getExifOrientation = async (filePath: string): Promise<number> => {
       const marker = dataView.getUint16(offset, false);
       offset += 2;
 
-      if (marker === 0xFFE1) {
-        if (dataView.getUint32(offset += 2, false) !== 0x45786966) {
+      if (marker === 0xffe1) {
+        if (dataView.getUint32((offset += 2), false) !== 0x45786966) {
           break;
         }
 
-        const isLittleEndian = dataView.getUint16(offset += 6, false) === 0x4949;
+        const isLittleEndian = dataView.getUint16((offset += 6), false) === 0x4949;
         offset += dataView.getUint32(offset + 4, isLittleEndian);
 
         const tags = dataView.getUint16(offset, isLittleEndian);
         offset += 2;
 
         for (let i = 0; i < tags; i++) {
-          if (dataView.getUint16(offset + (i * 12), isLittleEndian) === 0x0112) {
-            orientation = dataView.getUint16(offset + (i * 12) + 8, isLittleEndian);
+          if (dataView.getUint16(offset + i * 12, isLittleEndian) === 0x0112) {
+            orientation = dataView.getUint16(offset + i * 12 + 8, isLittleEndian);
             break;
           }
         }
-      } else if ((marker & 0xFF00) !== 0xFF00) {
+      } else if ((marker & 0xff00) !== 0xff00) {
         break;
       } else {
         offset += dataView.getUint16(offset, false);
@@ -92,15 +93,11 @@ export const rotateImageIfNeeded = async (imagePath: string): Promise<string> =>
   if (manipulations.length === 0) {
     return imagePath;
   } else {
-    const rotated = await manipulateAsync(
-      imagePath,
-      manipulations,
-      {
-        base64: false,
-        compress: 1.0,
-        format: SaveFormat.JPEG,
-      },
-    );
+    const rotated = await manipulateAsync(imagePath, manipulations, {
+      base64: false,
+      compress: 1.0,
+      format: SaveFormat.JPEG,
+    });
 
     await deleteFile(imagePath);
     return rotated.uri;

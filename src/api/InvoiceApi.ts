@@ -1,6 +1,6 @@
-import { PagedResults } from '../entity/system/types';
-import { GetInvoiceOverviewParams, PostNewActionParams } from './ApiRequests';
-import {
+import type { PagedResults } from '../entity/system/types';
+import type { GetInvoiceOverviewParams, PostNewActionParams } from './ApiRequests';
+import type {
   GetActionsForInvoiceResponse,
   GetInvoiceAttachmentResponse,
   GetInvoiceDetailsResponse,
@@ -123,7 +123,7 @@ export class InvoiceApi extends ApiServiceRequests {
   /**
    * Get actions that you can do on a invoice.
    */
-  public async getActionsForInvoice (id: string): Promise<GetActionsForInvoiceResponse> {
+  public async getActionsForInvoice(id: string): Promise<GetActionsForInvoiceResponse> {
     const { data } = await this.getAxios().get<GetActionsForInvoiceResponse>(
       `/DocumentAction/GetActionsForInvoice/${id}?documentType=1`,
     );
@@ -134,7 +134,7 @@ export class InvoiceApi extends ApiServiceRequests {
   /**
    * Get actions that you can do on a invoice.
    */
-  public async getUsersForAction (invoiceId: string, actionId: number): Promise<GetActionsForInvoiceResponse> {
+  public async getUsersForAction(invoiceId: string, actionId: number): Promise<GetActionsForInvoiceResponse> {
     const { data } = await this.getAxios().get<GetActionsForInvoiceResponse>(
       `/DocumentAction/GetActionInformation/?actionId=${actionId}&documentId=${invoiceId}&documentType=1`,
     );

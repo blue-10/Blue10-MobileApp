@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { TranslationKeysType } from './types';
+import type { TranslationKeysType } from './types';
 
 export const en: TranslationKeysType = {
   dashboard: {
@@ -9,7 +9,8 @@ export const en: TranslationKeysType = {
     welcome_title: 'Hi {{name}}',
   },
   error_view: {
-    description: 'Something happened in the application that we could not recover. If this happens again please use the log off button below',
+    description:
+      'Something happened in the application that we could not recover. If this happens again please use the log off button below',
     logout_button: 'Log off',
     reload_button: 'Restart appliccation',
     title: 'Something went wrong.',
@@ -125,7 +126,8 @@ export const en: TranslationKeysType = {
     preview_upload_success_title: 'UPLOAD SUCCEEDED!',
     screen_title: 'Scan',
     upload_busy_toast: 'Please wait for the upload to finish...',
-    upload_finalize_warning: 'The document was uploaded successfully, but there was an error finalizing the upload session.',
+    upload_finalize_warning:
+      'The document was uploaded successfully, but there was an error finalizing the upload session.',
     upload_generate_document_error: 'An error occurred while converting the images into a PDF document.',
     upload_start_session_error: 'An error occurred while starting the upload session.',
     upload_success: 'Your scan was uploaded successfully.',

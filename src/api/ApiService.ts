@@ -1,11 +1,13 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosError, AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { addMinutes, isBefore } from 'date-fns';
 import Constants from 'expo-constants';
-import jwtDecode, { JwtPayload } from 'jwt-decode';
+import type { JwtPayload } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 import { inDevelopment } from '../utils/inDevelopment';
 import { captureError } from '../utils/sentry';
-import * as ApiResponse from './ApiResponses';
+import type * as ApiResponse from './ApiResponses';
 import { CompanyApi } from './CompanyApi';
 import { FileApi } from './FileApi';
 import { InvoiceApi } from './InvoiceApi';
@@ -54,17 +56,14 @@ export class ApiService {
    *  Get refresh token
    */
   public async refreshAccessToken(refreshToken: string): Promise<ApiResponse.RefreshAccessTokenResponse> {
-    const { data } = await axios.get<ApiResponse.RefreshAccessTokenResponse>(
-      '/AuthorizedUser/RefreshAccessToken',
-      {
-        baseURL: this.baseUrl,
-        headers: {
-          Authorization: `Bearer ${refreshToken}`,
-          'Blue10-Mobile-App-Version': Constants.expoConfig?.version || 'onbekend',
-          'Content-Type': 'application/json',
-        },
+    const { data } = await axios.get<ApiResponse.RefreshAccessTokenResponse>('/AuthorizedUser/RefreshAccessToken', {
+      baseURL: this.baseUrl,
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+        'Blue10-Mobile-App-Version': Constants.expoConfig?.version || 'onbekend',
+        'Content-Type': 'application/json',
       },
-    );
+    });
 
     this.refreshToken = refreshToken;
     this.token = data.Token;
@@ -82,17 +81,14 @@ export class ApiService {
    * @returns
    */
   public async requestNewRefreshToken(): Promise<ApiResponse.RefreshRefreshTokenResponse> {
-    const { data } = await axios.get<ApiResponse.RefreshAccessTokenResponse>(
-      '/AuthorizedUser/RefreshAccessToken',
-      {
-        baseURL: this.baseUrl,
-        headers: {
-          Authorization: `Bearer ${this.refreshToken}`,
-          'Blue10-Mobile-App-Version': Constants.expoConfig?.version || 'onbekend',
-          'Content-Type': 'application/json',
-        },
+    const { data } = await axios.get<ApiResponse.RefreshAccessTokenResponse>('/AuthorizedUser/RefreshAccessToken', {
+      baseURL: this.baseUrl,
+      headers: {
+        Authorization: `Bearer ${this.refreshToken}`,
+        'Blue10-Mobile-App-Version': Constants.expoConfig?.version || 'onbekend',
+        'Content-Type': 'application/json',
       },
-    );
+    });
 
     this.refreshToken = data.Token;
 
@@ -122,7 +118,8 @@ export class ApiService {
       const expDate = new Date(0);
       expDate.setUTCSeconds(jwt.exp);
       return expDate;
-    } else { // no exp set default to 5 minutes from now.
+    } else {
+      // no exp set default to 5 minutes from now.
       return addMinutes(new Date(), 5);
     }
   }
@@ -159,13 +156,14 @@ export class ApiService {
 
         return config;
       },
-      (error) => Promise.reject(error));
+      (error) => Promise.reject(error),
+    );
 
     // handling when token is not refresh on time
     this.axiosInstance.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
-        const originalRequest: InternalAxiosRequestConfig & { _retry?: boolean} | undefined = error.config;
+        const originalRequest: (InternalAxiosRequestConfig & { _retry?: boolean }) | undefined = error.config;
         if (originalRequest && error.response?.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
 
@@ -185,7 +183,8 @@ export class ApiService {
         });
 
         return Promise.reject(error);
-      });
+      },
+    );
 
     // request debugger
     if (inDevelopment()) {

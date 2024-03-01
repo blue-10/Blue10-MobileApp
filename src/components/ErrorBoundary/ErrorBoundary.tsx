@@ -1,11 +1,11 @@
+import * as Sentry from '@sentry/react-native';
 import React from 'react';
-import * as Sentry from 'sentry-expo';
 
 import ErrorView from './ErrorView';
 
 type ErrorBoundaryState = {
   hasError: boolean;
-}
+};
 
 class ErrorBoundary extends React.Component<any, ErrorBoundaryState> {
   constructor(props: any) {
@@ -18,7 +18,7 @@ class ErrorBoundary extends React.Component<any, ErrorBoundaryState> {
   }
 
   componentDidCatch(error: any, errorInfo: any) {
-    Sentry.Native.captureException(error, errorInfo);
+    Sentry.captureException(error, errorInfo);
   }
 
   render() {
@@ -26,11 +26,7 @@ class ErrorBoundary extends React.Component<any, ErrorBoundaryState> {
     // eslint-disable-next-line react/destructuring-assignment
     if (this.state.hasError) {
       // render error page
-      return (
-        <ErrorView
-          onLogout={() => this.setState({ hasError: false })}
-        />
-      );
+      return <ErrorView onLogout={() => this.setState({ hasError: false })} />;
     }
 
     return children;

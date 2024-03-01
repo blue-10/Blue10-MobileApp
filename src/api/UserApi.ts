@@ -1,4 +1,4 @@
-import { getAllUsersResponse, GetCurrentUserResponse } from './ApiResponses';
+import type { getAllUsersResponse, GetCurrentUserResponse } from './ApiResponses';
 import { ApiServiceRequests } from './ApiServiceRequests';
 
 export class UserApi extends ApiServiceRequests {

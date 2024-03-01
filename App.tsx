@@ -10,15 +10,17 @@ import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en'; // locale-data for en
 import '@formatjs/intl-numberformat/locale-data/nl'; // locale-data for nl
 // endregion
+import 'core-js/stable/atob';
 import './src/i18n/i18n.config';
 
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { defaultTheme, Provider } from '@react-native-material/core';
+import * as Sentry from '@sentry/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import addMinutes from 'date-fns/addMinutes';
-import React, { useEffect } from 'react';
+import { addMinutes } from 'date-fns/addMinutes';
+import type React from 'react';
+import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import * as Sentry from 'sentry-expo';
 
 import { REFRESH_GET_BEFORE_IN_MINUTES } from './src/api/ApiService';
 import { ToastProvider } from './src/components/Toast/ToastProvider';
@@ -53,7 +55,8 @@ export const App: React.FC = () => {
     if (hasRefreshToken && refreshTokenValidUntil !== undefined) {
       const refreshTokenTime = addMinutes(refreshTokenValidUntil, REFRESH_GET_BEFORE_IN_MINUTES + 2).getTime();
       const duration = refreshTokenTime - new Date().getTime();
-      if (duration < 0) { // refresh token is already expired! (should clear the store and show the login page)
+      if (duration < 0) {
+        // refresh token is already expired! (should clear the store and show the login page)
         getNewRefreshToken();
         return;
       }
@@ -77,9 +80,7 @@ export const App: React.FC = () => {
           }}
         >
           <ToastProvider>
-            <ActionSheetProvider>
-              {!hasRefreshToken ? (<LoginScreen />) : (<Screens />)}
-            </ActionSheetProvider>
+            <ActionSheetProvider>{!hasRefreshToken ? <LoginScreen /> : <Screens />}</ActionSheetProvider>
           </ToastProvider>
         </Provider>
       </SafeAreaProvider>

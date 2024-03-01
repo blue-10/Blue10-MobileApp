@@ -7,57 +7,63 @@ export const useActionIdToText = () => {
   const { data: customData } = useGetSource('Custom');
   const { data: sourceData } = useGetSource('Shared');
 
-  return useCallback((actionId: number) => {
-    const actionNameFree = (FreeAction[actionId] || '').toUpperCase();
-    const actionName = Action[actionId].toUpperCase();
+  return useCallback(
+    (actionId: number) => {
+      const actionNameFree = (FreeAction[actionId] || '').toUpperCase();
+      const actionName = Action[actionId].toUpperCase();
 
-    if ((customData) && (actionNameFree in customData)) {
-      return customData[actionNameFree];
-    }
+      if (customData && actionNameFree in customData) {
+        return customData[actionNameFree];
+      }
 
-    if ((customData) && (actionName in customData)) {
-      return customData[actionName];
-    }
+      if (customData && actionName in customData) {
+        return customData[actionName];
+      }
 
-    if ((sourceData) && (actionNameFree in sourceData)) {
-      return sourceData[actionNameFree];
-    }
+      if (sourceData && actionNameFree in sourceData) {
+        return sourceData[actionNameFree];
+      }
 
-    if ((sourceData) && (actionName in sourceData)) {
-      return sourceData[actionName];
-    }
+      if (sourceData && actionName in sourceData) {
+        return sourceData[actionName];
+      }
 
-    return [actionId, ': ', actionName].join('');
-  }, [customData, sourceData]);
+      return [actionId, ': ', actionName].join('');
+    },
+    [customData, sourceData],
+  );
 };
 
 export const useActionIdToCompleteText = () => {
   const { data: customData } = useGetSource('Custom');
   const { data: sourceData } = useGetSource('Shared');
 
-  return useCallback((actionId: number) => {
-    const actionNameCompleted = Action[actionId].toUpperCase() + '_COMPLETED';
-    const actionName = Action[actionId].toUpperCase();
-    if (customData) {
-      if (actionNameCompleted in customData) {
-        return customData[actionNameCompleted];
+  return useCallback(
+    (actionId: number) => {
+      const actionNameCompleted = `${Action[actionId].toUpperCase()}_COMPLETED`;
+      const actionName = Action[actionId].toUpperCase();
+      if (customData) {
+        if (actionNameCompleted in customData) {
+          return customData[actionNameCompleted];
+        }
+
+        if (actionName in customData) {
+          return customData[actionName];
+        }
       }
 
-      if (actionName in customData) {
-        return customData[actionName];
-      }
-    }
+      if (sourceData) {
+        if (actionNameCompleted in sourceData) {
+          return sourceData[actionNameCompleted];
+        }
 
-    if (sourceData) {
-      if (actionNameCompleted in sourceData) {
-        return sourceData[actionNameCompleted];
+        if (actionName in sourceData) {
+          return sourceData[actionName];
+        }
       }
 
-      if (actionName in sourceData) {
-        return sourceData[actionName];
-      }
-    }
-
-    return [actionId, ': ', actionName].join('');
-  }, [customData, sourceData]);
+      return [actionId, ': ', actionName].join('');
+    },
+    [customData, sourceData],
+  );
 };

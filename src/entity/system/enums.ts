@@ -23,7 +23,7 @@ export enum Status {
   Codeer_Vraag = 100,
   Nvt = 101,
   Vraag = 102,
-  Null = 9999
+  Null = 9999,
 }
 
 export enum Action {

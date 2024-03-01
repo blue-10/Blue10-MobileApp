@@ -1,4 +1,4 @@
-import { ExpoConfig } from '@expo/config-types';
+import type { ExpoConfig } from '@expo/config-types';
 // load .env
 import * as dotenv from 'dotenv';
 import { parse } from 'semver';
@@ -14,7 +14,7 @@ const getVersion = (): string => {
   if (process.env.RELEASE_TYPE === 'production') {
     return getPackageVersion();
   } else {
-    return getPackageVersion() + '-' + (process.env.EAS_BUILD_PROFILE ?? 'develop');
+    return `${getPackageVersion()}-${process.env.EAS_BUILD_PROFILE ?? 'develop'}`;
   }
 };
 
@@ -37,7 +37,7 @@ const getBuildNumber = (version: string): string => {
           break;
       }
     }
-    return `${semver.major}.${semver.minor}.${semver.patch}` + suffix;
+    return `${semver.major}.${semver.minor}.${semver.patch}${suffix}`;
   }
 
   return version;
@@ -72,9 +72,7 @@ const config: ExpoConfig = {
     package: 'builders.are.we.blue10',
     versionCode: getVersionCode(version),
   },
-  assetBundlePatterns: [
-    '**/*',
-  ],
+  assetBundlePatterns: ['**/*'],
   developmentClient: {
     silentLaunch: true,
   },
@@ -101,10 +99,22 @@ const config: ExpoConfig = {
   owner: 'blue10',
   plugins: [
     'expo-localization',
-    'sentry-expo',
-    ['react-native-document-scanner-plugin', {
-      cameraPermission: 'To scan documents, camera access is required.',
-    }],
+    // disabled for now, this uploads the execution symbols to sentry. this not needed for now.
+    // [
+    //   '@sentry/react-native/expo',
+    //   {
+    //     organization: 'sentry',
+    //     project: 'blue10-mobile-app',
+    //     url: 'https://sentry.wecreatesolutions.nl/',
+    //   },
+    // ],
+    'expo-secure-store',
+    [
+      'react-native-document-scanner-plugin',
+      {
+        cameraPermission: 'To scan documents, camera access is required.',
+      },
+    ],
   ],
   slug: 'blue10-app',
   splash: {

@@ -2,12 +2,9 @@ import { ApiServiceRequests } from './ApiServiceRequests';
 
 export class FileApi extends ApiServiceRequests {
   public async startUploadSession(companyId: string, documentType: number): Promise<string> {
-    const { data } = await this.getAxios().post<string>(
-      '/File/StartUploadSession',
-      null,
-      {
-        params: { companyId, documentType },
-      });
+    const { data } = await this.getAxios().post<string>('/File/StartUploadSession', null, {
+      params: { companyId, documentType },
+    });
 
     return data;
   }
@@ -17,17 +14,17 @@ export class FileApi extends ApiServiceRequests {
 
     const formData = new FormData();
     // @ts-ignore
-    formData.append(baseName, { name: baseName, type: 'application/pdf', uri: documentPath });
+    formData.append(baseName, {
+      name: baseName,
+      type: 'application/pdf',
+      uri: documentPath,
+    });
 
-    const { data } = await this.getAxios().post<string>(
-      `/File/UploadDocumentForSource/${sessionId}`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+    const { data } = await this.getAxios().post<string>(`/File/UploadDocumentForSource/${sessionId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
       },
-    );
+    });
 
     return data;
   }

@@ -1,6 +1,7 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type React from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
@@ -22,7 +23,7 @@ import Text from '../components/Text/Text';
 import { useGetCurrentCustomer } from '../hooks/queries/useGetCurrentCustomer';
 import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
 import { useUploadProcess } from '../hooks/useUploadProcess';
-import { RootStackParamList } from '../navigation/types';
+import type { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions } from '../theme/';
 import { rotateImageIfNeeded } from '../utils/imageUtils';
@@ -35,16 +36,8 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const currentCustomer = useGetCurrentCustomer();
   const { currentUser } = useGetCurrentUser();
-  const {
-    addImages,
-    company,
-    deleteImage,
-    documentType,
-    images,
-    reset,
-    selectedImageIndex,
-    selectImage,
-  } = useImageStore();
+  const { addImages, company, deleteImage, documentType, images, reset, selectedImageIndex, selectImage } =
+    useImageStore();
   const { startUploadProcess } = useUploadProcess();
   const [hasPendingImages, setHasPendingImages] = useState<boolean>(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
@@ -107,22 +100,21 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
     }
   }, [images, hasPendingImages, openCamera]);
 
-  const backgroundImage = useMemo(
-    () => {
-      if (images.length === 0 || selectedImageIndex === undefined) {
-        // <ImageBackground /> requires an image, set a 1x1 pixel transparent PNG
+  const backgroundImage = useMemo(() => {
+    if (images.length === 0 || selectedImageIndex === undefined) {
+      // <ImageBackground /> requires an image, set a 1x1 pixel transparent PNG
+      return {
         // eslint-disable-next-line max-len
-        return { uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' };
-      }
+        uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+      };
+    }
 
-      if (selectedImageIndex >= images.length) {
-        return { uri: images[images.length - 1] };
-      }
+    if (selectedImageIndex >= images.length) {
+      return { uri: images[images.length - 1] };
+    }
 
-      return { uri: images[selectedImageIndex] };
-    },
-    [images, selectedImageIndex],
-  );
+    return { uri: images[selectedImageIndex] };
+  }, [images, selectedImageIndex]);
 
   const toDashboard = useCallback(() => {
     reset();
@@ -145,129 +137,121 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
       t('scan.menu_cancel'),
     ];
 
-    showActionSheetWithOptions({
-      cancelButtonIndex: options.length - 1,
-      message: `${currentUser?.Name} - ${currentCustomer.customerName}\r\n` +
-        `${company?.DisplayName} - ${t(`scan.document_type_${documentType?.key}`)}`,
-      options,
-      title: t('scan.menu_title') || undefined,
-    }, (selectedIndex) => {
-      switch (selectedIndex) {
-        case 0:
-          navigation.navigate('ScanSelectCompanyScreen');
-          break;
+    showActionSheetWithOptions(
+      {
+        cancelButtonIndex: options.length - 1,
+        message:
+          `${currentUser?.Name} - ${currentCustomer.customerName}\r\n` +
+          `${company?.DisplayName} - ${t(`scan.document_type_${documentType?.key}`)}`,
+        options,
+        title: t('scan.menu_title') || undefined,
+      },
+      (selectedIndex) => {
+        switch (selectedIndex) {
+          case 0:
+            navigation.navigate('ScanSelectCompanyScreen');
+            break;
 
-        case 1:
-          navigation.navigate('ScanSelectDocumentTypeScreen');
-          break;
+          case 1:
+            navigation.navigate('ScanSelectDocumentTypeScreen');
+            break;
 
-        case 2:
-          toDashboard();
-          break;
-      }
-    });
-  }, [
-    company,
-    currentCustomer,
-    currentUser,
-    documentType,
-    showActionSheetWithOptions,
-    navigation,
-    t,
-    toDashboard,
-  ]);
+          case 2:
+            toDashboard();
+            break;
+        }
+      },
+    );
+  }, [company, currentCustomer, currentUser, documentType, showActionSheetWithOptions, navigation, t, toDashboard]);
 
   const startUpload = useCallback(() => {
     startUploadProcess();
     setIsUploadModalOpen(true);
   }, [setIsUploadModalOpen, startUploadProcess]);
 
-  const finishUpload = useCallback((uploadSuccessful: boolean) => {
-    setIsUploadModalOpen(false);
+  const finishUpload = useCallback(
+    (uploadSuccessful: boolean) => {
+      setIsUploadModalOpen(false);
 
-    if (uploadSuccessful) {
-      setHasPendingImages(true);
-      toDashboard();
-    }
-  }, [setHasPendingImages, setIsUploadModalOpen, toDashboard]);
+      if (uploadSuccessful) {
+        setHasPendingImages(true);
+        toDashboard();
+      }
+    },
+    [setHasPendingImages, setIsUploadModalOpen, toDashboard],
+  );
+
+  const trashIconColor =
+    images.length > 0 && selectedImageIndex !== undefined
+      ? colors.scan.deleteIconColor
+      : colors.scan.deleteIconDisabledColor;
+  const trashIconFill =
+    images.length > 0 && selectedImageIndex !== undefined
+      ? colors.scan.deleteIconBackgroundColor
+      : colors.scan.deleteIconDisabledBackgroundColor;
 
   return (
     <View style={styles.screenContainer}>
       <ScanUploadModalScreen isOpen={isUploadModalOpen} onClose={finishUpload} />
-      <ImageBackground source={backgroundImage} resizeMode="contain" style={styles.backgroundImage}>
+      <ImageBackground resizeMode="contain" source={backgroundImage} style={styles.backgroundImage}>
         <View style={styles.header}>
-          <Text variant="bodyRegularBold" spaceAfter={10} color={colors.white}>
+          <Text color={colors.white} spaceAfter={10} variant="bodyRegularBold">
             {t('scan.preview_title')}
           </Text>
         </View>
         <View style={styles.footerContainer}>
-          <ScrollView horizontal={true} contentContainerStyle={styles.previewsBar}>
+          <ScrollView contentContainerStyle={styles.previewsBar} horizontal={true}>
             {images.map((imagePath, index) => (
               <TouchableOpacity key={`preview_image_${imagePath}`} onPress={() => selectImage(index)}>
                 <Image
-                  source={{ uri: imagePath }}
                   resizeMode="cover"
+                  source={{ uri: imagePath }}
                   style={index === selectedImageIndex ? styles.previewImageSelected : styles.previewImage}
                 />
               </TouchableOpacity>
             ))}
-            {hasPendingImages && (
-              <ActivityIndicator style={styles.previewImageLoader} size={40} color={colors.white} />
-            )}
+            {hasPendingImages && <ActivityIndicator color={colors.white} size={40} style={styles.previewImageLoader} />}
           </ScrollView>
           <View style={styles.buttonBarContainer}>
             <View style={styles.buttonBar}>
-              <TouchableOpacity onPress={goBack} hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}>
+              <TouchableOpacity hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }} onPress={goBack}>
                 <SvgArrowLeftIcon
                   color={colors.scan.toggleEnabledColor}
                   fill={colors.scan.transparentBackground}
-                  width={32}
                   height={32}
+                  width={32}
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={openCamera} hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}>
+              <TouchableOpacity hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }} onPress={openCamera}>
                 <SvgPlusIcon
                   color={colors.scan.addIconColor}
                   fill={colors.scan.transparentBackground}
-                  width={32}
                   height={32}
                   hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}
+                  width={32}
                 />
               </TouchableOpacity>
               <TouchableOpacity disabled={!isUploadEnabled} onPress={startUpload}>
                 <SvgUploadIcon
                   color={isUploadEnabled ? colors.scan.uploadIconColor : colors.scan.uploadIconDisabledColor}
                   fill={colors.scan.transparentBackground}
-                  width={72}
                   height={72}
+                  width={72}
                 />
               </TouchableOpacity>
               <TouchableOpacity
                 disabled={images.length === 0 || selectedImageIndex === undefined}
-                onPress={deleteImage}
                 hitSlop={{ bottom: 7, left: 8, right: 7, top: 8 }}
+                onPress={deleteImage}
               >
-                <SvgTrashIcon
-                  color={(
-                    images.length > 0 && selectedImageIndex !== undefined
-                      ? colors.scan.deleteIconColor
-                      : colors.scan.deleteIconDisabledColor
-                  )}
-                  fill={(
-                    images.length > 0 && selectedImageIndex !== undefined
-                      ? colors.scan.deleteIconBackgroundColor
-                      : colors.scan.deleteIconDisabledBackgroundColor
-                  )}
-                  width={33}
-                  height={33}
-                />
+                <SvgTrashIcon color={trashIconColor} fill={trashIconFill} height={33} width={33} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={showActionSheet} hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}>
+              <TouchableOpacity hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }} onPress={showActionSheet}>
                 <SvgEllipsisIcon
                   color={colors.scan.toggleEnabledColor}
                   fill={colors.scan.transparentBackground}
-                  width={32}
                   height={32}
+                  width={32}
                 />
               </TouchableOpacity>
             </View>
