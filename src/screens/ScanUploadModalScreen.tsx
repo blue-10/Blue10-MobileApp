@@ -7,30 +7,34 @@ import SvgArrowLeftIcon from '../../assets/icons/arrow-round-left.svg';
 import SvgRetryIcon from '../../assets/icons/retry-icon.svg';
 import SvgStopIcon from '../../assets/icons/stop-icon.svg';
 import SvgUploadIcon from '../../assets/icons/upload-icon.svg';
+import type { TableListItem } from '../components/TableList/TableList';
 import { TableList } from '../components/TableList/TableList';
 import Text from '../components/Text/Text';
 import { ToastProvider } from '../components/Toast/ToastProvider';
 import { useAddToast } from '../components/Toast/useToast';
 import { UploadStepIcon } from '../components/UploadStepIcon/UploadStepIcon';
-import { useGetCurrentCustomer } from '../hooks/queries/useGetCurrentCustomer';
-import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
-import { useUploadProcess } from '../hooks/useUploadProcess';
-import { useImageStore } from '../store/ImageStore';
 import { UploadStepState, useUploadStore } from '../store/UploadStore';
 import { colors } from '../theme';
 
 type ScanUploadModalScreenProps = {
   isOpen: boolean;
+  shouldAbort: boolean;
+  tableListItems?: TableListItem[];
+  onUploadStart: () => void;
+  onUploadAbort: () => void;
   onClose: (uploadSuccessful: boolean) => void;
 };
 
-export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ isOpen, onClose }) => {
+export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({
+  isOpen,
+  shouldAbort,
+  tableListItems = [],
+  onClose,
+  onUploadStart,
+  onUploadAbort,
+}) => {
   const addToast = useAddToast();
-  const currentCustomer = useGetCurrentCustomer();
-  const { currentUser } = useGetCurrentUser();
-  const { company, documentType, images } = useImageStore();
   const { t } = useTranslation();
-  const { abortUploadProcess, shouldAbort, startUploadProcess } = useUploadProcess();
   const uploadStore = useUploadStore();
 
   const closeDialog = useCallback(() => {
@@ -48,26 +52,6 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
     uploadStore.isFinished,
     uploadStore.isStarted,
   ]);
-
-  const tableListItems = [
-    {
-      label: t('scan.upload_table_user'),
-      value: currentUser?.Name || t('general.unknown'),
-    },
-    {
-      label: t('scan.upload_table_customer'),
-      value: currentCustomer.customerName || t('general.unknown'),
-    },
-    {
-      label: t('scan.upload_table_company'),
-      value: company?.DisplayName || t('general.unknown'),
-    },
-    {
-      label: t('scan.upload_table_document_type'),
-      value: t(`scan.document_type_${documentType?.key}`),
-    },
-    { label: t('scan.upload_table_images'), value: `${images.length}` },
-  ];
 
   return (
     <Modal transparent animationType="slide" visible={isOpen} onRequestClose={closeDialog}>
@@ -97,7 +81,7 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
                     width={48}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity disabled={uploadStore.isStarted} onPress={startUploadProcess}>
+                <TouchableOpacity disabled={uploadStore.isStarted} onPress={onUploadStart}>
                   <SvgUploadIcon
                     color={colors.scan.uploadIconColor}
                     fill={colors.scan.transparentBackground}
@@ -154,10 +138,10 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
                 {!uploadStore.isFinished && (
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity
-                      disabled={shouldAbort() || uploadStore.finishSessionState === UploadStepState.BUSY}
-                      onPress={abortUploadProcess}
+                      disabled={shouldAbort || uploadStore.finishSessionState === UploadStepState.BUSY}
+                      onPress={onUploadAbort}
                     >
-                      {shouldAbort() ? (
+                      {shouldAbort ? (
                         <ActivityIndicator color={colors.scan.uploadIconColor} size={48} />
                       ) : (
                         <SvgStopIcon
@@ -190,7 +174,7 @@ export const ScanUploadModalScreen: React.FC<ScanUploadModalScreenProps> = ({ is
                           width={48}
                         />
                       </TouchableOpacity>
-                      <TouchableOpacity disabled={uploadStore.isStarted} onPress={startUploadProcess}>
+                      <TouchableOpacity disabled={uploadStore.isStarted} onPress={onUploadStart}>
                         <SvgRetryIcon
                           color={colors.scan.uploadIconColor}
                           fill={colors.scan.transparentBackground}

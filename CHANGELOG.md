@@ -2,6 +2,7 @@
 * \#108 Packages Upgrade van APP
 * \#106 Comprimeren van afbeeldingen
 * \#103 Wijziging aan API voor ophalen facturen
+* \#70 Knop toevoegen 'voeg scan toe' aan Factuur originelen bijlage
 
 # v1.5.14
 * \#100 Update back to v1.5.12 for next version functionality

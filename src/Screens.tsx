@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import type { RootStackParamList } from './navigation/types';
 import { DashboardScreen } from './screens/DashboardScreen';
+import { InvoiceAttachmentAddScreen } from './screens/InvoiceAttachmentsAddScreen';
 import { InvoiceBookingsScreen } from './screens/InvoiceBookingsScreen';
 import { InvoiceDetailsScreen } from './screens/InvoiceDetailsScreen';
 import { InvoiceOriginalsScreen } from './screens/InvoiceOriginalsScreen';
@@ -88,6 +89,14 @@ const Screens: React.FC = () => {
             name="InvoiceOriginalsScreen"
             options={{
               title: t('invoice_originals.title'),
+            }}
+          />
+          <Stack.Screen
+            component={InvoiceAttachmentAddScreen}
+            name="InvoiceAttachmentAddScreen"
+            options={{
+              headerShown: false,
+              title: t('invoice_attachnment_add.title'),
             }}
           />
           <Stack.Screen

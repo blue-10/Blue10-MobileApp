@@ -37,6 +37,12 @@ export const en: TranslationKeysType = {
   invoice_action_select: {
     title: 'Actions',
   },
+  invoice_attachments: {
+    add_button: 'Add scan',
+  },
+  invoice_attachnment_add: {
+    title: 'Add scan',
+  },
   invoice_booking_item: {
     bruto: 'Gross amount:',
     netto: 'Net amount:',
@@ -144,6 +150,7 @@ export const en: TranslationKeysType = {
     language_subtitle: 'Language',
     logout: 'Logout',
     screen_title: 'Settings',
+    version: 'Version',
   },
   switch_environments: {
     screen_title: 'Change environment',

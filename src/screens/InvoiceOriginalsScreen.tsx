@@ -14,9 +14,9 @@ import { InvoiceAttachmentsScreen } from './InvoiceAttachmentsScreen';
 import { InvoicePackingSlipsScreen } from './InvoicePackingSlipsScreen';
 import { InvoicePreviewScreen } from './InvoicePreviewScreen';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'InvoiceOriginalsScreen'>;
+export type InvoiceOriginalsScreenProps = NativeStackScreenProps<RootStackParamList, 'InvoiceOriginalsScreen'>;
 
-export const InvoiceOriginalsScreen: React.FC<Props> = ({ route, navigation }) => {
+export const InvoiceOriginalsScreen: React.FC<InvoiceOriginalsScreenProps> = ({ route, navigation }) => {
   const queryClient = useQueryClient();
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const { t } = useTranslation();
@@ -60,7 +60,7 @@ export const InvoiceOriginalsScreen: React.FC<Props> = ({ route, navigation }) =
         />
       </Box>
       {selectedTab === 0 && <InvoicePreviewScreen id={id} />}
-      {selectedTab === 1 && <InvoiceAttachmentsScreen id={id} />}
+      {selectedTab === 1 && <InvoiceAttachmentsScreen id={id} navigation={navigation} />}
       {selectedTab === 2 && <InvoicePackingSlipsScreen id={id} />}
     </View>
   );

@@ -37,6 +37,12 @@ export const nl: TranslationKeysType = {
   invoice_action_select: {
     title: 'Acties',
   },
+  invoice_attachments: {
+    add_button: 'Voeg scan toe',
+  },
+  invoice_attachnment_add: {
+    title: 'Scan toevoegen',
+  },
   invoice_booking_item: {
     bruto: 'Bruto:',
     netto: 'Netto:',
@@ -145,6 +151,7 @@ export const nl: TranslationKeysType = {
     language_subtitle: 'Taal',
     logout: 'Uitloggen',
     screen_title: 'Voorkeuren',
+    version: 'Versie',
   },
   switch_environments: {
     screen_title: 'Wissel omgeving',
