@@ -1,7 +1,15 @@
 import type { Action } from 'expo-image-manipulator';
 import { FlipType, manipulateAsync, SaveFormat } from 'expo-image-manipulator';
+import { Image } from 'react-native';
 
 import { deleteFile, readFileAsArrayBuffer } from './fileSystem';
+
+const MAX_IMAGE_SIZE = 1521;
+
+type ImageSizeType = {
+  width: number;
+  height: number;
+};
 
 export const getExifOrientation = async (filePath: string): Promise<number> => {
   let orientation = 0;
@@ -49,9 +57,33 @@ export const getExifOrientation = async (filePath: string): Promise<number> => {
   return orientation;
 };
 
-export const rotateImageIfNeeded = async (imagePath: string): Promise<string> => {
+export const getImageSize = (filePath: string): Promise<ImageSizeType> => {
+  return new Promise<ImageSizeType>((resolve, reject) => {
+    Image.getSize(
+      filePath,
+      (width, height) => resolve({ height, width }),
+      (error) => reject(error),
+    );
+  });
+};
+
+export const maniplateImageIfNeeded = async (imagePath: string): Promise<string> => {
   const manipulations: Action[] = [];
 
+  // resize
+  const { width, height } = await getImageSize(imagePath);
+  if (width > MAX_IMAGE_SIZE || height > MAX_IMAGE_SIZE) {
+    const ratio = Math.min(MAX_IMAGE_SIZE / width, MAX_IMAGE_SIZE / height);
+
+    manipulations.push({
+      resize: {
+        height: height * ratio,
+        width: width * ratio,
+      },
+    });
+  }
+
+  // rotation
   const exifOrientation = await getExifOrientation(imagePath);
 
   switch (exifOrientation) {
@@ -95,7 +127,7 @@ export const rotateImageIfNeeded = async (imagePath: string): Promise<string> =>
   } else {
     const rotated = await manipulateAsync(imagePath, manipulations, {
       base64: false,
-      compress: 1.0,
+      compress: 0.9,
       format: SaveFormat.JPEG,
     });
 

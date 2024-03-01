@@ -26,7 +26,7 @@ import { useUploadProcess } from '../hooks/useUploadProcess';
 import type { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions } from '../theme/';
-import { rotateImageIfNeeded } from '../utils/imageUtils';
+import { maniplateImageIfNeeded } from '../utils/imageUtils';
 import { captureError } from '../utils/sentry';
 import { ScanUploadModalScreen } from './ScanUploadModalScreen';
 
@@ -56,7 +56,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
   const openCamera = useCallback(async () => {
     try {
       const result = await DocumentScanner.scanDocument({
-        croppedImageQuality: 100,
+        croppedImageQuality: 90,
         letUserAdjustCrop: true,
         responseType: ResponseType.ImageFilePath,
       });
@@ -69,7 +69,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
         const imagePaths = result.scannedImages || [];
 
         for (let idx = 0; idx < imagePaths.length; idx++) {
-          rotatedImagePaths.push(await rotateImageIfNeeded(imagePaths[idx]));
+          rotatedImagePaths.push(await maniplateImageIfNeeded(imagePaths[idx]));
         }
       }
 
