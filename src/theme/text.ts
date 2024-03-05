@@ -7,6 +7,7 @@ export type TextStyleType =
   | 'buttonMedium'
   | 'buttonSmall'
   | 'caption1Regular'
+  | 'inputText'
   | 'largeTitle'
   | 'title';
 
@@ -44,6 +45,11 @@ export const text: TextStyles = {
     fontSize: 12,
     fontWeight: '400',
     lineHeight: 16,
+  },
+  inputText: {
+    fontSize: 17,
+    fontWeight: '400',
+    lineHeight: 22,
   },
   largeTitle: {
     fontSize: 34,

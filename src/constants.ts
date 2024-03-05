@@ -29,9 +29,21 @@ export const enum queryKeys {
   companies = 'companies',
   getSource = 'getSource',
   newAction = 'newAction',
+  overviewStatusFilters = 'overviewStatusFilters',
 }
 
 export const authConstants = {
   loginPage: Constants.expoConfig?.extra?.authLoginPage,
   switchEnvironment: `${Constants.expoConfig?.extra?.authLoginPage}ChangeCustomer`,
 };
+
+export const enum searchKeys {
+  query = 'Query',
+  status = 'Status',
+  company = 'Company',
+  user = 'User',
+  invoiceType = 'InvoiceType',
+  ledgerEntryNumber = 'LedgerEntryNumber',
+  documentNumber = 'DocumentNumber',
+  relation = 'relation',
+}

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import type { PressableProps } from 'react-native';
 import { Pressable } from 'react-native';
 import type { SvgProps } from 'react-native-svg';
 
@@ -9,6 +10,8 @@ type Props = {
   highlightColor?: string;
   icon: React.FC<SvgProps>;
   size?: number;
+  style?: PressableProps['style'];
+  svgProps?: SvgProps;
   onPress?: () => void;
 };
 
@@ -17,17 +20,20 @@ const IconButton: React.FC<Props> = ({
   highlightColor = colors.button.primary.background,
   icon,
   size = 16,
+  style,
+  svgProps,
   onPress,
 }) => {
   const [currentColor, setCurrentColor] = useState(color);
   const iconElement = useMemo(
     () =>
       React.createElement(icon, {
+        ...svgProps,
         color: currentColor,
         height: size,
         width: size,
       }),
-    [size, icon, currentColor],
+    [icon, currentColor, size, svgProps],
   );
 
   return (
@@ -36,6 +42,7 @@ const IconButton: React.FC<Props> = ({
         borderless: true,
         color: highlightColor,
       }}
+      style={style}
       onPress={onPress}
       onPressIn={() => setCurrentColor(highlightColor)}
       onPressOut={() => setCurrentColor(color)}

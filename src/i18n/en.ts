@@ -21,6 +21,7 @@ export const en: TranslationKeysType = {
     title: 'Something went wrong!',
   },
   general: {
+    button_cancel: 'Cancel',
     button_ok: 'OK',
     error: 'Error',
     unknown: 'Unknown',
@@ -148,6 +149,23 @@ export const en: TranslationKeysType = {
   },
   search: {
     screen_title: 'Search',
+  },
+  search_filter: {
+    button_search: 'Search',
+    company_label: 'Company',
+    company_placeholder: 'All companies',
+    document_number_label: 'Document number',
+    invoice_type_credit: 'Credit',
+    invoice_type_debit: 'Debit',
+    invoice_type_label: 'Kind',
+    ledger_entry_number_label: 'Bookingnumber',
+    relation_label: 'Supplier',
+    search_placeholder: 'Search...',
+    status_label: 'Overview',
+    status_placeholder: 'All',
+    title: 'Find a invoice',
+    user_label: 'User',
+    user_placeholder: 'No user selected',
   },
   settings: {
     language_subtitle: 'Language',

@@ -153,4 +153,10 @@ export class InvoiceApi extends ApiServiceRequests {
     // error Required_Next_User_Id
     return data;
   }
+
+  public async getOverviewStatusFilters(): Promise<number[]> {
+    const { data } = await this.getAxios().get<number[]>('/Document/GetOverviewStatusFilters/1');
+
+    return data;
+  }
 }

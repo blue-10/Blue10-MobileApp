@@ -2,6 +2,7 @@ export type TranslationKeysType = {
   general: {
     error: string;
     button_ok: string;
+    button_cancel: string;
     unknown: string;
   };
   login: {
@@ -158,5 +159,22 @@ export type TranslationKeysType = {
   };
   search: {
     screen_title: string;
+  };
+  search_filter: {
+    title: string;
+    search_placeholder: string;
+    status_label: string;
+    status_placeholder: string;
+    company_label: string;
+    company_placeholder: string;
+    user_label: string;
+    user_placeholder: string;
+    invoice_type_label: string;
+    invoice_type_debit: string;
+    invoice_type_credit: string;
+    ledger_entry_number_label: string;
+    relation_label: string;
+    document_number_label: string;
+    button_search: string;
   };
 };

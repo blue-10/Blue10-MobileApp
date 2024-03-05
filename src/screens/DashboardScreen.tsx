@@ -127,6 +127,7 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
             color={colors.dashboard.search.background}
             isLoading={false}
             title={t('search.screen_title')}
+            onPress={() => navigation.navigate('SearchFiltersScreen')}
           >
             <SvgMagnifyingGlass color={colors.white} height={64} style={{ alignSelf: 'center' }} width={64} />
           </DashboardItem>

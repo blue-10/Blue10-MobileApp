@@ -21,6 +21,7 @@ export const nl: TranslationKeysType = {
     title: 'Er ging iets niet goed!',
   },
   general: {
+    button_cancel: 'Cancel',
     button_ok: 'OK',
     error: 'Fout',
     unknown: 'Onbekend',
@@ -149,6 +150,23 @@ export const nl: TranslationKeysType = {
   },
   search: {
     screen_title: 'Zoeken',
+  },
+  search_filter: {
+    button_search: 'Zoeken',
+    company_label: 'Bedrijf',
+    company_placeholder: 'Alle bedrijven',
+    document_number_label: 'Factuurnummer',
+    invoice_type_credit: 'Credit',
+    invoice_type_debit: 'Debet',
+    invoice_type_label: 'Soort',
+    ledger_entry_number_label: 'Bookstuknummer',
+    relation_label: 'Leverancier',
+    search_placeholder: 'Vrij zoeken',
+    status_label: 'Overzicht',
+    status_placeholder: 'Alles',
+    title: 'Vind een factuur',
+    user_label: 'Ligt bij',
+    user_placeholder: '(Leeg)',
   },
   settings: {
     language_subtitle: 'Taal',
