@@ -18,6 +18,7 @@ import { ScanPreviewScreen } from './screens/ScanPreviewScreen';
 import { ScanSelectCompanyScreen } from './screens/ScanSelectCompanyScreen';
 import { ScanSelectDocumentTypeScreen } from './screens/ScanSelectDocumentTypeScreen';
 import { SearchFiltersScreen } from './screens/SearchFiltersScreen';
+import { SearchResultsScreen } from './screens/SearchResultsScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { SwitchEnvironmentScreen } from './screens/SwitchEnvironmentScreen';
 import { colors } from './theme';
@@ -142,6 +143,13 @@ const Screens: React.FC = () => {
             name="SearchFiltersScreen"
             options={{
               title: t('search.screen_title'),
+            }}
+          />
+          <Stack.Screen
+            component={SearchResultsScreen}
+            name="SearchResultsScreen"
+            options={{
+              title: t('search.results_title'),
             }}
           />
         </Stack.Navigator>

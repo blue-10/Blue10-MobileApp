@@ -2,6 +2,9 @@
 import type { TranslationKeysType } from './types';
 
 export const en: TranslationKeysType = {
+  company_select: {
+    modal_title: 'Select a company',
+  },
   dashboard: {
     log_off: 'Log off',
     title: 'Dashboard',
@@ -24,6 +27,7 @@ export const en: TranslationKeysType = {
     button_cancel: 'Cancel',
     button_ok: 'OK',
     error: 'Error',
+    search_placeholder: 'Zoeken...',
     unknown: 'Unknown',
   },
   invoice_action_form: {
@@ -116,6 +120,9 @@ export const en: TranslationKeysType = {
     message: 'Are you sure want to logout?',
     title: 'Logout',
   },
+  overview_status_select: {
+    modal_title: 'Select a option',
+  },
   scan: {
     company_title: 'Select company',
     document_type_packing_slip: 'Packing slip',
@@ -148,6 +155,7 @@ export const en: TranslationKeysType = {
     upload_user_aborted: 'Upload process aborted.',
   },
   search: {
+    results_title: 'Results',
     screen_title: 'Search',
   },
   search_filter: {
@@ -181,5 +189,8 @@ export const en: TranslationKeysType = {
     count_results_header_other: '{{count}} results',
     count_results_header_zero: '0 results',
     screen_title: 'To-do',
+  },
+  user_select: {
+    modal_title: 'Select a user',
   },
 };

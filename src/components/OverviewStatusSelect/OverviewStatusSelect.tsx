@@ -40,5 +40,7 @@ export const OverviewStatusSelect: React.FC<Props> = (props) => {
     }));
   }, [query.data, t]);
 
-  return <Select isLoading={query.isLoading} items={items} {...props} />;
+  return (
+    <Select isLoading={query.isLoading} items={items} modalTitle={t('overview_status_select.modal_title')} {...props} />
+  );
 };

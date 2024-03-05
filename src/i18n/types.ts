@@ -4,6 +4,7 @@ export type TranslationKeysType = {
     button_ok: string;
     button_cancel: string;
     unknown: string;
+    search_placeholder: string;
   };
   login: {
     welcome_title: string;
@@ -159,6 +160,7 @@ export type TranslationKeysType = {
   };
   search: {
     screen_title: string;
+    results_title: string;
   };
   search_filter: {
     title: string;
@@ -176,5 +178,14 @@ export type TranslationKeysType = {
     relation_label: string;
     document_number_label: string;
     button_search: string;
+  };
+  user_select: {
+    modal_title: string;
+  };
+  company_select: {
+    modal_title: string;
+  };
+  overview_status_select: {
+    modal_title: string;
   };
 };

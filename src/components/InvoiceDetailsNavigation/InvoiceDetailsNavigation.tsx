@@ -1,11 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet } from 'react-native';
 
+import { useInvoiceSearchQuery } from '@/hooks/queries/useInvoiceSearchQuery';
+import { useSearchFilterStore } from '@/store/SearchFilterStore';
+
 import ArrowLeftIcon from '../../../assets/icons/arrow-round-left.svg';
 import ArrowRightIcon from '../../../assets/icons/arrow-round-right.svg';
-import { useInvoiceToDoQuery } from '../../hooks/queries/useInvoiceToDoQuery';
 import { colors } from '../../theme';
 import Box from '../Box/Box';
 import Button from '../Button/Button';
@@ -21,12 +23,13 @@ export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, is
   const isIOS = Platform.OS === 'ios';
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const lastFilter = useSearchFilterStore((store) => store.lastFilter);
 
   const {
     all: allInvoices,
     getIndexById,
     client: { hasNextPage, fetchNextPage },
-  } = useInvoiceToDoQuery();
+  } = useInvoiceSearchQuery({ doNotSetLastFilter: true, filters: lastFilter ?? new Map() });
 
   const indexInInvoice = getIndexById(currentInvoiceId);
 
@@ -40,16 +43,23 @@ export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, is
     }
   }, [hasNextPage, indexInInvoice, allInvoices.length, fetchNextPage]);
 
+  const navigateToInvoice = useCallback(
+    (toInvoiceId: string) => {
+      // @ts-ignore replace does exists, but not in types.
+      navigation.replace('InvoiceDetailsScreen', {
+        disabledAnimation: true,
+        id: toInvoiceId,
+      });
+    },
+    [navigation],
+  );
+
   const onNextPress = () => {
     if (!(indexInInvoice < allInvoices.length - 1)) {
       return;
     }
     const nextInvoice = allInvoices[indexInInvoice + 1];
-    // @ts-ignore
-    navigation.replace('InvoiceDetailsScreen', {
-      disabledAnimation: true,
-      id: nextInvoice.id,
-    });
+    navigateToInvoice(nextInvoice.id);
   };
 
   const onPreviousPress = () => {
@@ -58,11 +68,7 @@ export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, is
     }
 
     const prevInvoice = allInvoices[indexInInvoice - 1];
-    // @ts-ignore
-    navigation.replace('InvoiceDetailsScreen', {
-      disabledAnimation: true,
-      id: prevInvoice.id,
-    });
+    navigateToInvoice(prevInvoice.id);
   };
 
   return (

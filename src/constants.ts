@@ -24,7 +24,8 @@ export const enum queryKeys {
   invoiceBookings = 'invoiceBookings',
   invoiceImageCount = 'invoiceImageCount',
   invoiceImages = 'invoiceImages',
-  invoiceActions = 'invoicActions',
+  invoiceActions = 'invoiceActions',
+  invoiceResults = 'invoiceResults',
   currentUser = 'currentUsers',
   companies = 'companies',
   getSource = 'getSource',
@@ -38,12 +39,14 @@ export const authConstants = {
 };
 
 export const enum searchKeys {
-  query = 'Query',
+  description = 'Description',
   status = 'Status',
   company = 'Company',
-  user = 'User',
+  userList = 'UserList',
   invoiceType = 'InvoiceType',
   ledgerEntryNumber = 'LedgerEntryNumber',
   documentNumber = 'DocumentNumber',
-  relation = 'relation',
+  relation = 'Relation',
+  currentUser = 'CurrentUser',
+  linkedToDocument = 'LinkedToDocument',
 }

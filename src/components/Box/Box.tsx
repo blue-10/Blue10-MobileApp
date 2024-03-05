@@ -31,6 +31,8 @@ export type BoxStyleProps = {
   width?: DimensionValue;
 
   gap?: number;
+
+  backgroundColor?: ColorValue;
 };
 
 export type BoxProps = BoxStyleProps & {
@@ -40,7 +42,17 @@ export type BoxProps = BoxStyleProps & {
 const Box: React.FC<React.PropsWithChildren<BoxProps>> = ({ style, children, ...boxProps }) => {
   const styleSheet = useMemo(() => createStylesheetForBox(boxProps as BoxStyleProps), [boxProps]);
   return (
-    <View style={[styleSheet.margin, styleSheet.padding, styleSheet.border, styleSheet.size, styleSheet.gap, style]}>
+    <View
+      style={[
+        styleSheet.margin,
+        styleSheet.padding,
+        styleSheet.border,
+        styleSheet.size,
+        styleSheet.gap,
+        styleSheet.background,
+        style,
+      ]}
+    >
       {children}
     </View>
   );
@@ -48,6 +60,9 @@ const Box: React.FC<React.PropsWithChildren<BoxProps>> = ({ style, children, ...
 
 export const createStylesheetForBox = (props: BoxStyleProps) => {
   return StyleSheet.create({
+    background: {
+      backgroundColor: props.backgroundColor,
+    },
     border: {
       borderBottomWidth: props.borderBottom,
       borderColor: props.borderColor,

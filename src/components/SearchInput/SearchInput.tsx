@@ -10,9 +10,11 @@ import Box from '@/components/Box/Box';
 import { TouchableIcon } from '@/components/TouchableIcon/TouchableIcon';
 import { colors, text } from '@/theme';
 
-type Props = TextInputProps;
+type Props = TextInputProps & {
+  onClear?: () => void;
+};
 
-export const SearchInput: React.FC<Props> = ({ style, defaultValue, value, onChangeText, ...props }) => {
+export const SearchInput: React.FC<Props> = ({ style, defaultValue, value, onChangeText, onClear, ...props }) => {
   const [inputValue, setInputValue] = useBinding(defaultValue, value, onChangeText);
   const textRef = useRef<TextInput>(null);
 
@@ -22,6 +24,7 @@ export const SearchInput: React.FC<Props> = ({ style, defaultValue, value, onCha
       <TextInput
         ref={textRef}
         autoComplete="off"
+        enterKeyHint="search"
         inputMode="search"
         placeholder={colors.searchInput.placeholder}
         returnKeyType="search"
@@ -38,6 +41,7 @@ export const SearchInput: React.FC<Props> = ({ style, defaultValue, value, onCha
           onPress={() => {
             if (textRef.current) {
               textRef.current.clear();
+              onClear?.();
             }
           }}
         />

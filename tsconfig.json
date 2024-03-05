@@ -4,13 +4,8 @@
     "strict": true,
     "typeRoots": ["./node_modules/@types", "./src/types/"],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/assets/*": [
-        "./assets/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/assets/*": ["./assets/*"]
     }
   }
-  
 }

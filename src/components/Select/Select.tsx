@@ -1,11 +1,7 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import Header from '@react-navigation/elements/src/Header/Header';
-import HeaderBackButton from '@react-navigation/elements/src/Header/HeaderBackButton';
 import type React from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { ListRenderItem } from 'react-native';
-import { FlatList, Modal, SafeAreaView, View } from 'react-native';
 import { useBinding } from 'use-binding';
 
 import { colors } from '@/theme';
@@ -14,9 +10,8 @@ import type { BoxProps } from '../Box/Box';
 import Box from '../Box/Box';
 import type { ButtonProps } from '../Button/Button';
 import Button from '../Button/Button';
-import { ListItem } from '../ListItem/ListItem';
-import { ListSeparator } from '../ListSeparator/ListSeparator';
 import Text from '../Text/Text';
+import { SelectModal } from './SelectModal';
 
 export type SelectItemValue = string;
 
@@ -29,6 +24,7 @@ export type SelectItem = {
 export type SelectProps = {
   isDisabled?: boolean;
   isLoading?: boolean;
+  hasSearch?: boolean;
   buttonVariant?: ButtonProps['variant'];
   placeholder?: string;
   style?: BoxProps['style'];
@@ -50,6 +46,7 @@ export const Select: React.FC<SelectProps> = ({
   placeholder = 'No item selected',
   buttonVariant = 'secondary',
   selectType = 'modal',
+  hasSearch = false,
   items,
   defaultValue,
   value,
@@ -87,23 +84,6 @@ export const Select: React.FC<SelectProps> = ({
     );
   }, [items, modalTitle, onChange, showActionSheetWithOptions, t]);
 
-  const renderItem: ListRenderItem<SelectItem> = useCallback(
-    ({ item, index }) => (
-      <ListItem
-        isChecked={item.value === selectValue}
-        isEven={index % 2 === 0}
-        subTitle={item.subTitle}
-        title={item.title}
-        variant="checkbox"
-        onPress={function (): void {
-          setSelectValue(item.value);
-          setIsModalOpen(false);
-        }}
-      />
-    ),
-    [selectValue, setSelectValue],
-  );
-
   return (
     <Box style={style}>
       <Button
@@ -125,23 +105,18 @@ export const Select: React.FC<SelectProps> = ({
           {label}
         </Text>
       </Box>
-      <Modal animationType="slide" visible={isModalOpen} onRequestClose={() => setIsModalOpen(false)}>
-        <SafeAreaView>
-          <View style={{ overflow: 'visible', zIndex: 1 }}>
-            <Header
-              headerShadowVisible
-              headerLeft={() => <HeaderBackButton onPress={() => setIsModalOpen(false)} />}
-              title={modalTitle}
-            />
-          </View>
-          <FlatList<SelectItem>
-            data={items}
-            ItemSeparatorComponent={ListSeparator}
-            keyExtractor={(item) => item.value}
-            renderItem={renderItem}
-          />
-        </SafeAreaView>
-      </Modal>
+      <SelectModal
+        hasSearch={hasSearch}
+        isShown={isModalOpen}
+        items={items}
+        selectedItem={selectValue}
+        title={modalTitle}
+        onClose={() => setIsModalOpen(false)}
+        onSelect={(item) => {
+          setSelectValue(item.value);
+          setIsModalOpen(false);
+        }}
+      />
     </Box>
   );
 };

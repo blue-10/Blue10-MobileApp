@@ -23,7 +23,7 @@ import { colors } from '@/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SearchFiltersScreen'>;
 
-export const SearchFiltersScreen: React.FC<Props> = () => {
+export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const isIOS = Platform.OS === 'ios';
   const { isScrollable, onContenteSizeChange, onLayout } = useIsScrollable();
@@ -55,8 +55,8 @@ export const SearchFiltersScreen: React.FC<Props> = () => {
               <SearchInput
                 defaultValue=""
                 placeholder={t('search_filter.search_placeholder')}
-                value={getFilter(searchKeys.query)}
-                onChangeText={(value) => setFilter(searchKeys.query, value)}
+                value={getFilter(searchKeys.description)}
+                onChangeText={(value) => setFilter(searchKeys.description, value)}
               />
             </Box>
             <Box style={styles.containerRow}>
@@ -80,8 +80,8 @@ export const SearchFiltersScreen: React.FC<Props> = () => {
                 label={t('search_filter.user_label')}
                 placeholder={t('search_filter.user_placeholder')}
                 style={styles.selectItem}
-                value={getFilter(searchKeys.user)}
-                onChange={(value: SelectItemValue) => setFilter(searchKeys.user, value)}
+                value={getFilter(searchKeys.userList)}
+                onChange={(value: SelectItemValue) => setFilter(searchKeys.userList, value)}
               />
               <SearchSwitch
                 items={[
@@ -120,9 +120,7 @@ export const SearchFiltersScreen: React.FC<Props> = () => {
           size="L"
           title={t('search_filter.button_search')}
           variant="primary"
-          onPress={function (): void {
-            throw new Error('Function not implemented.');
-          }}
+          onPress={() => navigation.navigate('SearchResultsScreen')}
         />
       </Box>
     </KeyboardAvoidingView>

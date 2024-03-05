@@ -1,20 +1,22 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { useAllCompanies } from '@/hooks/queries/useAllCompanies';
+import { useGetAllUsers } from '@/hooks/queries/useGetAllUsers';
 
 import { Select, type SelectProps } from '../Select/Select';
 
 type Props = Omit<SelectProps, 'items'>;
 
 export const UserSelect: React.FC<Props> = ({ ...selectProps }) => {
-  const { data = [] } = useAllCompanies();
+  const { t } = useTranslation();
+  const { data } = useGetAllUsers();
 
   const items = useMemo(() => {
     return data.map((item) => ({
-      title: item.DisplayName,
-      value: item.Id,
+      title: item.name,
+      value: item.id,
     }));
   }, [data]);
 
-  return <Select items={items} {...selectProps} />;
+  return <Select hasSearch items={items} modalTitle={t('user_select.modal_title')} {...selectProps} />;
 };
