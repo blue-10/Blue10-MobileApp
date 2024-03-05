@@ -100,6 +100,9 @@ export const en: TranslationKeysType = {
   list_header: {
     last_updated_at: 'Last updated',
   },
+  listview_empty: {
+    title: 'No results',
+  },
   login: {
     email: 'Email',
     login: 'Login',

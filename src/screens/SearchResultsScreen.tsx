@@ -19,7 +19,7 @@ export const SearchResultsScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const {
     all,
-    client: { hasNextPage, isFetching, isFetchingNextPage, fetchNextPage },
+    client: { hasNextPage, isFetching, isFetchingNextPage, isError, fetchNextPage, refetch },
   } = useInvoiceSearchQuery({ filters });
 
   const totalResults = useMemo(() => {
@@ -51,12 +51,14 @@ export const SearchResultsScreen: React.FC<Props> = ({ navigation }) => {
       <StatusBar animated style="dark" />
       <InvoiceOverview
         hasNextPage={hasNextPage}
+        isError={isError}
         isFetching={isFetching}
         isFetchingNextPage={isFetchingNextPage}
         items={all}
         onItemPress={(item) => navigation.navigate('InvoiceDetailsScreen', { id: item.id })}
         onLoadMore={loadMore}
         onRefresh={refresh}
+        onRetry={refetch}
       />
     </View>
   );

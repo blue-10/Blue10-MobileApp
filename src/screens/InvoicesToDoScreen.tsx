@@ -38,7 +38,7 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
 
   const {
     all,
-    client: { hasNextPage, isFetching, isFetchingNextPage, fetchNextPage },
+    client: { hasNextPage, isFetching, isFetchingNextPage, isError, fetchNextPage, refetch },
   } = useInvoiceToDoQuery();
 
   // region update subtitle total records when data has changed
@@ -68,12 +68,14 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
       <StatusBar animated style="dark" />
       <InvoiceOverview
         hasNextPage={hasNextPage}
+        isError={isError}
         isFetching={isFetching}
         isFetchingNextPage={isFetchingNextPage}
         items={all}
         onItemPress={(item) => navigation.navigate('InvoiceDetailsScreen', { id: item.id })}
         onLoadMore={loadMore}
         onRefresh={refresh}
+        onRetry={refetch}
       />
     </View>
   );

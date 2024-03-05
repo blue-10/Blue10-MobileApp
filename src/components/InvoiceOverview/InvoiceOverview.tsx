@@ -4,29 +4,35 @@ import { FlatList, RefreshControl, View } from 'react-native';
 import type { InvoiceListItem } from '@/entity/invoice/types';
 import { colors } from '@/theme';
 
+import { FetchErrorMessage } from '../FetchErrorMessage/FetchErrorMessage';
 import { InvoiceToDoListItem } from '../InvoiceToDoListItem/InvoiceToDoListItem';
 import { ListFooterSpinner } from '../ListFooterSpinner/ListFooterSpinner';
 import { ListSeparator } from '../ListSeparator/ListSeparator';
+import { ListViewEmpty } from '../ListViewEmpty/ListViewEmpty';
 
 export type InvoiceOverviewItems = InvoiceListItem[];
 
 type Props = {
   items: InvoiceOverviewItems;
   hasNextPage: boolean;
+  isError: boolean;
   isFetching: boolean;
   isFetchingNextPage: boolean;
   onItemPress: (item: InvoiceListItem) => void;
   onRefresh: () => void;
   onLoadMore: () => void;
+  onRetry: () => void;
 };
 
 export const InvoiceOverview: React.FC<Props> = ({
   items,
+  isError,
   isFetching,
   isFetchingNextPage,
   onItemPress,
   onRefresh,
   onLoadMore,
+  onRetry,
 }) => {
   const refreshControl = useMemo(
     () => (
@@ -48,17 +54,22 @@ export const InvoiceOverview: React.FC<Props> = ({
   );
 
   return (
-    <FlatList<InvoiceListItem>
-      data={items}
-      ItemSeparatorComponent={ListSeparator}
-      keyExtractor={(item) => item.id}
-      ListEmptyComponent={View}
-      ListFooterComponent={isFetchingNextPage ? ListFooterSpinner : null}
-      refreshControl={refreshControl}
-      renderItem={renderItem}
-      style={{ minHeight: 90 }} // without height the refresh indicator is not visible during reload
-      onEndReached={onLoadMore}
-      onEndReachedThreshold={0.5}
-    />
+    <FetchErrorMessage isError={isError} onRetry={onRetry}>
+      <FlatList<InvoiceListItem>
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+        data={items}
+        ItemSeparatorComponent={ListSeparator}
+        keyExtractor={(item) => item.id}
+        ListEmptyComponent={<ListViewEmpty isFetching={isFetching} />}
+        ListFooterComponent={isFetchingNextPage ? ListFooterSpinner : null}
+        refreshControl={refreshControl}
+        renderItem={renderItem}
+        style={{ minHeight: 90 }} // without height the refresh indicator is not visible during reload
+        onEndReached={onLoadMore}
+        onEndReachedThreshold={0.5}
+      />
+    </FetchErrorMessage>
   );
 };

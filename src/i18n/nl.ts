@@ -100,6 +100,9 @@ export const nl: TranslationKeysType = {
   list_header: {
     last_updated_at: 'Voor het laatst bijgewerkt',
   },
+  listview_empty: {
+    title: 'Geen resultaten',
+  },
   login: {
     email: 'E-mail',
     login: 'Login',

@@ -188,4 +188,7 @@ export type TranslationKeysType = {
   overview_status_select: {
     modal_title: string;
   };
+  listview_empty: {
+    title: string;
+  };
 };
