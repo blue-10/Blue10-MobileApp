@@ -34,7 +34,6 @@ export const useCameraScan = ({ onEmptyResults }: useCameraScanParams) => {
       }
 
       if (images.length === 0 && rotatedImagePaths.length === 0) {
-        // navigation.navigate('Dashboard');
         // note: do not reset hasPendingImages here or the useEffect() hook will re-open the camera while navigating
         onEmptyResults();
       } else {
