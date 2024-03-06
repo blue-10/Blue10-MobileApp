@@ -6,15 +6,15 @@ import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-na
 import SVGArrowCounterClockwise from '@/assets/icons/arrow-counterclockwise-circle-fill.svg';
 import Box from '@/components/Box/Box';
 import Button from '@/components/Button/Button';
-import { CompanySelect } from '@/components/CompanySelect/CompanySelect';
-import { OverviewStatusSelect } from '@/components/OverviewStatusSelect/OverviewStatusSelect';
 import { SearchInput } from '@/components/SearchInput/SearchInput';
 import { SearchSwitch } from '@/components/SearchSwitch/SearchSwitch';
-import type { SelectItemValue } from '@/components/Select/Select';
+import { type SelectItemValue } from '@/components/Select/Select';
+import { SelectCompany } from '@/components/SelectCompany/SelectCompany';
+import { SelectOverviewStatus } from '@/components/SelectOverviewStatus/SelectOverviewStatus';
+import { SelectUser } from '@/components/SelectUser/SelectUser';
 import Text from '@/components/Text/Text';
 import { TextLabelInput } from '@/components/TextLabelInput/TextLabelInput';
 import { TouchableIcon } from '@/components/TouchableIcon/TouchableIcon';
-import { UserSelect } from '@/components/UserSelect/UserSelect';
 import { searchKeys } from '@/constants';
 import { useIsScrollable } from '@/hooks/useIsScrollable';
 import type { RootStackParamList } from '@/navigation/types';
@@ -60,14 +60,14 @@ export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
               />
             </Box>
             <Box style={styles.containerRow}>
-              <OverviewStatusSelect
+              <SelectOverviewStatus
                 label={t('search_filter.status_label')}
                 placeholder={t('search_filter.status_placeholder')}
                 style={styles.selectItem}
                 value={getFilter(searchKeys.status)}
                 onChange={(value: SelectItemValue) => setFilter(searchKeys.status, value)}
               />
-              <CompanySelect
+              <SelectCompany
                 label={t('search_filter.company_label')}
                 placeholder={t('search_filter.company_placeholder')}
                 style={styles.selectItem}
@@ -76,7 +76,7 @@ export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
               />
             </Box>
             <Box pb={8} style={styles.containerRow}>
-              <UserSelect
+              <SelectUser
                 label={t('search_filter.user_label')}
                 placeholder={t('search_filter.user_placeholder')}
                 style={styles.selectItem}
@@ -85,8 +85,8 @@ export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
               />
               <SearchSwitch
                 items={[
-                  { label: t('search_filter.invoice_type_debit'), value: '1' },
-                  { label: t('search_filter.invoice_type_credit'), value: '2' },
+                  { title: t('search_filter.invoice_type_debit'), value: '1' },
+                  { title: t('search_filter.invoice_type_credit'), value: '2' },
                 ]}
                 label={t('search_filter.invoice_type_label')}
                 style={styles.selectItem}

@@ -2,9 +2,6 @@
 import type { TranslationKeysType } from './types';
 
 export const nl: TranslationKeysType = {
-  company_select: {
-    modal_title: 'Selecteer een bedrijf',
-  },
   dashboard: {
     log_off: 'Uitloggen',
     title: 'Dashboard',
@@ -123,9 +120,6 @@ export const nl: TranslationKeysType = {
     message: 'Weet je zeker dat je wilt uitloggen?',
     title: 'Uitloggen',
   },
-  overview_status_select: {
-    modal_title: 'Selecteer een optie',
-  },
   scan: {
     company_title: 'Kies bedrijf',
     document_type_packing_slip: 'Pakbon',
@@ -193,8 +187,5 @@ export const nl: TranslationKeysType = {
     count_results_header_other: '{{count}} resultaten',
     count_results_header_zero: '0 resultaten',
     screen_title: 'To-do',
-  },
-  user_select: {
-    modal_title: 'Selecteer een gebruiker',
   },
 };

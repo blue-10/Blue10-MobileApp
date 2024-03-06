@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { FlatList, RefreshControl, View } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 
 import type { InvoiceListItem } from '@/entity/invoice/types';
 import { colors } from '@/theme';

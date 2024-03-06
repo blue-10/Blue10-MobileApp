@@ -42,7 +42,7 @@ export const Select: React.FC<SelectProps> = ({
   isLoading = false,
   style,
   label,
-  modalTitle = 'Select a item...',
+  modalTitle,
   placeholder = 'No item selected',
   buttonVariant = 'secondary',
   selectType = 'modal',
@@ -110,7 +110,7 @@ export const Select: React.FC<SelectProps> = ({
         isShown={isModalOpen}
         items={items}
         selectedItem={selectValue}
-        title={modalTitle}
+        title={modalTitle || (label ?? 'Select a item...')}
         onClose={() => setIsModalOpen(false)}
         onSelect={(item) => {
           setSelectValue(item.value);

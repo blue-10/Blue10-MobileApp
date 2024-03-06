@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { useGetAllUsers } from '@/hooks/queries/useGetAllUsers';
 
@@ -7,9 +6,11 @@ import { Select, type SelectProps } from '../Select/Select';
 
 type Props = Omit<SelectProps, 'items'>;
 
-export const UserSelect: React.FC<Props> = ({ ...selectProps }) => {
-  const { t } = useTranslation();
-  const { data } = useGetAllUsers();
+export const SelectUser: React.FC<Props> = ({ ...selectProps }) => {
+  const {
+    data,
+    query: { isPending },
+  } = useGetAllUsers();
 
   const items = useMemo(() => {
     return data.map((item) => ({
@@ -18,5 +19,5 @@ export const UserSelect: React.FC<Props> = ({ ...selectProps }) => {
     }));
   }, [data]);
 
-  return <Select hasSearch items={items} modalTitle={t('user_select.modal_title')} {...selectProps} />;
+  return <Select hasSearch isLoading={isPending} items={items} {...selectProps} />;
 };

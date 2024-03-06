@@ -179,15 +179,6 @@ export type TranslationKeysType = {
     document_number_label: string;
     button_search: string;
   };
-  user_select: {
-    modal_title: string;
-  };
-  company_select: {
-    modal_title: string;
-  };
-  overview_status_select: {
-    modal_title: string;
-  };
   listview_empty: {
     title: string;
   };

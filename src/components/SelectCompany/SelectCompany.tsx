@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { useAllCompanies } from '@/hooks/queries/useAllCompanies';
 
@@ -7,9 +6,8 @@ import { Select, type SelectProps } from '../Select/Select';
 
 type Props = Omit<SelectProps, 'items'>;
 
-export const CompanySelect: React.FC<Props> = ({ ...selectProps }) => {
-  const { t } = useTranslation();
-  const { data = [] } = useAllCompanies();
+export const SelectCompany: React.FC<Props> = ({ ...selectProps }) => {
+  const { data = [], isPending } = useAllCompanies();
 
   const items = useMemo(() => {
     return data.map((item) => ({
@@ -18,5 +16,5 @@ export const CompanySelect: React.FC<Props> = ({ ...selectProps }) => {
     }));
   }, [data]);
 
-  return <Select hasSearch items={items} modalTitle={t('company_select.modal_title')} {...selectProps} />;
+  return <Select hasSearch isLoading={isPending} items={items} {...selectProps} />;
 };

@@ -10,7 +10,7 @@ import Text from '../Text/Text';
 
 export type SearchSwitchItem = {
   value: string;
-  label: string;
+  title: string;
 };
 
 type Props = {
@@ -35,7 +35,7 @@ export const SearchSwitch: React.FC<Props> = ({ style, label, items, defaultValu
         <SegmentedControl
           appearance="light"
           selectedIndex={selectedIndex}
-          values={items.map((item) => item.label)}
+          values={items.map((item) => item.title)}
           onChange={(evt) => {
             const index = evt.nativeEvent.selectedSegmentIndex;
             setSelectValue(items[index].value);
