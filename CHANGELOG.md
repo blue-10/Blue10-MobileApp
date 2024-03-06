@@ -5,6 +5,7 @@
 * \#70 Knop toevoegen 'voeg scan toe' aan Factuur originelen bijlage
 * \#41 Landing Page knop toevoegen zoeken
 * \#47 Factuur zoeken
+* \#49 Factuur overzicht gevonden facturen
 
 # v1.5.14
 * \#100 Update back to v1.5.12 for next version functionality
