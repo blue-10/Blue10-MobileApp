@@ -12,7 +12,7 @@ type Props = {
   index: number;
 };
 
-export const InvoiceToDoListItem: React.FC<Props> = ({ item, index, onPress }) => {
+export const InvoiceListviewItem: React.FC<Props> = ({ item, index, onPress }) => {
   return (
     <TouchableHighlight
       style={[styles.container, index % 2 === 0 ? styles.even : styles.odd]}

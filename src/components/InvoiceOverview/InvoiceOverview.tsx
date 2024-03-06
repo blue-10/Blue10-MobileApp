@@ -5,7 +5,7 @@ import type { InvoiceListItem } from '@/entity/invoice/types';
 import { colors } from '@/theme';
 
 import { FetchErrorMessage } from '../FetchErrorMessage/FetchErrorMessage';
-import { InvoiceToDoListItem } from '../InvoiceToDoListItem/InvoiceToDoListItem';
+import { InvoiceListviewItem } from '../InvoiceListviewItem/InvoiceListviewItem';
 import { ListFooterSpinner } from '../ListFooterSpinner/ListFooterSpinner';
 import { ListSeparator } from '../ListSeparator/ListSeparator';
 import { ListViewEmpty } from '../ListViewEmpty/ListViewEmpty';
@@ -48,7 +48,7 @@ export const InvoiceOverview: React.FC<Props> = ({
 
   const renderItem = useCallback(
     ({ item, index }: { item: InvoiceListItem; index: number }) => {
-      return <InvoiceToDoListItem index={index} item={item} onPress={() => onItemPress(item)} />;
+      return <InvoiceListviewItem index={index} item={item} onPress={() => onItemPress(item)} />;
     },
     [onItemPress],
   );
