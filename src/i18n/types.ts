@@ -67,6 +67,7 @@ export type TranslationKeysType = {
     screen_title: string;
     language_subtitle: string;
     logout: string;
+    version: string;
   };
   languages: {
     nl: string;
@@ -148,5 +149,11 @@ export type TranslationKeysType = {
     upload_title: string;
     upload_upload_error: string;
     upload_user_aborted: string;
+  };
+  invoice_attachments: {
+    add_button: string;
+  };
+  invoice_attachnment_add: {
+    title: string;
   };
 };

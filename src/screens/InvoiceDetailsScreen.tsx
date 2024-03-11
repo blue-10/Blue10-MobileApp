@@ -191,7 +191,7 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
           <InvoiceActionForm invoiceId={invoiceId} />
         </Box>
       </ScrollView>
-      <Box borderColor="#E9E9EA" borderTop={1} px={26} py={32}>
+      <Box borderColor={colors.borderColor} borderTop={1} px={26} py={32}>
         <Button
           isDisabled={isButtonsDisabled || isActionButtonDisabled}
           isLoading={isActionMutating}

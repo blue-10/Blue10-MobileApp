@@ -1,3 +1,4 @@
+import * as Application from 'expo-application';
 import * as SecureStore from 'expo-secure-store';
 import { StatusBar } from 'expo-status-bar';
 import type React from 'react';
@@ -10,6 +11,7 @@ import { ListItem } from '../components/ListItem/ListItem';
 import Text from '../components/Text/Text';
 import { storeKeyLanguage } from '../constants';
 import { useApiStore } from '../store/ApiStore';
+import { colors } from '../theme';
 
 export const SettingsScreen: React.FC = () => {
   const { clearRefreshToken } = useApiStore();
@@ -68,6 +70,11 @@ export const SettingsScreen: React.FC = () => {
       ))}
       <Box px={24} py={24}>
         <Button size="M" title={t('settings.logout')} variant="secondary" onPress={() => confirmBeforeLogout()} />
+      </Box>
+      <Box px={42}>
+        <Text color={colors.labelLightSecondary} variant="caption1Regular">
+          {t('settings.version')}: {Application.nativeApplicationVersion} ({Application.nativeBuildVersion})
+        </Text>
       </Box>
     </Box>
   );

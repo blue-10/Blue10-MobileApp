@@ -144,3 +144,33 @@ export const finishUploadSession = async (api: ApiService, sessionId: string): P
     throw new UploadProcessError('Error occurred in API call to finalize upload session', { cause: error });
   }
 };
+
+export const uploadAttachments = async (
+  api: ApiService,
+  invoiceId: string,
+  pdfFiles: string[],
+  shouldAbort: () => boolean,
+): Promise<void> => {
+  for (let idx = 0; idx < pdfFiles.length; idx++) {
+    if (shouldAbort()) {
+      throw new UserAbortError();
+    }
+
+    try {
+      await api.file.importAttachment(invoiceId, pdfFiles[idx]);
+    } catch (error) {
+      if (shouldAbort()) {
+        captureError(
+          error,
+          'Error occurred in API call to upload a file. Not throwing in-app because user has requested abort.',
+          'error',
+          { invoiceId, pdfFile: pdfFiles[idx] },
+        );
+
+        throw new UserAbortError();
+      }
+
+      throw new UploadProcessError('Error occurred in API call to upload a file', { cause: error });
+    }
+  }
+};

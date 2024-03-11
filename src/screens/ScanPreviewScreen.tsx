@@ -3,30 +3,17 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  ActivityIndicator,
-  Image,
-  ImageBackground,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import DocumentScanner, { ResponseType, ScanDocumentResponseStatus } from 'react-native-document-scanner-plugin';
+import { StyleSheet, View } from 'react-native';
 
-import SvgArrowLeftIcon from '../../assets/icons/arrow-round-left.svg';
-import SvgEllipsisIcon from '../../assets/icons/ellipsis-icon.svg';
-import SvgPlusIcon from '../../assets/icons/plus-icon.svg';
-import SvgTrashIcon from '../../assets/icons/trash-icon.svg';
-import SvgUploadIcon from '../../assets/icons/upload-icon.svg';
-import Text from '../components/Text/Text';
+import { ScanPreview } from '../components/ScanPreview/ScanPreview';
 import { useGetCurrentCustomer } from '../hooks/queries/useGetCurrentCustomer';
 import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
-import { useUploadProcess } from '../hooks/useUploadProcess';
+import { useCameraScan } from '../hooks/useCameraScan';
+import { useUploadScanProcess } from '../hooks/useUploadScanProcess';
 import type { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
+import { useUploadStore } from '../store/UploadStore';
 import { colors, dimensions } from '../theme/';
-import { maniplateImageIfNeeded } from '../utils/imageUtils';
 import { captureError } from '../utils/sentry';
 import { ScanUploadModalScreen } from './ScanUploadModalScreen';
 
@@ -36,11 +23,16 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const currentCustomer = useGetCurrentCustomer();
   const { currentUser } = useGetCurrentUser();
-  const { addImages, company, deleteImage, documentType, images, reset, selectedImageIndex, selectImage } =
-    useImageStore();
-  const { startUploadProcess } = useUploadProcess();
-  const [hasPendingImages, setHasPendingImages] = useState<boolean>(false);
+  const { company, deleteImage, documentType, images, reset, selectedImageIndex, selectImage } = useImageStore();
+  const { startUploadProcess, abortUploadProcess, shouldAbort } = useUploadScanProcess();
+  const resetUploadStore = useUploadStore((state) => state.reset);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
+  const [isCameraOpenedAtMount, setIsCameraOpenedAtMount] = useState<boolean>(false);
+  const { hasPendingImages, setHasPendingImages, openCamera } = useCameraScan({
+    onEmptyResults: () => {
+      navigation.navigate('Dashboard');
+    },
+  });
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -53,68 +45,18 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
 
   const isUploadEnabled = useMemo(() => images.length > 0, [images]);
 
-  const openCamera = useCallback(async () => {
-    try {
-      const result = await DocumentScanner.scanDocument({
-        croppedImageQuality: 90,
-        letUserAdjustCrop: true,
-        responseType: ResponseType.ImageFilePath,
-      });
-
-      setHasPendingImages(true);
-      const rotatedImagePaths: string[] = [];
-
-      // if the status is not Success, the user cancelled
-      if (result.status === ScanDocumentResponseStatus.Success) {
-        const imagePaths = result.scannedImages || [];
-
-        for (let idx = 0; idx < imagePaths.length; idx++) {
-          rotatedImagePaths.push(await maniplateImageIfNeeded(imagePaths[idx]));
-        }
-      }
-
-      if (images.length === 0 && rotatedImagePaths.length === 0) {
-        navigation.navigate('Dashboard');
-        // note: do not reset hasPendingImages here or the useEffect() hook will re-open the camera while navigating
-      } else {
-        addImages(rotatedImagePaths);
-        setHasPendingImages(false);
-
-        if (selectedImageIndex === undefined) {
-          selectImage(0);
-        }
-      }
-    } catch (reason) {
-      captureError(reason, 'An error occurred while scanning documents');
-      setHasPendingImages(false);
-    }
-  }, [addImages, images, navigation, selectedImageIndex, setHasPendingImages, selectImage]);
-
   useEffect(() => {
-    if (!hasPendingImages && images.length === 0) {
+    if (!isCameraOpenedAtMount && !hasPendingImages && images.length === 0) {
+      setIsCameraOpenedAtMount(true);
       openCamera()
-        .then()
+        .then(() => {
+          setIsCameraOpenedAtMount(false);
+        })
         .catch((reason) => {
           captureError(reason, 'An error occurred while scanning documents');
         });
     }
-  }, [images, hasPendingImages, openCamera]);
-
-  const backgroundImage = useMemo(() => {
-    if (images.length === 0 || selectedImageIndex === undefined) {
-      // <ImageBackground /> requires an image, set a 1x1 pixel transparent PNG
-      return {
-        // eslint-disable-next-line max-len
-        uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
-      };
-    }
-
-    if (selectedImageIndex >= images.length) {
-      return { uri: images[images.length - 1] };
-    }
-
-    return { uri: images[selectedImageIndex] };
-  }, [images, selectedImageIndex]);
+  }, [images, hasPendingImages, openCamera, isCameraOpenedAtMount]);
 
   const toDashboard = useCallback(() => {
     reset();
@@ -144,7 +86,11 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
           `${currentUser?.Name} - ${currentCustomer.customerName}\r\n` +
           `${company?.DisplayName} - ${t(`scan.document_type_${documentType?.key}`)}`,
         options,
+        showSeparators: true,
         title: t('scan.menu_title') || undefined,
+        titleTextStyle: {
+          fontWeight: 'bold',
+        },
       },
       (selectedIndex) => {
         switch (selectedIndex) {
@@ -165,109 +111,72 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
   }, [company, currentCustomer, currentUser, documentType, showActionSheetWithOptions, navigation, t, toDashboard]);
 
   const startUpload = useCallback(() => {
-    startUploadProcess();
     setIsUploadModalOpen(true);
+    startUploadProcess();
   }, [setIsUploadModalOpen, startUploadProcess]);
 
   const finishUpload = useCallback(
     (uploadSuccessful: boolean) => {
       setIsUploadModalOpen(false);
+      resetUploadStore();
 
       if (uploadSuccessful) {
         setHasPendingImages(true);
         toDashboard();
       }
     },
-    [setHasPendingImages, setIsUploadModalOpen, toDashboard],
+    [resetUploadStore, setHasPendingImages, toDashboard],
   );
-
-  const trashIconColor =
-    images.length > 0 && selectedImageIndex !== undefined
-      ? colors.scan.deleteIconColor
-      : colors.scan.deleteIconDisabledColor;
-  const trashIconFill =
-    images.length > 0 && selectedImageIndex !== undefined
-      ? colors.scan.deleteIconBackgroundColor
-      : colors.scan.deleteIconDisabledBackgroundColor;
 
   return (
     <View style={styles.screenContainer}>
-      <ScanUploadModalScreen isOpen={isUploadModalOpen} onClose={finishUpload} />
-      <ImageBackground resizeMode="contain" source={backgroundImage} style={styles.backgroundImage}>
-        <View style={styles.header}>
-          <Text color={colors.white} spaceAfter={10} variant="bodyRegularBold">
-            {t('scan.preview_title')}
-          </Text>
-        </View>
-        <View style={styles.footerContainer}>
-          <ScrollView contentContainerStyle={styles.previewsBar} horizontal={true}>
-            {images.map((imagePath, index) => (
-              <TouchableOpacity key={`preview_image_${imagePath}`} onPress={() => selectImage(index)}>
-                <Image
-                  resizeMode="cover"
-                  source={{ uri: imagePath }}
-                  style={index === selectedImageIndex ? styles.previewImageSelected : styles.previewImage}
-                />
-              </TouchableOpacity>
-            ))}
-            {hasPendingImages && <ActivityIndicator color={colors.white} size={40} style={styles.previewImageLoader} />}
-          </ScrollView>
-          <View style={styles.buttonBarContainer}>
-            <View style={styles.buttonBar}>
-              <TouchableOpacity hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }} onPress={goBack}>
-                <SvgArrowLeftIcon
-                  color={colors.scan.toggleEnabledColor}
-                  fill={colors.scan.transparentBackground}
-                  height={32}
-                  width={32}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }} onPress={openCamera}>
-                <SvgPlusIcon
-                  color={colors.scan.addIconColor}
-                  fill={colors.scan.transparentBackground}
-                  height={32}
-                  hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }}
-                  width={32}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity disabled={!isUploadEnabled} onPress={startUpload}>
-                <SvgUploadIcon
-                  color={isUploadEnabled ? colors.scan.uploadIconColor : colors.scan.uploadIconDisabledColor}
-                  fill={colors.scan.transparentBackground}
-                  height={72}
-                  width={72}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                disabled={images.length === 0 || selectedImageIndex === undefined}
-                hitSlop={{ bottom: 7, left: 8, right: 7, top: 8 }}
-                onPress={deleteImage}
-              >
-                <SvgTrashIcon color={trashIconColor} fill={trashIconFill} height={33} width={33} />
-              </TouchableOpacity>
-              <TouchableOpacity hitSlop={{ bottom: 8, left: 8, right: 8, top: 8 }} onPress={showActionSheet}>
-                <SvgEllipsisIcon
-                  color={colors.scan.toggleEnabledColor}
-                  fill={colors.scan.transparentBackground}
-                  height={32}
-                  width={32}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </ImageBackground>
+      <ScanUploadModalScreen
+        isOpen={isUploadModalOpen}
+        shouldAbort={shouldAbort()}
+        tableListItems={[
+          {
+            label: t('scan.upload_table_user'),
+            value: currentUser?.Name || t('general.unknown'),
+          },
+          {
+            label: t('scan.upload_table_customer'),
+            value: currentCustomer.customerName || t('general.unknown'),
+          },
+          {
+            label: t('scan.upload_table_company'),
+            value: company?.DisplayName || t('general.unknown'),
+          },
+          {
+            label: t('scan.upload_table_document_type'),
+            value: t(`scan.document_type_${documentType?.key}`),
+          },
+          {
+            label: t('scan.upload_table_images'),
+            value: `${images.length}`,
+          },
+        ]}
+        onClose={finishUpload}
+        onUploadAbort={abortUploadProcess}
+        onUploadStart={startUploadProcess}
+      />
+      <ScanPreview
+        hasPendingImages={hasPendingImages}
+        images={images}
+        isUploadEnabled={isUploadEnabled}
+        selectedImageIndex={selectedImageIndex}
+        title={t('scan.preview_title')}
+        onDeleteCurrentImage={deleteImage}
+        onEllipsesClick={showActionSheet}
+        onGoBack={goBack}
+        onOpenCamera={openCamera}
+        onSelectImage={selectImage}
+        onStartUpload={startUpload}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
   buttonBar: {
     alignItems: 'center',
     flexDirection: 'row',

@@ -34,4 +34,28 @@ export class FileApi extends ApiServiceRequests {
 
     return data;
   }
+
+  public async importAttachment(documentId: string, documentPath: string): Promise<string> {
+    const baseName = documentPath.split('/').pop() as string;
+
+    const formData = new FormData();
+    // @ts-ignore
+    formData.append(baseName, {
+      name: baseName,
+      type: 'application/pdf',
+      uri: documentPath,
+    });
+
+    const { data } = await this.getAxios().post<string>(
+      `/File/ImportAttachment?documentId=${documentId}&documentType=1`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+
+    return data;
+  }
 }

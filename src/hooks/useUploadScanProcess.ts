@@ -17,7 +17,7 @@ import { useGetCurrentCustomer } from './queries/useGetCurrentCustomer';
 import { useGetCurrentUser } from './queries/useGetCurrentUser';
 import { useApi } from './useApi';
 
-export const useUploadProcess = () => {
+export const useUploadScanProcess = () => {
   const api = useApi();
   const currentCustomer = useGetCurrentCustomer();
   const { currentUser } = useGetCurrentUser();
