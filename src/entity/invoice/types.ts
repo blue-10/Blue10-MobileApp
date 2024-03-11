@@ -17,6 +17,7 @@ export type Invoice = {
   lastActionId: number;
   lastUpdate: string;
   currentUserId: string;
+  userList: string[];
 };
 
 export type InvoiceListItem = {

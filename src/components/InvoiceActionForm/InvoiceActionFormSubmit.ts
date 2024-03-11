@@ -52,6 +52,7 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
     if (!item) {
       return;
     }
+
     const params: PostNewActionParams = {
       AutoRouteId: '',
       CurrentUserId: item.currentUserId,
@@ -66,6 +67,7 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
       RouteId: '00000000-0000-0000-0000-000000000000',
       RouteOption: 0,
     };
+
     try {
       const result = await newActionMutation.mutateAsync(params);
       Alert.alert(
