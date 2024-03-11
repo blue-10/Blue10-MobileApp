@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useSettings } from '@/store/SettingsStore';
+import { useSettingsStore } from '@/store/SettingsStore';
 
 import { useImageStore } from '../store/ImageStore';
 import { useUploadStore } from '../store/UploadStore';
@@ -14,7 +14,7 @@ import { useApi } from './useApi';
 
 export const useUploadAttachmentProcess = () => {
   const api = useApi();
-  const isSaveToCameraRoll = useSettings((state) => state.settings.saveToCameraRoll);
+  const isSaveToCameraRoll = useSettingsStore((state) => state.settings.saveToCameraRoll);
   const uploadStore = useUploadStore();
   const currentCustomer = useGetCurrentCustomer();
   const { currentUser } = useGetCurrentUser();

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet, View } from 'react-native';
 
-import { useSettings } from '@/store/SettingsStore';
+import { useSettingsStore } from '@/store/SettingsStore';
 
 import { ScanPreview } from '../components/ScanPreview/ScanPreview';
 import { useInvalidateInvoiceAttachments } from '../hooks/invalidate/useInvalidateInvoiceAttachments';
@@ -23,8 +23,8 @@ import { ScanUploadModalScreen } from './ScanUploadModalScreen';
 type Props = NativeStackScreenProps<RootStackParamList, 'InvoiceAttachmentAddScreen'>;
 
 export const InvoiceAttachmentAddScreen: React.FC<Props> = ({ route, navigation }) => {
-  const settings = useSettings((state) => state.settings);
-  const setSetting = useSettings((state) => state.setSetting);
+  const settings = useSettingsStore((state) => state.settings);
+  const setSetting = useSettingsStore((state) => state.setSetting);
 
   const { t } = useTranslation();
   const currentCustomer = useGetCurrentCustomer();

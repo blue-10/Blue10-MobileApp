@@ -7,7 +7,7 @@ import { Alert } from 'react-native';
 
 import { ListItemCheckbox } from '@/components/ListItemCheckbox/ListItemCheckbox';
 import { ListItemHeader } from '@/components/ListItemHeader/ListItemHeader';
-import { useSettings } from '@/store/SettingsStore';
+import { useSettingsStore } from '@/store/SettingsStore';
 
 import Box from '../components/Box/Box';
 import Button from '../components/Button/Button';
@@ -20,9 +20,9 @@ import { colors } from '../theme';
 export const SettingsScreen: React.FC = () => {
   const { clearRefreshToken } = useApiStore();
   const { t, i18n } = useTranslation();
-  const settings = useSettings((state) => state.settings);
-  const setSetting = useSettings((state) => state.setSetting);
-  const resetSettings = useSettings((state) => state.reset);
+  const settings = useSettingsStore((state) => state.settings);
+  const setSetting = useSettingsStore((state) => state.setSetting);
+  const resetSettings = useSettingsStore((state) => state.reset);
 
   const selectableLanguages = [
     {

@@ -24,10 +24,7 @@ const defaultSettings: SettingsType = {
   saveToCameraRoll: false,
 };
 
-export const useSettings = create<SettingsStore>((set, get) => ({
-  getSetting: (setting: SettingsKeys, defaultValue?: unknown) => {
-    return get().settings[setting] ?? defaultValue;
-  },
+export const useSettingsStore = create<SettingsStore>((set, get) => ({
   load: async () => {
     const settingStr = await SecureStore.getItemAsync(storeKeySettings);
     if (settingStr !== null) {
@@ -57,7 +54,7 @@ export const useSettings = create<SettingsStore>((set, get) => ({
 }));
 
 export const SettingsProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const loadSettings = useSettings((state) => state.load);
+  const loadSettings = useSettingsStore((state) => state.load);
   useEffect(() => {
     loadSettings();
   }, [loadSettings]);
