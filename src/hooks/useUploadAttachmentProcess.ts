@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useSettings } from '@/store/SettingsStore';
+
 import { useImageStore } from '../store/ImageStore';
 import { useUploadStore } from '../store/UploadStore';
-import { deleteFilesInBackground } from '../utils/fileSystem';
+import { deleteFilesInBackground, saveFilesToGallery } from '../utils/fileSystem';
 import { prepareDocument, uploadAttachments, UserAbortError } from '../utils/scanUtils';
 import { captureError } from '../utils/sentry';
 import { useGetCurrentCustomer } from './queries/useGetCurrentCustomer';
@@ -12,6 +14,7 @@ import { useApi } from './useApi';
 
 export const useUploadAttachmentProcess = () => {
   const api = useApi();
+  const isSaveToCameraRoll = useSettings((state) => state.settings.saveToCameraRoll);
   const uploadStore = useUploadStore();
   const currentCustomer = useGetCurrentCustomer();
   const { currentUser } = useGetCurrentUser();
@@ -40,9 +43,12 @@ export const useUploadAttachmentProcess = () => {
           uploadStore.startUploadSession();
           uploadStore.startUploadingDocuments();
           uploadAttachments(api, invoiceId, pdfDocuments, shouldAbort)
-            .then(() => {
+            .then(async () => {
               uploadStore.startFinalizingSession();
-              uploadStore.startFinalizingSession();
+              if (isSaveToCameraRoll) {
+                await saveFilesToGallery(images);
+              }
+
               uploadStore.setUploadSucceededState();
             })
             .catch((reason) => {
@@ -72,7 +78,7 @@ export const useUploadAttachmentProcess = () => {
           }
         });
     },
-    [api, currentCustomer.customerId, currentUser?.Email, images, shouldAbort, t, uploadStore],
+    [api, currentCustomer.customerId, currentUser?.Email, images, isSaveToCameraRoll, shouldAbort, t, uploadStore],
   );
 
   return { abortUploadProcess, shouldAbort, startUploadProcess };

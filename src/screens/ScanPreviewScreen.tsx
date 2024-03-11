@@ -1,9 +1,12 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { StatusBar } from 'expo-status-bar';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
+
+import { useSettings } from '@/store/SettingsStore';
 
 import { ScanPreview } from '../components/ScanPreview/ScanPreview';
 import { useGetCurrentCustomer } from '../hooks/queries/useGetCurrentCustomer';
@@ -20,6 +23,9 @@ import { ScanUploadModalScreen } from './ScanUploadModalScreen';
 type Props = NativeStackScreenProps<RootStackParamList, 'ScanPreviewScreen'>;
 
 export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
+  const settings = useSettings((state) => state.settings);
+  const setSetting = useSettings((state) => state.setSetting);
+
   const { showActionSheetWithOptions } = useActionSheet();
   const currentCustomer = useGetCurrentCustomer();
   const { currentUser } = useGetCurrentUser();
@@ -113,7 +119,30 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
   const startUpload = useCallback(() => {
     setIsUploadModalOpen(true);
     startUploadProcess();
-  }, [setIsUploadModalOpen, startUploadProcess]);
+  }, [startUploadProcess]);
+
+  const beforeStartUpload = useCallback(() => {
+    const confirmHandle = (saveToCameraRoll: boolean) => {
+      setSetting('hasAskedForSavingToCameraRoll', true);
+      setSetting('saveToCameraRoll', saveToCameraRoll);
+      startUpload();
+    };
+
+    if (!settings.hasAskedForSavingToCameraRoll) {
+      Alert.alert(t('save_to_cameraroll_confirm.title'), t('save_to_cameraroll_confirm.description'), [
+        {
+          onPress: () => confirmHandle(true),
+          text: t('save_to_cameraroll_confirm.yes'),
+        },
+        {
+          onPress: () => confirmHandle(false),
+          text: t('save_to_cameraroll_confirm.no'),
+        },
+      ]);
+    } else {
+      startUpload();
+    }
+  }, [setSetting, settings.hasAskedForSavingToCameraRoll, startUpload, t]);
 
   const finishUpload = useCallback(
     (uploadSuccessful: boolean) => {
@@ -130,6 +159,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.screenContainer}>
+      <StatusBar style="light" />
       <ScanUploadModalScreen
         isOpen={isUploadModalOpen}
         shouldAbort={shouldAbort()}
@@ -170,7 +200,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
         onGoBack={goBack}
         onOpenCamera={openCamera}
         onSelectImage={selectImage}
-        onStartUpload={startUpload}
+        onStartUpload={beforeStartUpload}
       />
     </View>
   );
