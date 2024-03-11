@@ -25,11 +25,7 @@ export const useInvalidateInvoice = () => {
       });
 
       queryClient.invalidateQueries({
-        queryKey: [
-          queryKeys.invoicesToDo,
-          `user-${currentUser.currentUser?.Id}`,
-          `belongs-to-${currentUser.currentUser?.BelongsTo}`,
-        ],
+        queryKey: [queryKeys.invoiceResults],
       });
 
       queryClient.invalidateQueries({

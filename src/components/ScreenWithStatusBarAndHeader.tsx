@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     top: 24,
   },
   contentContainer: {
+    flex: 1,
     padding: dimensions.spacing.wide,
   },
 

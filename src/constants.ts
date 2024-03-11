@@ -24,14 +24,29 @@ export const enum queryKeys {
   invoiceBookings = 'invoiceBookings',
   invoiceImageCount = 'invoiceImageCount',
   invoiceImages = 'invoiceImages',
-  invoiceActions = 'invoicActions',
+  invoiceActions = 'invoiceActions',
+  invoiceResults = 'invoiceResults',
   currentUser = 'currentUsers',
   companies = 'companies',
   getSource = 'getSource',
   newAction = 'newAction',
+  overviewStatusFilters = 'overviewStatusFilters',
 }
 
 export const authConstants = {
   loginPage: Constants.expoConfig?.extra?.authLoginPage,
   switchEnvironment: `${Constants.expoConfig?.extra?.authLoginPage}ChangeCustomer`,
 };
+
+export const enum searchKeys {
+  description = 'Description',
+  status = 'Status',
+  company = 'Company',
+  userList = 'UserList',
+  invoiceType = 'InvoiceType',
+  ledgerEntryNumber = 'LedgerEntryNumber',
+  documentNumber = 'DocumentNumber',
+  relation = 'Relation',
+  currentUser = 'CurrentUser',
+  linkedToDocument = 'LinkedToDocument',
+}

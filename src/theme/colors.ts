@@ -34,6 +34,9 @@ export const colors = {
       background: 'rgba(90, 200, 250, 1)',
       text: whiteColor,
     },
+    search: {
+      background: '#FF9500',
+    },
     switchEnv: {
       background: 'rgba(209, 209, 214, 1)',
     },
@@ -78,6 +81,11 @@ export const colors = {
   screen: {
     background: 'rgba(249, 249, 249, 1)',
     text: primaryTextColor,
+  },
+  searchInput: {
+    background: 'background: rgba(118, 118, 128, 0.12)',
+    placeholder: 'background: rgba(60, 60, 67, 0.6)',
+    text: blackColor,
   },
   secondaryText: 'rgba(142, 142, 147, 1)',
   toast: {

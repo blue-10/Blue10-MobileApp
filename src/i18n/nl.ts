@@ -21,8 +21,10 @@ export const nl: TranslationKeysType = {
     title: 'Er ging iets niet goed!',
   },
   general: {
+    button_cancel: 'Annuleer',
     button_ok: 'OK',
     error: 'Fout',
+    search_placeholder: 'Zoeken...',
     unknown: 'Onbekend',
   },
   invoice_action_form: {
@@ -95,6 +97,9 @@ export const nl: TranslationKeysType = {
   list_header: {
     last_updated_at: 'Voor het laatst bijgewerkt',
   },
+  listview_empty: {
+    title: 'Geen resultaten',
+  },
   login: {
     email: 'E-mail',
     login: 'Login',
@@ -146,6 +151,27 @@ export const nl: TranslationKeysType = {
     upload_title: 'SCAN UPLOADEN',
     upload_upload_error: 'Er is een fout opgetreden bij het uploaden van het document naar de server.',
     upload_user_aborted: 'Uploadproces afgebroken.',
+  },
+  search: {
+    results_title: 'Resultaten',
+    screen_title: 'Zoeken',
+  },
+  search_filter: {
+    button_search: 'Zoeken',
+    company_label: 'Bedrijf',
+    company_placeholder: 'Alle bedrijven',
+    document_number_label: 'Factuurnummer',
+    invoice_type_credit: 'Credit',
+    invoice_type_debit: 'Debet',
+    invoice_type_label: 'Soort',
+    ledger_entry_number_label: 'Bookstuknummer',
+    relation_label: 'Leverancier',
+    search_placeholder: 'Vrij zoeken',
+    status_label: 'Overzicht',
+    status_placeholder: 'Alles',
+    title: 'Vind een factuur',
+    user_label: 'Ligt bij',
+    user_placeholder: '(Leeg)',
   },
   settings: {
     language_subtitle: 'Taal',

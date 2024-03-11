@@ -21,8 +21,10 @@ export const en: TranslationKeysType = {
     title: 'Something went wrong!',
   },
   general: {
+    button_cancel: 'Cancel',
     button_ok: 'OK',
     error: 'Error',
+    search_placeholder: 'Zoeken...',
     unknown: 'Unknown',
   },
   invoice_action_form: {
@@ -95,6 +97,9 @@ export const en: TranslationKeysType = {
   list_header: {
     last_updated_at: 'Last updated',
   },
+  listview_empty: {
+    title: 'No results',
+  },
   login: {
     email: 'Email',
     login: 'Login',
@@ -145,6 +150,27 @@ export const en: TranslationKeysType = {
     upload_title: 'UPLOAD SCAN',
     upload_upload_error: 'An error occurred while uploading the document to the server.',
     upload_user_aborted: 'Upload process aborted.',
+  },
+  search: {
+    results_title: 'Results',
+    screen_title: 'Search',
+  },
+  search_filter: {
+    button_search: 'Search',
+    company_label: 'Company',
+    company_placeholder: 'All companies',
+    document_number_label: 'Document number',
+    invoice_type_credit: 'Credit',
+    invoice_type_debit: 'Debit',
+    invoice_type_label: 'Kind',
+    ledger_entry_number_label: 'Bookingnumber',
+    relation_label: 'Supplier',
+    search_placeholder: 'Search...',
+    status_label: 'Overview',
+    status_placeholder: 'All',
+    title: 'Find a invoice',
+    user_label: 'User',
+    user_placeholder: 'No user selected',
   },
   settings: {
     language_subtitle: 'Language',

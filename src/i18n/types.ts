@@ -2,7 +2,9 @@ export type TranslationKeysType = {
   general: {
     error: string;
     button_ok: string;
+    button_cancel: string;
     unknown: string;
+    search_placeholder: string;
   };
   login: {
     welcome_title: string;
@@ -154,6 +156,30 @@ export type TranslationKeysType = {
     add_button: string;
   };
   invoice_attachnment_add: {
+    title: string;
+  };
+  search: {
+    screen_title: string;
+    results_title: string;
+  };
+  search_filter: {
+    title: string;
+    search_placeholder: string;
+    status_label: string;
+    status_placeholder: string;
+    company_label: string;
+    company_placeholder: string;
+    user_label: string;
+    user_placeholder: string;
+    invoice_type_label: string;
+    invoice_type_debit: string;
+    invoice_type_credit: string;
+    ledger_entry_number_label: string;
+    relation_label: string;
+    document_number_label: string;
+    button_search: string;
+  };
+  listview_empty: {
     title: string;
   };
 };

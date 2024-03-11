@@ -46,6 +46,9 @@ i18n
     interpolation: {
       escapeValue: false, // not needed for react!!
     },
+    react: {
+      useSuspense: false,
+    },
     resources,
     returnNull: false,
     supportedLngs: supportedLocales,

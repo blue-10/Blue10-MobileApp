@@ -8,7 +8,7 @@ import { colors } from '../../theme';
 import type { TextPropsWithStyle } from '../Text/Text';
 import Text from '../Text/Text';
 
-type Props = {
+export type ButtonProps = {
   isLoading?: boolean;
   isDisabled?: boolean;
   title: string;
@@ -22,7 +22,7 @@ type Props = {
   textAlign?: TextPropsWithStyle['align'];
 };
 
-const Button: React.FC<Props> = ({
+const Button: React.FC<ButtonProps> = ({
   isDisabled = false,
   isLoading = false,
   title,
@@ -97,6 +97,8 @@ const Button: React.FC<Props> = ({
       <Text
         align={textAlign}
         color={colors.button[variant].text}
+        lineBreakMode="tail"
+        numberOfLines={1}
         style={{
           ...styles.text,
           paddingLeft: iconLeft ? 8 : 0,
