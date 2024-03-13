@@ -6,16 +6,25 @@ import { colors, dimensions } from '../../theme';
 import Box from '../Box/Box';
 import Text from '../Text/Text';
 
-type Props = {
+export type ListItemProps = {
   variant?: 'checkbox' | 'default';
   isChecked?: boolean;
   isEven: boolean;
   title: string;
   subTitle?: string | null;
+  suffixElement?: React.ReactNode | string;
   onPress: () => void;
 };
 
-export const ListItem: React.FC<Props> = ({ variant = 'default', isEven, isChecked, title, subTitle, onPress }) => {
+export const ListItem: React.FC<ListItemProps> = ({
+  variant = 'default',
+  isEven,
+  isChecked,
+  title,
+  subTitle,
+  suffixElement,
+  onPress,
+}) => {
   return (
     <TouchableHighlight
       style={[styles.item, isEven ? styles.even : styles.odd]}
@@ -24,11 +33,11 @@ export const ListItem: React.FC<Props> = ({ variant = 'default', isEven, isCheck
     >
       <>
         {variant === 'checkbox' && (
-          <Box mr={8} style={styles.checkboxView}>
+          <Box mx={8} style={styles.checkboxView}>
             {isChecked && <CheckMarkIcon color={colors.primary} height={16} width={16} />}
           </Box>
         )}
-        <Box>
+        <Box style={styles.titleContainer}>
           <Text spaceAfter={2} variant="bodyRegular">
             {title}
           </Text>
@@ -38,6 +47,7 @@ export const ListItem: React.FC<Props> = ({ variant = 'default', isEven, isCheck
             </Text>
           )}
         </Box>
+        {suffixElement && <Box>{suffixElement}</Box>}
       </>
     </TouchableHighlight>
   );
@@ -60,8 +70,7 @@ const styles = StyleSheet.create({
   odd: {
     backgroundColor: colors.list.odd.background,
   },
-  title: {
+  titleContainer: {
     flex: 1,
-    fontSize: dimensions.list.singleItem.fontSize,
   },
 });

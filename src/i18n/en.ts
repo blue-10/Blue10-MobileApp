@@ -120,6 +120,12 @@ export const en: TranslationKeysType = {
     message: 'Are you sure want to logout?',
     title: 'Logout',
   },
+  save_to_cameraroll_confirm: {
+    description: 'Do you want to save the image(s) on your phone after they have been uploaded to Blue10?',
+    no: "No, don't save",
+    title: 'Save image(s) locally after upload?',
+    yes: 'Yes, save',
+  },
   scan: {
     company_title: 'Select company',
     document_type_packing_slip: 'Packing slip',
@@ -175,7 +181,9 @@ export const en: TranslationKeysType = {
   settings: {
     language_subtitle: 'Language',
     logout: 'Logout',
+    other_subtitle: 'Other',
     screen_title: 'Settings',
+    setting_savetocameraroll: 'Save images locally after upload',
     version: 'Version',
   },
   switch_environments: {
