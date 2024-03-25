@@ -120,6 +120,12 @@ export const nl: TranslationKeysType = {
     message: 'Weet je zeker dat je wilt uitloggen?',
     title: 'Uitloggen',
   },
+  save_to_cameraroll_confirm: {
+    description: 'Wil je de afbeelding(en) op je telefoon opslaan nadat deze zijn geüpload naar Blue10?',
+    no: 'Nee, niet opslaan',
+    title: 'Afbeelding(en) lokaal opslaan na upload?',
+    yes: 'Ja, opslaan',
+  },
   scan: {
     company_title: 'Kies bedrijf',
     document_type_packing_slip: 'Pakbon',
@@ -176,7 +182,9 @@ export const nl: TranslationKeysType = {
   settings: {
     language_subtitle: 'Taal',
     logout: 'Uitloggen',
+    other_subtitle: 'Overig',
     screen_title: 'Voorkeuren',
+    setting_savetocameraroll: 'Afbeeldingen lokaal opslaan na upload',
     version: 'Versie',
   },
   switch_environments: {

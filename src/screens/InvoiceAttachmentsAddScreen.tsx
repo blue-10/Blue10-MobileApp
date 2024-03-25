@@ -2,7 +2,9 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
+
+import { useSettingsStore } from '@/store/SettingsStore';
 
 import { ScanPreview } from '../components/ScanPreview/ScanPreview';
 import { useInvalidateInvoiceAttachments } from '../hooks/invalidate/useInvalidateInvoiceAttachments';
@@ -21,6 +23,9 @@ import { ScanUploadModalScreen } from './ScanUploadModalScreen';
 type Props = NativeStackScreenProps<RootStackParamList, 'InvoiceAttachmentAddScreen'>;
 
 export const InvoiceAttachmentAddScreen: React.FC<Props> = ({ route, navigation }) => {
+  const settings = useSettingsStore((state) => state.settings);
+  const setSetting = useSettingsStore((state) => state.setSetting);
+
   const { t } = useTranslation();
   const currentCustomer = useGetCurrentCustomer();
   const invoiceId = useMemo(() => route.params.id, [route.params.id]);
@@ -66,6 +71,29 @@ export const InvoiceAttachmentAddScreen: React.FC<Props> = ({ route, navigation 
     setIsUploadModalOpen(true);
     startUploadProcessInvoice();
   }, [setIsUploadModalOpen, startUploadProcessInvoice]);
+
+  const beforeStartUpload = useCallback(() => {
+    const confirmHandle = (saveToCameraRoll: boolean) => {
+      setSetting('hasAskedForSavingToCameraRoll', true);
+      setSetting('saveToCameraRoll', saveToCameraRoll);
+      startUpload();
+    };
+
+    if (!settings.hasAskedForSavingToCameraRoll) {
+      Alert.alert(t('save_to_cameraroll_confirm.title'), t('save_to_cameraroll_confirm.description'), [
+        {
+          onPress: () => confirmHandle(true),
+          text: t('save_to_cameraroll_confirm.yes'),
+        },
+        {
+          onPress: () => confirmHandle(false),
+          text: t('save_to_cameraroll_confirm.no'),
+        },
+      ]);
+    } else {
+      startUpload();
+    }
+  }, [setSetting, settings.hasAskedForSavingToCameraRoll, startUpload, t]);
 
   const finishUpload = useCallback(
     (uploadSuccessful: boolean) => {
@@ -120,7 +148,7 @@ export const InvoiceAttachmentAddScreen: React.FC<Props> = ({ route, navigation 
         onGoBack={goBack}
         onOpenCamera={openCamera}
         onSelectImage={selectImage}
-        onStartUpload={startUpload}
+        onStartUpload={beforeStartUpload}
       />
     </View>
   );

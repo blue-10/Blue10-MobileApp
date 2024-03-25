@@ -3,6 +3,7 @@ import Constants from 'expo-constants';
 export const storeKeyBaseUrl = 'user.baseUrl';
 export const storeKeyRefreshToken = 'user.refreshToken';
 export const storeKeyLanguage = 'language.selected';
+export const storeKeySettings = 'settings.values';
 
 export const enum queryRefetchInterval {
   totalInvoices = 300000,

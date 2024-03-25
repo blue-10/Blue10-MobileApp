@@ -115,6 +115,14 @@ const config: ExpoConfig = {
         cameraPermission: 'To scan documents, camera access is required.',
       },
     ],
+    [
+      'expo-media-library',
+      {
+        isAccessMediaLocationEnabled: true,
+        photosPermission: 'Allow $(PRODUCT_NAME) to access your photos.',
+        savePhotosPermission: 'Allow $(PRODUCT_NAME) to save photos.',
+      },
+    ],
   ],
   slug: 'blue10-app',
   splash: {

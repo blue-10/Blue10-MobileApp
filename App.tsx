@@ -22,6 +22,8 @@ import type React from 'react';
 import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { SettingsProvider } from '@/store/SettingsStore';
+
 import { REFRESH_GET_BEFORE_IN_MINUTES } from './src/api/ApiService';
 import { ToastProvider } from './src/components/Toast/ToastProvider';
 import Screens from './src/Screens';
@@ -79,9 +81,11 @@ export const App: React.FC = () => {
             },
           }}
         >
-          <ToastProvider>
-            <ActionSheetProvider>{!hasRefreshToken ? <LoginScreen /> : <Screens />}</ActionSheetProvider>
-          </ToastProvider>
+          <SettingsProvider>
+            <ToastProvider>
+              <ActionSheetProvider>{!hasRefreshToken ? <LoginScreen /> : <Screens />}</ActionSheetProvider>
+            </ToastProvider>
+          </SettingsProvider>
         </Provider>
       </SafeAreaProvider>
     </QueryClientProvider>
