@@ -70,6 +70,8 @@ export type TranslationKeysType = {
     language_subtitle: string;
     logout: string;
     version: string;
+    other_subtitle: string;
+    setting_savetocameraroll: string;
   };
   languages: {
     nl: string;
@@ -181,5 +183,11 @@ export type TranslationKeysType = {
   };
   listview_empty: {
     title: string;
+  };
+  save_to_cameraroll_confirm: {
+    title: string;
+    description: string;
+    yes: string;
+    no: string;
   };
 };

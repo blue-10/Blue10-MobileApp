@@ -1,3 +1,6 @@
+const primaryColor = 'rgb(196,214,0)';
+const primaryBlueColor = 'rgba(0, 122, 255, 1)';
+const secondaryBlueColor = '#5AC8FA';
 const primaryTextColor = '#000000';
 const secondaryTextColor = '#c5c5c5';
 const whiteColor = '#ffffff';
@@ -15,18 +18,18 @@ export const colors = {
       text: '#AEAEB2',
     },
     primary: {
-      background: 'rgba(0, 122, 255, 1)',
+      background: primaryBlueColor,
       text: whiteColor,
     },
     primaryClear: {
-      text: 'rgba(0, 122, 255, 1)',
+      text: primaryBlueColor,
     },
     secondary: {
-      background: '#5AC8FA',
+      background: secondaryBlueColor,
       text: whiteColor,
     },
     secondaryClear: {
-      text: '#5AC8FA',
+      text: secondaryBlueColor,
     },
   },
   dashboard: {
@@ -64,7 +67,7 @@ export const colors = {
     },
   },
   overlayBackground: 'rgba(0, 0, 0, 0.4)',
-  primary: 'rgb(196,214,0)',
+  primary: primaryColor,
   primaryText: primaryTextColor,
   scan: {
     addIconColor: 'rgba(52, 199, 89, 1)',
@@ -88,6 +91,11 @@ export const colors = {
     text: blackColor,
   },
   secondaryText: 'rgba(142, 142, 147, 1)',
+  switch: {
+    thumbColor: undefined,
+    trackcolorFalse: null,
+    trackcolorTrue: primaryColor,
+  },
   toast: {
     background: 'rgba(142, 142, 147, 1)',
     buttonColor: whiteColor,

@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
+import { useSettingsStore } from '@/store/SettingsStore';
+
 import { useApiStore } from '../../store/ApiStore';
 import Box from '../Box/Box';
 import Button from '../Button/Button';
@@ -12,6 +14,7 @@ type ErrorViewProps = {
 
 const ErrorView: React.FC<ErrorViewProps> = ({ onLogout }) => {
   const clearRefreshToken = useApiStore((state) => state.clearRefreshToken);
+  const resetSettings = useSettingsStore((state) => state.reset);
   const { t } = useTranslation();
 
   return (
@@ -29,6 +32,7 @@ const ErrorView: React.FC<ErrorViewProps> = ({ onLogout }) => {
           variant="primary"
           onPress={() => {
             clearRefreshToken();
+            resetSettings();
             onLogout();
           }}
         />

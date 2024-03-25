@@ -5,6 +5,10 @@ import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 
+import { ListItemCheckbox } from '@/components/ListItemCheckbox/ListItemCheckbox';
+import { ListItemHeader } from '@/components/ListItemHeader/ListItemHeader';
+import { useSettingsStore } from '@/store/SettingsStore';
+
 import Box from '../components/Box/Box';
 import Button from '../components/Button/Button';
 import { ListItem } from '../components/ListItem/ListItem';
@@ -16,6 +20,9 @@ import { colors } from '../theme';
 export const SettingsScreen: React.FC = () => {
   const { clearRefreshToken } = useApiStore();
   const { t, i18n } = useTranslation();
+  const settings = useSettingsStore((state) => state.settings);
+  const setSetting = useSettingsStore((state) => state.setSetting);
+  const resetSettings = useSettingsStore((state) => state.reset);
 
   const selectableLanguages = [
     {
@@ -44,7 +51,10 @@ export const SettingsScreen: React.FC = () => {
         text: t('logout_confirm.cancel_button'),
       },
       {
-        onPress: () => clearRefreshToken(),
+        onPress: () => {
+          clearRefreshToken();
+          resetSettings();
+        },
         style: 'destructive',
         text: t('logout_confirm.confirm_button'),
       },
@@ -54,9 +64,7 @@ export const SettingsScreen: React.FC = () => {
   return (
     <Box>
       <StatusBar animated style="dark" />
-      <Box px={42} py={16}>
-        <Text variant="bodyRegularBold">{t('settings.language_subtitle')}</Text>
-      </Box>
+      <ListItemHeader title={t('settings.language_subtitle')} />
       {selectableLanguages.map((item, index) => (
         <ListItem
           key={item.id}
@@ -68,6 +76,16 @@ export const SettingsScreen: React.FC = () => {
           onPress={() => onChangeLanguage(item.id)}
         />
       ))}
+      <ListItemHeader title={t('settings.other_subtitle')} />
+      <ListItemCheckbox
+        isChecked={settings.saveToCameraRoll}
+        isEven={false}
+        title={t('settings.setting_savetocameraroll')}
+        variant="checkbox"
+        onChecked={(isChecked) => {
+          setSetting('saveToCameraRoll', isChecked);
+        }}
+      />
       <Box px={24} py={24}>
         <Button size="M" title={t('settings.logout')} variant="secondary" onPress={() => confirmBeforeLogout()} />
       </Box>

@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useSettingsStore } from '@/store/SettingsStore';
+
 import { useImageStore } from '../store/ImageStore';
 import { useUploadStore } from '../store/UploadStore';
-import { deleteFilesInBackground } from '../utils/fileSystem';
+import { deleteFilesInBackground, saveFilesToGallery } from '../utils/fileSystem';
 import {
   finishUploadSession,
   prepareDocument,
@@ -19,6 +21,7 @@ import { useApi } from './useApi';
 
 export const useUploadScanProcess = () => {
   const api = useApi();
+  const isSaveToCameraRoll = useSettingsStore((state) => state.settings.saveToCameraRoll);
   const currentCustomer = useGetCurrentCustomer();
   const { currentUser } = useGetCurrentUser();
   const { company, documentType, images } = useImageStore();
@@ -59,15 +62,16 @@ export const useUploadScanProcess = () => {
               .then(() => {
                 uploadStore.startFinalizingSession();
                 finishUploadSession(api, sessionId)
-                  .then(() => {
+                  .then(async () => {
+                    if (isSaveToCameraRoll) {
+                      await saveFilesToGallery(images);
+                    }
                     uploadStore.setUploadSucceededState();
-                    deleteFilesInBackground(pdfDocuments);
                   })
                   .catch((reason) => {
                     captureError(reason, 'An error occurred during the upload process.', 'warning', errorContext);
 
                     uploadStore.failFinalizingSession(t('scan.upload_finalize_warning'));
-                    deleteFilesInBackground(pdfDocuments);
                   });
               })
               .catch((reason) => {
@@ -80,7 +84,8 @@ export const useUploadScanProcess = () => {
                 if (!isUserAbort) {
                   captureError(reason, 'Failed to upload a document', 'error', errorContext);
                 }
-
+              })
+              .finally(() => {
                 deleteFilesInBackground(pdfDocuments);
               });
           })
@@ -109,7 +114,18 @@ export const useUploadScanProcess = () => {
           captureError(reason, 'Failed to prepare PDF document', 'error', errorContext);
         }
       });
-  }, [api, company, currentCustomer.customerId, currentUser?.Email, documentType, images, shouldAbort, t, uploadStore]);
+  }, [
+    api,
+    company,
+    currentCustomer.customerId,
+    currentUser?.Email,
+    documentType,
+    images,
+    isSaveToCameraRoll,
+    shouldAbort,
+    t,
+    uploadStore,
+  ]);
 
   return {
     abortUploadProcess,
