@@ -32,8 +32,7 @@ export const useInvoiceGetImages = (id: string) => {
     getPreviousPageParam: (lastPage) => lastPage.previousPage,
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
-      // const data = await api.invoice.getImage(id, pageParam);
-      const data = await api.invoice.getImage(id, 1);
+      const data = await api.invoice.getImage(id, pageParam);
       return {
         data,
         nextPage: !(pageParam + 1 > imageCount) ? pageParam + 1 : undefined,

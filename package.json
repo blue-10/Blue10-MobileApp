@@ -1,6 +1,6 @@
 {
   "name": "blue10-app",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "main": "node_modules/expo/AppEntry.js",
   "prettier": "@wecreatesolutions/config-prettier",
   "scripts": {
