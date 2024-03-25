@@ -27,6 +27,10 @@ export const en: TranslationKeysType = {
     search_placeholder: 'Zoeken...',
     unknown: 'Unknown',
   },
+  image_slide_show: {
+    loading_count: 'Loading...',
+    loading_image: 'Loading image {index}...',
+  },
   invoice_action_form: {
     action_completed_title: 'Action completed',
     button_action_help_text: 'Action',

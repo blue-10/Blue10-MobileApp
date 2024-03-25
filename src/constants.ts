@@ -32,6 +32,7 @@ export const enum queryKeys {
   getSource = 'getSource',
   newAction = 'newAction',
   overviewStatusFilters = 'overviewStatusFilters',
+  invoiceImage = 'invoiceImage',
 }
 
 export const authConstants = {
