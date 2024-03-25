@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const InvoicePreviewScreen: React.FC<Props> = ({ id }) => {
-  const { images, imageCount, imagesQuery } = useInvoiceGetImages(id);
+  const { images, imageCount, imagesQuery, imageCountQuery } = useInvoiceGetImages(id);
 
   const imageUrls = useMemo(() => {
     const imagesFill = new Array(imageCount).fill(undefined);
@@ -22,15 +22,17 @@ export const InvoicePreviewScreen: React.FC<Props> = ({ id }) => {
   }, [images, imageCount]);
 
   return (
-    <FetchErrorMessage isError={imagesQuery.isError} onRetry={() => imagesQuery.refetch()}>
-      <ImageGallery
-        images={imageUrls}
-        onPageSelected={(_index) => {
-          if (imagesQuery.hasNextPage) {
-            imagesQuery.fetchNextPage();
-          }
-        }}
-      />
+    <FetchErrorMessage isError={imageCountQuery.isError} onRetry={() => imageCountQuery.refetch()}>
+      <FetchErrorMessage isError={imagesQuery.isError} onRetry={() => imagesQuery.refetch()}>
+        <ImageGallery
+          images={imageUrls}
+          onPageSelected={(_index) => {
+            if (imagesQuery.hasNextPage) {
+              imagesQuery.fetchNextPage();
+            }
+          }}
+        />
+      </FetchErrorMessage>
     </FetchErrorMessage>
   );
 };
