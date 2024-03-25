@@ -6,6 +6,10 @@ export type TranslationKeysType = {
     unknown: string;
     search_placeholder: string;
   };
+  image_slide_show: {
+    loading_image: string;
+    loading_count: string;
+  };
   login: {
     welcome_title: string;
     welcome_description: string;

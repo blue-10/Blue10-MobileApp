@@ -27,6 +27,10 @@ export const nl: TranslationKeysType = {
     search_placeholder: 'Zoeken...',
     unknown: 'Onbekend',
   },
+  image_slide_show: {
+    loading_count: 'Bezig met laden...',
+    loading_image: 'Laad afbeelding {{index}}...',
+  },
   invoice_action_form: {
     action_completed_title: 'Actie voltooid',
     button_action_help_text: 'Actie',

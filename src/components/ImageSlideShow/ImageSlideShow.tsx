@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
 import { colors } from '../../theme';
 import Box from '../Box/Box';
+import Text from '../Text/Text';
 
 type Props = {
   images: string[];
@@ -10,6 +12,8 @@ type Props = {
 };
 
 export const ImageGallery: React.FC<Props> = ({ images, onPageSelected }) => {
+  const { t } = useTranslation();
+
   return (
     <PagerView
       initialPage={0}
@@ -31,7 +35,12 @@ export const ImageGallery: React.FC<Props> = ({ images, onPageSelected }) => {
               />
             </Box>
           ) : (
-            <ActivityIndicator color={colors.primary} size="large" />
+            <Box>
+              <Box pb={16}>
+                <ActivityIndicator color={colors.primary} size="large" />
+              </Box>
+              <Text variant="bodyRegularBold">{t('image_slide_show.loading_image', { index: index + 1 })}</Text>
+            </Box>
           )}
         </View>
       ))}
