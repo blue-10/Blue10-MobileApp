@@ -1,3 +1,6 @@
+# v1.6.1
+* \#112 Factuur toont incompleet
+
 # v1.6.0
 * \#108 Packages Upgrade van APP
 * \#106 Comprimeren van afbeeldingen
