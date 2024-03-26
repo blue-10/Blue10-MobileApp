@@ -24,7 +24,7 @@ export const en: TranslationKeysType = {
     button_cancel: 'Cancel',
     button_ok: 'OK',
     error: 'Error',
-    search_placeholder: 'Zoeken...',
+    search_placeholder: 'Search...',
     unknown: 'Unknown',
   },
   image_slide_show: {
