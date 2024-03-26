@@ -1,5 +1,6 @@
 # v1.6.1
 * \#112 Factuur toont incompleet
+* \#111 Factuur wordt niet getoond bij navigeren naar origineel
 
 # v1.6.0
 * \#108 Packages Upgrade van APP

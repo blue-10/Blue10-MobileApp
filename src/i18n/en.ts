@@ -24,8 +24,12 @@ export const en: TranslationKeysType = {
     button_cancel: 'Cancel',
     button_ok: 'OK',
     error: 'Error',
-    search_placeholder: 'Zoeken...',
+    search_placeholder: 'Search...',
     unknown: 'Unknown',
+  },
+  image_slide_show: {
+    loading_count: 'Loading...',
+    loading_image: 'Loading image {index}...',
   },
   invoice_action_form: {
     action_completed_title: 'Action completed',
