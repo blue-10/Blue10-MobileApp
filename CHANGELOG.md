@@ -1,3 +1,6 @@
+# v1.7.0
+* \#114 Standaard leverancier tonen in To Do Dashboard
+
 # v1.6.1
 * \#112 Factuur toont incompleet
 * \#111 Factuur wordt niet getoond bij navigeren naar origineel

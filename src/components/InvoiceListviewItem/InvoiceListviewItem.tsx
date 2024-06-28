@@ -21,7 +21,7 @@ export const InvoiceListviewItem: React.FC<Props> = ({ item, index, onPress }) =
     >
       <>
         <View style={styles.row}>
-          <Text style={styles.companyNameText}>{item.companyName}</Text>
+          <Text style={styles.companyNameText}>{item.invoiceName}</Text>
           <Text style={styles.invoiceAmountText}>{numberToCurrency(item.price, item.currency)}</Text>
         </View>
         <View style={styles.row}>

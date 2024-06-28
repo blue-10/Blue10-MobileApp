@@ -23,6 +23,7 @@ export type Invoice = {
 export type InvoiceListItem = {
   id: string;
   price: number;
+  invoiceName: string;
   invoiceNumber: string;
   date?: Date;
   companyName: string;
