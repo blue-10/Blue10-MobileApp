@@ -47,6 +47,7 @@ export const normalizeInvoiceListItemFromResponseItem = (response: GetInvoiceOve
     currency: response.Currency,
     date: typeof response.DocumentDate === 'string' ? parseDate(response.DocumentDate) : undefined,
     id: response.Id,
+    invoiceName: response.RelationName,
     invoiceNumber: response.DocumentNumber,
     price: response.GrossAmount ?? 0,
     totalCount: response.Count,
