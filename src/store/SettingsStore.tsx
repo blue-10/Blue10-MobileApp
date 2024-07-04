@@ -3,6 +3,7 @@ import { type PropsWithChildren, useEffect } from 'react';
 import { create } from 'zustand';
 
 import { storeKeySettings } from '@/constants';
+import { getSentry } from '@/utils/sentry';
 
 type SettingsType = {
   hasAskedForSavingToCameraRoll: boolean;
@@ -26,15 +27,23 @@ const defaultSettings: SettingsType = {
 
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
   load: async () => {
-    const settingStr = await SecureStore.getItemAsync(storeKeySettings);
-    if (settingStr !== null) {
-      const parsedSettings = JSON.parse(settingStr);
+    try {
+      const settingStr = await SecureStore.getItemAsync(storeKeySettings);
+      if (settingStr !== null) {
+        const parsedSettings = JSON.parse(settingStr);
+        set({
+          settings: {
+            ...defaultSettings,
+            ...parsedSettings,
+          },
+        });
+      }
+    } catch (error) {
+      // could not load from storage
       set({
-        settings: {
-          ...defaultSettings,
-          ...parsedSettings,
-        },
+        settings: { ...defaultSettings },
       });
+      getSentry().captureException(error);
     }
   },
   reset: async () => {

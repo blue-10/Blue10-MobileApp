@@ -27,7 +27,10 @@ const languageDetect = {
     // grab locale that the device is using.
     const deviceLocale = Localization.locale.split('-')[0];
     // look up in the store for the saved locale
-    const savedLocale = await SecureStore.getItemAsync(storeKeyLanguage);
+    let savedLocale: string | null = null;
+    try {
+      savedLocale = await SecureStore.getItemAsync(storeKeyLanguage);
+    } catch {}
     // check if saved locale is not null if so we use the device version
     const newlocale = savedLocale !== null ? savedLocale : deviceLocale;
 

@@ -1,3 +1,6 @@
+# v1.7.1
+* \#118 Action successvol niet weer geven in dialog.
+
 # v1.7.0
 * \#114 Standaard leverancier tonen in To Do Dashboard
 

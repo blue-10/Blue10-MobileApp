@@ -31,13 +31,19 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
     queryKey: [queryKeys.invoiceActions, invoiceId],
   });
 
+  const getResultKey = useCallback((errorMessage: string) => {
+    let messageKey = errorMessage.toUpperCase();
+    if (messageKey in errorRemap) {
+      messageKey = errorRemap[messageKey];
+    }
+
+    return messageKey;
+  }, []);
+
   const getMessageFromKey = useCallback(
     (errorMessage: string) => {
       let retValue = errorMessage;
-      let messageKey = retValue.toUpperCase();
-      if (messageKey in errorRemap) {
-        messageKey = errorRemap[messageKey];
-      }
+      const messageKey = getResultKey(errorMessage);
 
       if (messageKey !== '' && purchaseInvoiceSource && messageKey in purchaseInvoiceSource) {
         retValue = purchaseInvoiceSource[messageKey];
@@ -45,7 +51,7 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
 
       return retValue;
     },
-    [purchaseInvoiceSource],
+    [getResultKey, purchaseInvoiceSource],
   );
 
   const submit = useCallback(async () => {
@@ -70,16 +76,19 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
 
     try {
       const result = await newActionMutation.mutateAsync(params);
-      Alert.alert(
-        t('invoice_action_form.action_completed_title'),
-        getMessageFromKey(result).replace('{0}', actionIdToText(invoiceActionStore.selectedActionId ?? -1)),
-        [
-          {
-            style: 'default',
-            text: t('general.button_ok'),
-          },
-        ],
-      );
+      if (getResultKey(result) !== 'DOCUMENT_SAVED_SUCCESSFULLY') {
+        Alert.alert(
+          t('invoice_action_form.action_completed_title'),
+          getMessageFromKey(result).replace('{0}', actionIdToText(invoiceActionStore.selectedActionId ?? -1)),
+          [
+            {
+              style: 'default',
+              text: t('general.button_ok'),
+            },
+          ],
+        );
+      }
+
       invoiceActionStore.reset();
       invalidateInvoice(invoiceId);
       await refetchInvoice(); // refetch invoice
@@ -98,11 +107,12 @@ export const useInvoiceActionFormSubmit = (invoiceId: string) => {
     invoiceId,
     invoiceActionStore,
     newActionMutation,
+    getResultKey,
+    invalidateInvoice,
+    refetchInvoice,
     t,
     getMessageFromKey,
     actionIdToText,
-    invalidateInvoice,
-    refetchInvoice,
   ]);
 
   const isSubmitDisabled = isFetchingInvoiceActions > 0 || isFetchingInvoice || newActionMutation.isPending;
