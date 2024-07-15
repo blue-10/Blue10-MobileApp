@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import type React from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ import type { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions, text } from '../theme/';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Dashboard'>;
+type Props = StackScreenProps<RootStackParamList, 'Dashboard'>;
 
 const GRID_GAP = 20;
 

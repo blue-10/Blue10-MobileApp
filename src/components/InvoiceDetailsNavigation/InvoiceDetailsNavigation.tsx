@@ -1,9 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet } from 'react-native';
 
 import { useInvoiceSearchQuery } from '@/hooks/queries/useInvoiceSearchQuery';
+import { useNavigateToInvoice } from '@/hooks/useNavigateToInvoice';
 import { useSearchFilterStore } from '@/store/SearchFilterStore';
 
 import ArrowLeftIcon from '../../../assets/icons/arrow-round-left.svg';
@@ -22,12 +22,14 @@ const borderColor = colors.borderColor;
 export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, isDisabled = false }) => {
   const isIOS = Platform.OS === 'ios';
   const { t } = useTranslation();
-  const navigation = useNavigation();
   const lastFilter = useSearchFilterStore((store) => store.lastFilter);
+  const navigateToInvoice = useNavigateToInvoice();
 
   const {
     all: allInvoices,
     getIndexById,
+    getNextInvoice,
+    getPreviousInvoice,
     client: { hasNextPage, fetchNextPage },
   } = useInvoiceSearchQuery({ doNotSetLastFilter: true, filters: lastFilter ?? new Map() });
 
@@ -43,32 +45,18 @@ export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, is
     }
   }, [hasNextPage, indexInInvoice, allInvoices.length, fetchNextPage]);
 
-  const navigateToInvoice = useCallback(
-    (toInvoiceId: string) => {
-      // @ts-ignore replace does exists, but not in types.
-      navigation.replace('InvoiceDetailsScreen', {
-        disabledAnimation: true,
-        id: toInvoiceId,
-      });
-    },
-    [navigation],
-  );
-
   const onNextPress = () => {
-    if (!(indexInInvoice < allInvoices.length - 1)) {
-      return;
+    const nextInvoice = getNextInvoice(currentInvoiceId);
+    if (nextInvoice) {
+      navigateToInvoice(nextInvoice.id, { animationType: 'next' });
     }
-    const nextInvoice = allInvoices[indexInInvoice + 1];
-    navigateToInvoice(nextInvoice.id);
   };
 
   const onPreviousPress = () => {
-    if (indexInInvoice < 1) {
-      return;
+    const previousInvoice = getPreviousInvoice(currentInvoiceId);
+    if (previousInvoice) {
+      navigateToInvoice(previousInvoice.id, { animationType: 'previous' });
     }
-
-    const prevInvoice = allInvoices[indexInInvoice - 1];
-    navigateToInvoice(prevInvoice.id);
   };
 
   return (

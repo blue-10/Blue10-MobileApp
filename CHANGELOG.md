@@ -1,3 +1,6 @@
+# v1.8.0
+* \#119 Flow na behandelen (to do) factuur
+
 # v1.7.1
 * \#118 Action successvol niet weer geven in dialog.
 

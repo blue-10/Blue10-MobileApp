@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { useQuery } from '@tanstack/react-query';
 import type React from 'react';
 import { useCallback, useMemo } from 'react';
@@ -19,7 +19,7 @@ import { colors } from '../theme';
 import { normalizeMap } from '../utils/normalizerUtils';
 import { useQueryKeySuffix } from '../utils/queryUtils';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'InvoiceBookingsScreen'>;
+type Props = StackScreenProps<RootStackParamList, 'InvoiceBookingsScreen'>;
 
 export const InvoiceBookingsScreen: React.FC<Props> = ({ route }) => {
   const { id } = route.params;

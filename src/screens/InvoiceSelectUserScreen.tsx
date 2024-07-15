@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import type React from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import type { ListRenderItem } from 'react-native';
@@ -11,7 +11,7 @@ import { useGetAllUsers } from '../hooks/queries/useGetAllUsers';
 import type { RootStackParamList } from '../navigation/types';
 import { useInvoiceActionFormStore } from '../store/InvoiceActionFormStore';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'InvoiceSelectUserScreen'>;
+type Props = StackScreenProps<RootStackParamList, 'InvoiceSelectUserScreen'>;
 
 export const InvoiceSelectUserScreen: React.FC<Props> = ({
   navigation,

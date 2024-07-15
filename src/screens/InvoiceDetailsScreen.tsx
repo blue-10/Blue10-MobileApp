@@ -1,9 +1,13 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
 import type React from 'react';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, RefreshControl, ScrollView, StyleSheet } from 'react-native';
+
+import { useInvoiceSearchQuery } from '@/hooks/queries/useInvoiceSearchQuery';
+import { useNavigateToInvoice } from '@/hooks/useNavigateToInvoice';
+import { useSearchFilterStore } from '@/store/SearchFilterStore';
 
 import Box from '../components/Box/Box';
 import Button from '../components/Button/Button';
@@ -19,7 +23,7 @@ import type { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme';
 import { numberToCurrency } from '../utils/numberToCurrency';
 
-export type InvoiceDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'InvoiceDetailsScreen'>;
+export type InvoiceDetailsScreenProps = StackScreenProps<RootStackParamList, 'InvoiceDetailsScreen'>;
 
 const itemsMarginX = 26;
 const borderColor = colors.borderColor;
@@ -27,15 +31,46 @@ const borderColor = colors.borderColor;
 export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navigation, route }) => {
   const isIOS = Platform.OS === 'ios';
   const statusIdToText = useStatusIdToText();
+  const [didUsedPullToRefresh, setDidUsedPullToRefresh] = useState(false);
 
   const { t } = useTranslation();
   const invoiceId = useMemo(() => route.params.id, [route.params.id]);
-  const { data: item, isFetching, isLoading, refetch } = useInvoiceDetails(invoiceId);
+  const { data: item, isFetching, isLoading, refetch, isSuccess } = useInvoiceDetails(invoiceId);
   const {
     submit: actionFormSubmit,
     isSubmitDisabled: isActionButtonDisabled,
     isMutating: isActionMutating,
   } = useInvoiceActionFormSubmit(invoiceId);
+  const navigateToInvoice = useNavigateToInvoice();
+
+  useEffect(() => {
+    setDidUsedPullToRefresh(false);
+  }, [isSuccess]);
+
+  const lastFilter = useSearchFilterStore((store) => store.lastFilter);
+
+  const { getNextInvoice } = useInvoiceSearchQuery({ doNotSetLastFilter: true, filters: lastFilter ?? new Map() });
+
+  const onSuccessActionHandle = useCallback(
+    (nextInvoiceId: string | undefined) => {
+      if (nextInvoiceId) {
+        navigateToInvoice(nextInvoiceId);
+        return;
+      }
+      // return to To-Do list or search results screen if there are no next invoices.
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      }
+    },
+    [navigateToInvoice, navigation],
+  );
+
+  const onActionButtonPressed = useCallback(async () => {
+    // we get the next invoice first before submitting.
+    // because the query state can be reset when the action is submited.
+    const nextInvoice = getNextInvoice(invoiceId);
+    await actionFormSubmit({ onSuccess: () => onSuccessActionHandle(nextInvoice?.id) });
+  }, [actionFormSubmit, getNextInvoice, invoiceId, onSuccessActionHandle]);
 
   const tableColor = colors.labelLightSecondary;
   const isButtonsDisabled = isFetching;
@@ -44,12 +79,15 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
     () => (
       <RefreshControl
         colors={[colors.primary]} // android
-        refreshing={isFetching}
+        refreshing={isFetching && didUsedPullToRefresh}
         tintColor={colors.primary} // ios
-        onRefresh={() => refetch()}
+        onRefresh={() => {
+          setDidUsedPullToRefresh(true);
+          refetch();
+        }}
       />
     ),
-    [isFetching, refetch],
+    [isFetching, refetch, didUsedPullToRefresh],
   );
 
   return (
@@ -198,7 +236,7 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
           size="M"
           title={t('invoice_details.button_execute')}
           variant="primary"
-          onPress={() => actionFormSubmit()}
+          onPress={() => onActionButtonPressed()}
         />
       </Box>
     </KeyboardAvoidingView>

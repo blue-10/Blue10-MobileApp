@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import type React from 'react';
@@ -13,7 +13,7 @@ import { queryKeys } from '../constants';
 import { useInvoiceToDoQuery } from '../hooks/queries/useInvoiceToDoQuery';
 import type { RootStackParamList } from '../navigation/types';
 
-export type InvoicesToDoScreenProps = NativeStackScreenProps<RootStackParamList, 'InvoicesToDoScreen'>;
+export type InvoicesToDoScreenProps = StackScreenProps<RootStackParamList, 'InvoicesToDoScreen'>;
 
 export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigation, route }) => {
   const { t } = useTranslation();

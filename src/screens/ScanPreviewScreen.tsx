@@ -1,5 +1,5 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -20,7 +20,7 @@ import { colors, dimensions } from '../theme/';
 import { captureError } from '../utils/sentry';
 import { ScanUploadModalScreen } from './ScanUploadModalScreen';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'ScanPreviewScreen'>;
+type Props = StackScreenProps<RootStackParamList, 'ScanPreviewScreen'>;
 
 export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
   const settings = useSettingsStore((state) => state.settings);

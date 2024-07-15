@@ -1,9 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import { forSlideLeftToRight, forSlideRightToLeft } from './navigation/forSlide';
 import type { RootStackParamList } from './navigation/types';
 import { DashboardScreen } from './screens/DashboardScreen';
 import { InvoiceAttachmentAddScreen } from './screens/InvoiceAttachmentsAddScreen';
@@ -23,7 +24,7 @@ import { SettingsScreen } from './screens/SettingsScreen';
 import { SwitchEnvironmentScreen } from './screens/SwitchEnvironmentScreen';
 import { colors } from './theme';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 const Screens: React.FC = () => {
   const { t } = useTranslation();
   return (
@@ -67,10 +68,36 @@ const Screens: React.FC = () => {
           <Stack.Screen
             component={InvoiceDetailsScreen}
             name="InvoiceDetailsScreen"
-            options={({ route }) => ({
-              animation: route.params.disabledAnimation ? 'none' : 'default',
-              title: t('invoice_details.title'),
-            })}
+            options={({ route }) => {
+              const extraParams: Record<string, any> = {};
+              const headerStyle = () => ({
+                backgroundStyle: {},
+                leftButtonStyle: {},
+                rightButtonStyle: {},
+                titleStyle: {},
+              });
+
+              switch (route.params.animationType) {
+                case 'next':
+                  extraParams.headerMode = 'float'; // make sure that header does not move when doing the animation
+                  extraParams.headerStyleInterpolator = headerStyle; // no style changes in the header.
+                  extraParams.cardStyleInterpolator = forSlideRightToLeft;
+                  break;
+                case 'previous':
+                  extraParams.headerMode = 'float';
+                  extraParams.headerStyleInterpolator = headerStyle;
+                  extraParams.cardStyleInterpolator = forSlideLeftToRight;
+                  break;
+                case 'none':
+                  extraParams.animation = 'none';
+                  break;
+              }
+
+              return {
+                title: t('invoice_details.title'),
+                ...extraParams,
+              };
+            }}
           />
           <Stack.Screen
             component={InvoiceSelectUserScreen}

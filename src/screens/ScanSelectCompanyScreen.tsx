@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import type React from 'react';
 import { useCallback, useMemo } from 'react';
@@ -12,7 +12,7 @@ import { useGetCurrentUser } from '../hooks/queries/useGetCurrentUser';
 import type { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
 
-export type ScanSelectCompanyScreenProps = NativeStackScreenProps<RootStackParamList, 'ScanSelectCompanyScreen'>;
+export type ScanSelectCompanyScreenProps = StackScreenProps<RootStackParamList, 'ScanSelectCompanyScreen'>;
 
 export const ScanSelectCompanyScreen: React.FC<ScanSelectCompanyScreenProps> = ({ navigation }) => {
   const { data: allCompanies } = useAllCompanies();

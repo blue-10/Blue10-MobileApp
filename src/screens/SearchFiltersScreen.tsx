@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native';
@@ -21,7 +21,7 @@ import type { RootStackParamList } from '@/navigation/types';
 import { useSearchFilterStore } from '@/store/SearchFilterStore';
 import { colors } from '@/theme';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SearchFiltersScreen'>;
+type Props = StackScreenProps<RootStackParamList, 'SearchFiltersScreen'>;
 
 export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -11,7 +11,7 @@ import { useInvoiceSearchQuery } from '@/hooks/queries/useInvoiceSearchQuery';
 import type { RootStackParamList } from '@/navigation/types';
 import { useSearchFilterStore } from '@/store/SearchFilterStore';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SearchResultsScreen'>;
+type Props = StackScreenProps<RootStackParamList, 'SearchResultsScreen'>;
 
 export const SearchResultsScreen: React.FC<Props> = ({ navigation }) => {
   const queryClient = useQueryClient();

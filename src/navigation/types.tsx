@@ -1,3 +1,5 @@
+export type NavigateInvoiceAnimationTypes = 'next' | 'none' | 'previous';
+
 export type RootStackParamList = {
   Dashboard: undefined;
   SwitchEnvironment: undefined;
@@ -6,7 +8,7 @@ export type RootStackParamList = {
   ScanSelectCompanyScreen: undefined;
   ScanSelectDocumentTypeScreen: undefined;
   InvoicesToDoScreen: { invoices: number } | undefined;
-  InvoiceDetailsScreen: { id: string; disabledAnimation?: boolean };
+  InvoiceDetailsScreen: { id: string; disabledAnimation?: boolean; animationType?: NavigateInvoiceAnimationTypes };
   InvoiceSelectUserScreen: {
     id: string;
     onlyShowUsers?: string[];

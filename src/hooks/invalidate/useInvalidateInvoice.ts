@@ -19,16 +19,16 @@ export const useInvalidateInvoice = () => {
   const currentUser = useGetCurrentUser();
 
   return useCallback(
-    (invoiceId: string) => {
+    async (invoiceId: string) => {
       invoiceQueryKeys.forEach((queryKey) => {
         queryClient.invalidateQueries({ queryKey: [queryKey, invoiceId] });
       });
 
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: [queryKeys.invoiceResults],
       });
 
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: [
           queryKeys.invoicesToDo,
           'totalCount',
