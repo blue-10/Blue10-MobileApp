@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ import { colors } from '../theme/';
 import { captureError } from '../utils/sentry';
 import { ScanUploadModalScreen } from './ScanUploadModalScreen';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'InvoiceAttachmentAddScreen'>;
+type Props = StackScreenProps<RootStackParamList, 'InvoiceAttachmentAddScreen'>;
 
 export const InvoiceAttachmentAddScreen: React.FC<Props> = ({ route, navigation }) => {
   const settings = useSettingsStore((state) => state.settings);

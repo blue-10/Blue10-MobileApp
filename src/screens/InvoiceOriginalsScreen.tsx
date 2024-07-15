@@ -1,5 +1,5 @@
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { useQueryClient } from '@tanstack/react-query';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
@@ -14,7 +14,7 @@ import { InvoiceAttachmentsScreen } from './InvoiceAttachmentsScreen';
 import { InvoicePackingSlipsScreen } from './InvoicePackingSlipsScreen';
 import { InvoicePreviewScreen } from './InvoicePreviewScreen';
 
-export type InvoiceOriginalsScreenProps = NativeStackScreenProps<RootStackParamList, 'InvoiceOriginalsScreen'>;
+export type InvoiceOriginalsScreenProps = StackScreenProps<RootStackParamList, 'InvoiceOriginalsScreen'>;
 
 export const InvoiceOriginalsScreen: React.FC<InvoiceOriginalsScreenProps> = ({ route, navigation }) => {
   const queryClient = useQueryClient();

@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { useCallback, useMemo, useState } from 'react';
 import type { ListRenderItem } from 'react-native';
 import { FlatList, View } from 'react-native';
@@ -9,7 +9,7 @@ import { useActionIdToText } from '../hooks/useActionIdToText';
 import type { RootStackParamList } from '../navigation/types';
 import { useInvoiceActionFormStore } from '../store/InvoiceActionFormStore';
 
-export type InvoiceSelectActionScreenProps = NativeStackScreenProps<RootStackParamList, 'InvoiceSelectActionScreen'>;
+export type InvoiceSelectActionScreenProps = StackScreenProps<RootStackParamList, 'InvoiceSelectActionScreen'>;
 
 type ActionItem = {
   id: number;

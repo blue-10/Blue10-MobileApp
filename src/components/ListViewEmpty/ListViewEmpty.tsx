@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 
+import NoDataSvg from '@/svg/no_data';
 import { colors } from '@/theme';
 
 import Box from '../Box/Box';
@@ -23,6 +24,7 @@ export const ListViewEmpty: React.FC<Props> = ({ isFetching, title, description 
   return (
     <Box px={32} py={32} style={styles.container}>
       <Box style={styles.content}>
+        <NoDataSvg height={200} style={styles.illustrations} width={300} />
         <Text align="center" color={colors.labelLightSecondary} spaceAfter={16} variant="title">
           {title ?? t('listview_empty.title')}
         </Text>
@@ -44,5 +46,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  illustrations: {
+    height: 200,
+    marginBottom: 32,
+    width: 300,
   },
 });

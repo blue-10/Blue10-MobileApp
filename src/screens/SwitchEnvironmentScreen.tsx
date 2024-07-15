@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import type React from 'react';
@@ -11,7 +11,7 @@ import { useApi } from '../hooks/useApi';
 import type { RootStackParamList } from '../navigation/types';
 import { useApiStore } from '../store/ApiStore';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'SwitchEnvironment'>;
+type Props = StackScreenProps<RootStackParamList, 'SwitchEnvironment'>;
 
 export const SwitchEnvironmentScreen: React.FC<Props> = ({ navigation }) => {
   const [isResetting, setIsResetting] = useState<boolean>(false);

@@ -1,4 +1,4 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import type React from 'react';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -10,7 +10,7 @@ import { ListSeparator } from '../components/ListSeparator/ListSeparator';
 import type { RootStackParamList } from '../navigation/types';
 import { DocumentType, useImageStore } from '../store/ImageStore';
 
-type ScanSelectDocumentTypeScreenProps = NativeStackScreenProps<RootStackParamList, 'ScanSelectDocumentTypeScreen'>;
+type ScanSelectDocumentTypeScreenProps = StackScreenProps<RootStackParamList, 'ScanSelectDocumentTypeScreen'>;
 
 export const ScanSelectDocumentTypeScreen: React.FC<ScanSelectDocumentTypeScreenProps> = ({ navigation }) => {
   const { company, documentType, setDocumentType } = useImageStore();

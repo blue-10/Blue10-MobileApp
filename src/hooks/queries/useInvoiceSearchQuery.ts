@@ -65,9 +65,34 @@ export const useInvoiceSearchQuery = ({ filters, doNotSetLastFilter = false }: u
     [all],
   );
 
+  const getNextInvoice = useCallback(
+    (currentInvoiceId: string): InvoiceListItem | undefined => {
+      const index = getIndexById(currentInvoiceId);
+      if (!(index < all.length - 1)) {
+        return undefined;
+      }
+
+      return all[index + 1];
+    },
+    [all, getIndexById],
+  );
+
+  const getPreviousInvoice = useCallback(
+    (currentInvoiceId: string): InvoiceListItem | undefined => {
+      const index = getIndexById(currentInvoiceId);
+      if (index < 1) {
+        return undefined;
+      }
+      return all[index - 1];
+    },
+    [all, getIndexById],
+  );
+
   return {
     all,
     client,
     getIndexById,
+    getNextInvoice,
+    getPreviousInvoice,
   };
 };

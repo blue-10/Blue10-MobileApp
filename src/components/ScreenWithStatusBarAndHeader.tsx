@@ -1,5 +1,6 @@
 import type React from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, dimensions } from '../theme';
 import { PageHeader } from './PageHeader/PageHeader';
