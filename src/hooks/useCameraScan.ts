@@ -17,7 +17,6 @@ export const useCameraScan = ({ onEmptyResults }: useCameraScanParams) => {
     try {
       const result = await DocumentScanner.scanDocument({
         croppedImageQuality: 90,
-        letUserAdjustCrop: true,
         responseType: ResponseType.ImageFilePath,
       });
 
