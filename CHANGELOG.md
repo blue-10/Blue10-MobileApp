@@ -1,5 +1,6 @@
 # v1.9.0
 * \#116 Package update if needed.
+* \#113 Scanner plugin update voor Android
 
 # v1.8.0
 * \#119 Flow na behandelen (to do) factuur
