@@ -1,0 +1,61 @@
+{
+  "cli": {
+    "version": ">= 3.7.2",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m-medium"
+      },
+      "env": {
+        "AUTH_LOGIN_PAGE": "https://login.blue10development.com/",
+        "RELEASE_TYPE": "develop"
+      }
+    },
+    "development-simulator": {
+      "extends": "development",
+      "ios": {
+        "simulator": true
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m-medium"
+      },
+      "env": {
+        "AUTH_LOGIN_PAGE": "https://login.blue10development.com/",
+        "RELEASE_TYPE": "preview"
+      }
+    },
+    "production-internal": {
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m-medium"
+      },
+      "env": {
+        "AUTH_LOGIN_PAGE": "https://login.blue10.com/",
+        "RELEASE_TYPE": "preview"
+      }
+    },
+    "production": {
+      "ios": {
+        "resourceClass": "m-medium"
+      },
+      "env": {
+        "RELEASE_TYPE": "production",
+        "AUTH_LOGIN_PAGE": "https://login.blue10.com/"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "ascAppId": "1138233890"
+      }
+    }
+  }
+}

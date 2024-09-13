@@ -1,0 +1,46 @@
+import type { StackScreenProps } from '@react-navigation/stack';
+import { useQueryClient } from '@tanstack/react-query';
+import { StatusBar } from 'expo-status-bar';
+import type React from 'react';
+import { useState } from 'react';
+import { SafeAreaView } from 'react-native';
+
+import LoginSite from '../components/LoginSite/LoginSite';
+import LoginSiteLoader from '../components/LoginSite/LoginSiteLoader';
+import { useApi } from '../hooks/useApi';
+import type { RootStackParamList } from '../navigation/types';
+import { useApiStore } from '../store/ApiStore';
+
+type Props = StackScreenProps<RootStackParamList, 'SwitchEnvironment'>;
+
+export const SwitchEnvironmentScreen: React.FC<Props> = ({ navigation }) => {
+  const [isResetting, setIsResetting] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+  const api = useApi();
+  const setBaseUrlAndRefreshToken = useApiStore((state) => state.setBaseUrlAndRefreshToken);
+  const onRefreshToken = async (refreshToken: string, baseUrl: string) => {
+    await setBaseUrlAndRefreshToken(refreshToken, baseUrl);
+
+    // make sure that react query cache is cleared and that the new company isn't shown until all data from the
+    // previous company has been reset
+    setIsResetting(true);
+    await queryClient.resetQueries();
+    setIsResetting(false);
+    navigation.navigate('Dashboard');
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar animated style="dark" />
+      {isResetting ? (
+        <LoginSiteLoader />
+      ) : (
+        <LoginSite
+          mode="environment"
+          refreshToken={api.refreshToken}
+          onRefreshToken={(refreshToken, baseUrl) => onRefreshToken(refreshToken, baseUrl)}
+        />
+      )}
+    </SafeAreaView>
+  );
+};

@@ -1,0 +1,36 @@
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 🏗 Authenticate Node
+        uses: jgierer12/npm-auth-gpr@v1
+        with:
+          token: ${{ secrets.NPM_ACCESS_TOKEN }}
+
+      - name: 🏗 Setup NPM Registry
+        run: npm config set @wecreatesolutions:registry https://npm.pkg.github.com/
+
+      - name: 🏗 Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🚀 Build and submit app
+        run: eas build --non-interactive --profile production --platform all --auto-submit
