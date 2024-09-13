@@ -38,7 +38,7 @@
     "@types/semver": "^7.5.4",
     "@wecreatesolutions/config-eslint": "^1.0.1",
     "@wecreatesolutions/config-prettier": "^1.0.0",
-    "axios": "^1.5.1",
+    "axios": "^1.7.4",
     "core-js": "^3.36.0",
     "date-fns": "^3.3.1",
     "dotenv": "^16.3.1",
