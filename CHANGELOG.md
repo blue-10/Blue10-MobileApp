@@ -1,3 +1,6 @@
+# v1.10.0
+* Prettier and eslint copied to local repository
+
 # v1.9.0
 * \#116 Package update if needed.
 * \#113 Scanner plugin update voor Android
