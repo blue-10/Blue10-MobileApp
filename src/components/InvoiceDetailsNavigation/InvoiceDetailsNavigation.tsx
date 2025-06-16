@@ -1,16 +1,16 @@
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet } from 'react-native';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Platform, StyleSheet } from "react-native";
 
-import { useInvoiceSearchQuery } from '@/hooks/queries/useInvoiceSearchQuery';
-import { useNavigateToInvoice } from '@/hooks/useNavigateToInvoice';
-import { useSearchFilterStore } from '@/store/SearchFilterStore';
+import { useInvoiceSearchQuery } from "@/hooks/queries/useInvoiceSearchQuery";
+import { useNavigateToInvoice } from "@/hooks/useNavigateToInvoice";
+import { useSearchFilterStore } from "@/store/SearchFilterStore";
 
-import ArrowLeftIcon from '../../../assets/icons/arrow-round-left.svg';
-import ArrowRightIcon from '../../../assets/icons/arrow-round-right.svg';
-import { colors } from '../../theme';
-import Box from '../Box/Box';
-import Button from '../Button/Button';
+import ArrowLeftIcon from "../../../assets/icons/arrow-round-left.svg";
+import ArrowRightIcon from "../../../assets/icons/arrow-round-right.svg";
+import { colors } from "../../theme";
+import Box from "../Box/Box";
+import Button from "../Button/Button";
 
 type Props = {
   currentInvoiceId: string;
@@ -19,8 +19,11 @@ type Props = {
 
 const borderColor = colors.borderColor;
 
-export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, isDisabled = false }) => {
-  const isIOS = Platform.OS === 'ios';
+export const InvoiceDetailsNavigation: React.FC<Props> = ({
+  currentInvoiceId,
+  isDisabled = false,
+}) => {
+  const isIOS = Platform.OS === "ios";
   const { t } = useTranslation();
   const lastFilter = useSearchFilterStore((store) => store.lastFilter);
   const navigateToInvoice = useNavigateToInvoice();
@@ -31,7 +34,10 @@ export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, is
     getNextInvoice,
     getPreviousInvoice,
     client: { hasNextPage, fetchNextPage },
-  } = useInvoiceSearchQuery({ doNotSetLastFilter: true, filters: lastFilter ?? new Map() });
+  } = useInvoiceSearchQuery({
+    doNotSetLastFilter: true,
+    filters: lastFilter ?? new Map(),
+  });
 
   const indexInInvoice = getIndexById(currentInvoiceId);
 
@@ -48,27 +54,37 @@ export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, is
   const onNextPress = () => {
     const nextInvoice = getNextInvoice(currentInvoiceId);
     if (nextInvoice) {
-      navigateToInvoice(nextInvoice.id, { animationType: 'next' });
+      navigateToInvoice(nextInvoice.id, { animationType: "next" });
     }
   };
 
   const onPreviousPress = () => {
     const previousInvoice = getPreviousInvoice(currentInvoiceId);
     if (previousInvoice) {
-      navigateToInvoice(previousInvoice.id, { animationType: 'previous' });
+      navigateToInvoice(previousInvoice.id, { animationType: "previous" });
     }
   };
 
   return (
-    <Box borderBottom={1} borderColor={borderColor} borderTop={isIOS ? 1 : 0} style={stylesheet.itemsFlexRow}>
-      <Box borderColor={borderColor} borderRight={1} px={12} style={stylesheet.itemFlex1}>
+    <Box
+      borderBottom={1}
+      borderColor={borderColor}
+      borderTop={isIOS ? 1 : 0}
+      style={stylesheet.itemsFlexRow}
+    >
+      <Box
+        borderColor={borderColor}
+        borderRight={1}
+        px={12}
+        style={stylesheet.itemFlex1}
+      >
         <Button
           iconLeft={ArrowLeftIcon}
           isDisabled={isDisabled || isPreviousDisabled}
           size="S"
           textAlign="left"
-          title={t('invoice_details.previous_button')}
-          variant={isPreviousDisabled ? 'greyClear' : 'secondaryClear'}
+          title={t("invoice_details.previous_button")}
+          variant={isPreviousDisabled ? "greyClear" : "secondaryClear"}
           onPress={onPreviousPress}
         />
       </Box>
@@ -78,8 +94,8 @@ export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, is
           isDisabled={isDisabled || isNextDisabled}
           size="S"
           textAlign="right"
-          title={t('invoice_details.next_button')}
-          variant={isNextDisabled ? 'greyClear' : 'secondaryClear'}
+          title={t("invoice_details.next_button")}
+          variant={isNextDisabled ? "greyClear" : "secondaryClear"}
           onPress={onNextPress}
         />
       </Box>
@@ -92,6 +108,6 @@ const stylesheet = StyleSheet.create({
     flex: 1,
   },
   itemsFlexRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 });

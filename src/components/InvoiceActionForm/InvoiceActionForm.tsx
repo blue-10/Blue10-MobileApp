@@ -1,25 +1,31 @@
-import type { NavigationProp } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
+import type { NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { useQuery } from "@tanstack/react-query";
+import { useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet } from "react-native";
 
-import { queryKeys } from '../../constants';
-import { normalizeInvoiceActionsFromResponse } from '../../entity/invoice/normalizer';
-import { useNewActionMutation } from '../../hooks/mutations/useNewActionMutation';
-import { useGetAllUsers } from '../../hooks/queries/useGetAllUsers';
-import { useInvoiceDetails } from '../../hooks/queries/useInvoiceDetails';
-import { useActionIdToText } from '../../hooks/useActionIdToText';
-import { useApi } from '../../hooks/useApi';
-import type { RootStackParamList } from '../../navigation/types';
-import { useInvoiceActionFormStore } from '../../store/InvoiceActionFormStore';
-import { colors } from '../../theme';
-import { useQueryKeySuffix } from '../../utils/queryUtils';
-import Box from '../Box/Box';
-import Button from '../Button/Button';
-import Text from '../Text/Text';
-import TextInput from '../TextInput/TextInput';
+import { queryKeys } from "../../constants";
+import { normalizeInvoiceActionsFromResponse } from "../../entity/invoice/normalizer";
+import { useNewActionMutation } from "../../hooks/mutations/useNewActionMutation";
+import { useGetAllUsers } from "../../hooks/queries/useGetAllUsers";
+import { useInvoiceDetails } from "../../hooks/queries/useInvoiceDetails";
+import { useActionIdToText } from "../../hooks/useActionIdToText";
+import { useApi } from "../../hooks/useApi";
+import { useNavigateToInvoice } from "@/hooks/useNavigateToInvoice";
+import type { RootStackParamList } from "../../navigation/types";
+import { useInvoiceActionFormStore } from "../../store/InvoiceActionFormStore";
+import { colors } from "../../theme";
+import { useQueryKeySuffix } from "../../utils/queryUtils";
+import Box from "../Box/Box";
+import Button from "../Button/Button";
+import Text from "../Text/Text";
+import TextInput from "../TextInput/TextInput";
+import SplitButton from "../SplitButton/SplitButton";
+import { useInvoiceActionFormSubmit } from "../../components/InvoiceActionForm/InvoiceActionFormSubmit";
+
+import { useSearchFilterStore } from "@/store/SearchFilterStore";
+import { useInvoiceSearchQuery } from "@/hooks/queries/useInvoiceSearchQuery";
 
 const tableColor = colors.labelLightSecondary;
 const itemsMarginX = 26;
@@ -35,17 +41,29 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
   const actionIdToText = useActionIdToText();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { isPending: isMutationLoading } = useNewActionMutation(invoiceId);
-  const { isFetching: isFetchingInvoice, isFetchedAfterMount: isInvoiceFetchedAfterMount } =
-    useInvoiceDetails(invoiceId);
-  const { comment, reset, selectedActionId, selectedUserId, setComment, setSelectedActionId, setSelectedUserId } =
-    useInvoiceActionFormStore();
+  const {
+    isFetching: isFetchingInvoice,
+    isFetchedAfterMount: isInvoiceFetchedAfterMount,
+  } = useInvoiceDetails(invoiceId);
+  const {
+    comment,
+    reset,
+    selectedActionId,
+    selectedUserId,
+    setComment,
+    setSelectedActionId,
+    setSelectedUserId,
+  } = useInvoiceActionFormStore();
   const {
     data: formActions,
     isFetchedAfterMount,
     isFetching,
   } = useQuery({
     enabled: isInvoiceFetchedAfterMount,
-    queryFn: async () => normalizeInvoiceActionsFromResponse(await api.invoice.getActionsForInvoice(invoiceId)),
+    queryFn: async () =>
+      normalizeInvoiceActionsFromResponse(
+        await api.invoice.getActionsForInvoice(invoiceId)
+      ),
     queryKey: useQueryKeySuffix([queryKeys.invoiceActions, invoiceId]),
   });
   const {
@@ -55,8 +73,14 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
   } = useQuery({
     enabled: !!selectedActionId,
     queryFn: async () =>
-      normalizeInvoiceActionsFromResponse(await api.invoice.getUsersForAction(invoiceId, selectedActionId || -1)),
-    queryKey: useQueryKeySuffix([queryKeys.invoiceActions, invoiceId, `action-${selectedActionId}`]),
+      normalizeInvoiceActionsFromResponse(
+        await api.invoice.getUsersForAction(invoiceId, selectedActionId || -1)
+      ),
+    queryKey: useQueryKeySuffix([
+      queryKeys.invoiceActions,
+      invoiceId,
+      `action-${selectedActionId}`,
+    ]),
   });
   const isDisabled = isFetchingInvoice || isFetching || isMutationLoading;
 
@@ -83,18 +107,24 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
 
   useEffect(() => {
     if (isFetchedAfterAction) {
-      if (actionData?.suggestedUserId && selectedUserId === '') {
+      if (actionData?.suggestedUserId && selectedUserId === "") {
         setSelectedUserId(actionData.suggestedUserId);
       } else if (!(actionData?.userIds || []).includes(selectedUserId)) {
-        setSelectedUserId('');
+        setSelectedUserId("");
       }
     }
-  }, [actionData?.suggestedUserId, actionData?.userIds, isFetchedAfterAction, selectedUserId, setSelectedUserId]);
+  }, [
+    actionData?.suggestedUserId,
+    actionData?.userIds,
+    isFetchedAfterAction,
+    selectedUserId,
+    setSelectedUserId,
+  ]);
   // endregion
 
   // region actions
   const onUserPress = () => {
-    navigation.navigate('InvoiceSelectUserScreen', {
+    navigation.navigate("InvoiceSelectUserScreen", {
       id: invoiceId,
       onlyShowUsers: actionData?.userIds,
       selectedUserId,
@@ -102,7 +132,7 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
   };
 
   const onActionSelected = () => {
-    navigation.navigate('InvoiceSelectActionScreen', {
+    navigation.navigate("InvoiceSelectActionScreen", {
       id: invoiceId,
       onlyShowActions: formActions?.actions,
       selectedActionId,
@@ -110,37 +140,101 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
   };
   // endregion
 
+  const lastFilter = useSearchFilterStore((store) => store.lastFilter);
+  const { getNextInvoice } = useInvoiceSearchQuery({
+    doNotSetLastFilter: true,
+    filters: lastFilter ?? new Map(),
+  });
+
+  const {
+    submit: actionFormSubmit,
+    isSubmitDisabled: isActionButtonDisabled,
+    isMutating: isActionMutating,
+  } = useInvoiceActionFormSubmit(invoiceId);
+  const navigateToInvoice = useNavigateToInvoice();
+
+  const onSuccessActionHandle = useCallback(
+    (nextInvoiceId: string | undefined) => {
+      if (nextInvoiceId) {
+        navigateToInvoice(nextInvoiceId);
+        return;
+      }
+      // return to To-Do list or search results screen if there are no next invoices.
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      }
+    },
+    [navigateToInvoice, navigation]
+  );
+
+  const onActionButtonPressed = useCallback(async () => {
+    // we get the next invoice first before submitting.
+    // because the query state can be reset when the action is submited.
+    const nextInvoice = getNextInvoice(invoiceId);
+    await actionFormSubmit({
+      onSuccess: () => onSuccessActionHandle(nextInvoice?.id),
+    });
+  }, [actionFormSubmit, getNextInvoice, invoiceId, onSuccessActionHandle]);
+
+  const onSkipPress = () => {
+    const nextInvoice = getNextInvoice(invoiceId);
+    if (nextInvoice) {
+      navigateToInvoice(nextInvoice.id, { animationType: "next" });
+    }
+  };
+
   return (
     <Box>
       <Box mx={itemsMarginX} pb={16}>
-        <Text variant="title">{t('invoice_action_form.title')}</Text>
+        <Text variant="title">{t("invoice_action_form.title")}</Text>
       </Box>
       <Box mx={itemsMarginX} pb={16}>
         <TextInput
           isDisabled={isDisabled}
-          label={t('invoice_action_form.comment')}
+          label={t("invoice_action_form.comment")}
           value={comment}
           onChangeText={(value) => setComment(value)}
         />
       </Box>
       {(formActions?.actions.length || 0) > 0 && (
         <Box mx={itemsMarginX} pt={16} style={styles.itemsFlexRow}>
-          <Box pr={10} style={styles.itemFlex1}>
-            <Button
+          <Box style={styles.itemFlex1}>
+            <SplitButton
               isDisabled={isDisabled}
               size="S"
-              title={selectedActionId ? actionIdToText(selectedActionId) : t('invoice_action_form.no_action_selected')}
+              title={
+                selectedActionId
+                  ? actionIdToText(selectedActionId)
+                  : t("invoice_action_form.no_action_selected")
+              }
               variant="secondary"
-              onPress={onActionSelected}
+              onPress={() => onActionButtonPressed()}
+              onArrowPress={onActionSelected}
             />
           </Box>
-          <Box pl={10} style={styles.itemFlex1}>
+          <Box style={styles.itemFlex1}>
             <Button
-              isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
+              isDisabled={
+                !selectedActionId || isFetchingUsersForAction || isDisabled
+              }
               size="S"
-              title={getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected')}
+              title={
+                getUserById(selectedUserId)?.name ??
+                t("invoice_action_form.no_user_selected")
+              }
               variant="secondary"
               onPress={onUserPress}
+            />
+          </Box>
+          <Box style={styles.itemFlex1}>
+            <Button
+              isDisabled={
+                !selectedActionId || isFetchingUsersForAction || isDisabled
+              }
+              size="S"
+              title={t("invoice_action_form.skip")}
+              variant="secondary"
+              onPress={onSkipPress}
             />
           </Box>
         </Box>
@@ -148,12 +242,17 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
       <Box mx={itemsMarginX} py={4} style={styles.itemsFlexRow}>
         <Box style={styles.itemFlex1}>
           <Text align="center" color={tableColor}>
-            {t('invoice_action_form.button_action_help_text')}
+            {t("invoice_action_form.button_action_help_text")}
           </Text>
         </Box>
         <Box style={styles.itemFlex1}>
           <Text align="center" color={tableColor}>
-            {t('invoice_action_form.button_user_help_text')}
+            {t("invoice_action_form.button_user_help_text")}
+          </Text>
+        </Box>
+        <Box style={styles.itemFlex1}>
+          <Text align="center" color={tableColor}>
+            {t("invoice_action_form.skip")}
           </Text>
         </Box>
       </Box>
@@ -166,7 +265,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemsFlexRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
+    gap: "10",
   },
   scrollContainer: {
     flex: 1,

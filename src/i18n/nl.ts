@@ -39,6 +39,7 @@ export const nl: TranslationKeysType = {
     no_action_selected: '(Geen actie geselecteerd)',
     no_user_selected: '(Geen gebruiker geselecteerd)',
     title: 'Acties',
+    skip: 'Skip' ,
   },
   invoice_action_select: {
     title: 'Acties',
