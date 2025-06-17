@@ -17,7 +17,8 @@ export const nl: TranslationKeysType = {
   },
   fetch_error_message: {
     button_retry: 'Opnieuw proberen',
-    description: 'Er ging iets nog goed bij het ophalen van gegevens. Probeer het nogmaals.',
+    description:
+      'Er ging iets nog goed bij het ophalen van gegevens. Probeer het nogmaals.',
     title: 'Er ging iets niet goed!',
   },
   general: {
@@ -39,7 +40,7 @@ export const nl: TranslationKeysType = {
     no_action_selected: '(Geen actie geselecteerd)',
     no_user_selected: '(Geen gebruiker geselecteerd)',
     title: 'Acties',
-    skip: 'Skip' ,
+    skip: 'Overslaan',
   },
   invoice_action_select: {
     title: 'Acties',
@@ -126,7 +127,8 @@ export const nl: TranslationKeysType = {
     title: 'Uitloggen',
   },
   save_to_cameraroll_confirm: {
-    description: 'Wil je de afbeelding(en) op je telefoon opslaan nadat deze zijn geüpload naar Blue10?',
+    description:
+      'Wil je de afbeelding(en) op je telefoon opslaan nadat deze zijn geüpload naar Blue10?',
     no: 'Nee, niet opslaan',
     title: 'Afbeelding(en) lokaal opslaan na upload?',
     yes: 'Ja, opslaan',
@@ -152,7 +154,8 @@ export const nl: TranslationKeysType = {
       'Het document is succesvol geüploaded, maar er is een fout opgetreden bij het afsluiten van de uploadsessie.',
     upload_generate_document_error:
       'Er is een fout opgetreden bij het omzetten van de afbeeldingen naar een PDF-document.',
-    upload_start_session_error: 'Er is een fout opgetreden bij het starten van een uploadsessie.',
+    upload_start_session_error:
+      'Er is een fout opgetreden bij het starten van een uploadsessie.',
     upload_success: 'Uw scan is succesvol geüploaded.',
     upload_table_company: 'Bedrijf',
     upload_table_customer: 'Klant',
@@ -160,7 +163,8 @@ export const nl: TranslationKeysType = {
     upload_table_images: 'Afbeeldingen',
     upload_table_user: 'Gebruiker',
     upload_title: 'SCAN UPLOADEN',
-    upload_upload_error: 'Er is een fout opgetreden bij het uploaden van het document naar de server.',
+    upload_upload_error:
+      'Er is een fout opgetreden bij het uploaden van het document naar de server.',
     upload_user_aborted: 'Uploadproces afgebroken.',
   },
   search: {
