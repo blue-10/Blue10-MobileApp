@@ -7,7 +7,7 @@
     "android": "expo start --dev-client --android",
     "ios": "expo start --dev-client --ios",
     "web": "expo start --web",
-    "lint": "eslint App.tsx src --ext .ts,.tsx,.js,.jsx",
+    "lint": "eslint App.tsx \"src/**/*.{js,jsx,ts,tsx}\" \"App.tsx\"",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "prettier . --check",
     "prettier:fix": "prettier . --write",
@@ -69,11 +69,17 @@
     "react-native-webview": "13.15.0",
     "semver": "^7.7.2",
     "typescript": "~5.8.3",
+    "typescript-eslint": "^8.34.1",
     "unique-slug": "^5.0.0",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.27.4"
+    "@babel/core": "^7.27.4",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "eslint": "^8.57.0",
+    "prettier": "^3.5.3"
   },
-  "private": true
+  "private": true,
+  "type": "module"
 }

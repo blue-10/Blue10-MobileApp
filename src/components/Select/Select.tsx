@@ -54,9 +54,7 @@ export const Select: React.FC<SelectProps> = ({
   const { t } = useTranslation();
 
   const isControlled = value !== undefined;
-  const [selectValue, setSelectValue] = useState<SelectItemValue | undefined>(
-    defaultValue
-  );
+  const [selectValue, setSelectValue] = useState<SelectItemValue | undefined>(defaultValue);
 
   // Sync internal state with controlled value if present
   useEffect(() => {
@@ -93,23 +91,16 @@ export const Select: React.FC<SelectProps> = ({
           }
           onChange(newValue);
         }
-      }
+      },
     );
-  }, [
-    items,
-    modalTitle,
-    onChange,
-    showActionSheetWithOptions,
-    t,
-    isControlled,
-  ]);
+  }, [items, modalTitle, onChange, showActionSheetWithOptions, t, isControlled]);
 
   return (
     <Box style={style}>
       <Button
         isDisabled={isDisabled}
         isLoading={isLoading}
-        size='M'
+        size="M"
         title={buttonTitle ?? placeholder}
         variant={buttonVariant}
         onPress={() => {
@@ -121,7 +112,7 @@ export const Select: React.FC<SelectProps> = ({
         }}
       />
       <Box py={8}>
-        <Text align='center' color={colors.labelLightSecondary}>
+        <Text align="center" color={colors.labelLightSecondary}>
           {label}
         </Text>
       </Box>

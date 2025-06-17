@@ -8,7 +8,9 @@ export const useInvalidateInvoiceAttachments = () => {
 
   return useCallback(
     (invoiceId: string) => {
-      queryClient.invalidateQueries({ queryKey: [queryKeys.invoiceAttachments, invoiceId] });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.invoiceAttachments, invoiceId],
+      });
     },
     [queryClient],
   );

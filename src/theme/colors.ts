@@ -31,7 +31,7 @@ export const colors = {
     secondaryClear: {
       text: secondaryBlueColor,
     },
-    iconColor : '#7c7c7c',
+    iconColor: '#7c7c7c',
   },
   dashboard: {
     scan: {

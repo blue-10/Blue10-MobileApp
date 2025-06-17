@@ -21,19 +21,10 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-export const SearchSwitch: React.FC<Props> = ({
-  style,
-  label,
-  items,
-  defaultValue,
-  value,
-  onChange,
-}) => {
+export const SearchSwitch: React.FC<Props> = ({ style, label, items, defaultValue, value, onChange }) => {
   const isControlled = value !== undefined;
 
-  const [selectValue, setSelectValue] = useState(
-    defaultValue ?? items[0].value
-  );
+  const [selectValue, setSelectValue] = useState(defaultValue ?? items[0].value);
 
   useEffect(() => {
     if (isControlled) {
@@ -56,7 +47,7 @@ export const SearchSwitch: React.FC<Props> = ({
     <Box style={style}>
       <Box px={20} py={7}>
         <SegmentedControl
-          appearance='light'
+          appearance="light"
           selectedIndex={selectedIndex}
           values={items.map((item) => item.title)}
           onChange={(evt) => {
@@ -66,7 +57,7 @@ export const SearchSwitch: React.FC<Props> = ({
         />
       </Box>
       <Box py={8}>
-        <Text align='center' color={colors.labelLightSecondary}>
+        <Text align="center" color={colors.labelLightSecondary}>
           {label}
         </Text>
       </Box>

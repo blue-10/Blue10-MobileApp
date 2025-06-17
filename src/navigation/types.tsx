@@ -8,7 +8,11 @@ export type RootStackParamList = {
   ScanSelectCompanyScreen: undefined;
   ScanSelectDocumentTypeScreen: undefined;
   InvoicesToDoScreen: { invoices: number } | undefined;
-  InvoiceDetailsScreen: { id: string; disabledAnimation?: boolean; animationType?: NavigateInvoiceAnimationTypes };
+  InvoiceDetailsScreen: {
+    id: string;
+    disabledAnimation?: boolean;
+    animationType?: NavigateInvoiceAnimationTypes;
+  };
   InvoiceSelectUserScreen: {
     id: string;
     onlyShowUsers?: string[];

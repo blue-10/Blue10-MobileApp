@@ -1,6 +1,6 @@
 import type { StackScreenProps } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import type React from 'react';
+import React from 'react';
 import { useCallback, useMemo } from 'react';
 import { FlatList, View } from 'react-native';
 

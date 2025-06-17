@@ -1,18 +1,13 @@
-import React, { useMemo } from "react";
-import type { ViewStyle } from "react-native";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import type { SvgProps } from "react-native-svg";
+import React, { useMemo } from 'react';
+import type { ViewStyle } from 'react-native';
+import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
+import type { SvgProps } from 'react-native-svg';
 
-import type { TextStyleType } from "../../theme";
-import { colors } from "../../theme";
-import type { TextPropsWithStyle } from "../Text/Text";
-import Text from "../Text/Text";
-import Svg, { Path } from "react-native-svg";
+import type { TextStyleType } from '../../theme';
+import { colors } from '../../theme';
+import type { TextPropsWithStyle } from '../Text/Text';
+import Text from '../Text/Text';
+import Svg, { Path } from 'react-native-svg';
 
 export type SplitButtonProps = {
   isLoading?: boolean;
@@ -20,18 +15,12 @@ export type SplitButtonProps = {
   title: string;
   onPress: () => void;
   onArrowPress: () => void;
-  size: "L" | "M" | "S";
-  variant:
-    | "grey"
-    | "greyClear"
-    | "primary"
-    | "primaryClear"
-    | "secondary"
-    | "secondaryClear";
+  size: 'L' | 'M' | 'S';
+  variant: 'grey' | 'greyClear' | 'primary' | 'primaryClear' | 'secondary' | 'secondaryClear';
   style?: ViewStyle;
   iconLeft?: React.FunctionComponent<SvgProps>;
   iconSize?: number;
-  textAlign?: TextPropsWithStyle["align"];
+  textAlign?: TextPropsWithStyle['align'];
 };
 
 const SplitButton: React.FC<SplitButtonProps> = ({
@@ -43,7 +32,7 @@ const SplitButton: React.FC<SplitButtonProps> = ({
   style,
   iconLeft,
   iconSize = 24,
-  textAlign = "center",
+  textAlign = 'center',
   onPress,
   onArrowPress,
 }) => {
@@ -51,22 +40,22 @@ const SplitButton: React.FC<SplitButtonProps> = ({
     const retValue = [];
 
     switch (variant) {
-      case "grey":
+      case 'grey':
         retValue.push(styles.variantGrey);
         break;
-      case "secondary":
+      case 'secondary':
         retValue.push(styles.variantSecondary);
         break;
-      case "primary":
+      case 'primary':
         retValue.push(styles.variantPrimary);
         break;
     }
 
     switch (size) {
-      case "L":
+      case 'L':
         retValue.push(styles.containerSizeLarge);
         break;
-      case "S":
+      case 'S':
         retValue.push(styles.containerSizeSmall);
         break;
       default:
@@ -79,12 +68,12 @@ const SplitButton: React.FC<SplitButtonProps> = ({
 
   const textVariant: TextStyleType = useMemo(() => {
     switch (size) {
-      case "L":
-        return "buttonLarge";
-      case "S":
-        return "buttonSmall";
+      case 'L':
+        return 'buttonLarge';
+      case 'S':
+        return 'buttonSmall';
       default:
-        return "buttonMedium";
+        return 'buttonMedium';
     }
   }, [size]);
 
@@ -111,13 +100,7 @@ const SplitButton: React.FC<SplitButtonProps> = ({
         >
           {title}
         </Text>
-        {isLoading && (
-          <ActivityIndicator
-            color={colors.button[variant].text}
-            size="small"
-            style={styles.loader}
-          />
-        )}
+        {isLoading && <ActivityIndicator color={colors.button[variant].text} size="small" style={styles.loader} />}
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -125,17 +108,12 @@ const SplitButton: React.FC<SplitButtonProps> = ({
         style={[
           styles.arrowButton,
           styles.variantSplitSide,
-          styles[`variant${capitalize(variant)}`],
+          styles[`variant${capitalize(variant)}` as keyof typeof styles],
         ]}
         onPress={onArrowPress}
       >
         <Text color={colors.button[variant].text} variant={textVariant}>
-          <Svg
-            width={24}
-            height={24}
-            viewBox="0 0 24 24"
-            fill={colors.button.iconColor}
-          >
+          <Svg width={24} height={24} viewBox="0 0 24 24" fill={colors.button.iconColor}>
             <Path d="M6 14L12 8L18 14" stroke={colors.button.iconColor} />
           </Svg>
         </Text>
@@ -151,21 +129,21 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const styles = StyleSheet.create({
   splitContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderRadius: 35,
-    overflow: "hidden",
-    alignItems: "center",
+    overflow: 'hidden',
+    alignItems: 'center',
   },
   mainButton: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     flex: 1,
     paddingHorizontal: 18,
     paddingVertical: 12,
   },
   arrowButton: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 36,
     height: 44,
   },

@@ -12,14 +12,7 @@ type Props = TextInputProps & {
   onClear?: () => void;
 };
 
-export const SearchInput: React.FC<Props> = ({
-  style,
-  defaultValue = '',
-  value,
-  onChangeText,
-  onClear,
-  ...props
-}) => {
+export const SearchInput: React.FC<Props> = ({ style, defaultValue = '', value, onChangeText, onClear, ...props }) => {
   const isControlled = value !== undefined;
   const [inputValue, setInputValue] = useState(defaultValue);
   const textRef = useRef<TextInput>(null);
@@ -51,18 +44,14 @@ export const SearchInput: React.FC<Props> = ({
 
   return (
     <Box px={16} py={8} style={styles.container}>
-      <SVGSearchIcon
-        color={colors.searchInput.placeholder}
-        height={16}
-        width={16}
-      />
+      <SVGSearchIcon color={colors.searchInput.placeholder} height={16} width={16} />
       <TextInput
         ref={textRef}
-        autoComplete='off'
-        enterKeyHint='search'
-        inputMode='search'
+        autoComplete="off"
+        enterKeyHint="search"
+        inputMode="search"
         placeholder={colors.searchInput.placeholder}
-        returnKeyType='search'
+        returnKeyType="search"
         style={[styles.input, style]}
         value={inputValue}
         onChangeText={handleChangeText}

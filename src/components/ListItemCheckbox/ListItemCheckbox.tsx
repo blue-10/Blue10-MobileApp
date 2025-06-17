@@ -52,7 +52,7 @@ export const ListItemCheckbox: React.FC<Props> = ({
         onChange={(evt) => handleSetCheckedValue(evt.nativeEvent.value)}
       />
     ),
-    [isCheckedValue, isDisabled]
+    [isCheckedValue, isDisabled],
   );
 
   return (
