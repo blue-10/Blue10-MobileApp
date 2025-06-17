@@ -1,8 +1,6 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import type React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useBinding } from 'use-binding';
 
 import { colors } from '@/theme';
 
@@ -55,12 +53,23 @@ export const Select: React.FC<SelectProps> = ({
   const { showActionSheetWithOptions } = useActionSheet();
   const { t } = useTranslation();
 
-  const [selectValue, setSelectValue] = useBinding<SelectItemValue>(defaultValue, value, onChange);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const isControlled = value !== undefined;
+  const [selectValue, setSelectValue] = useState<SelectItemValue | undefined>(
+    defaultValue
+  );
+
+  // Sync internal state with controlled value if present
+  useEffect(() => {
+    if (isControlled) {
+      setSelectValue(value);
+    }
+  }, [value, isControlled]);
 
   const buttonTitle = useMemo(() => {
     return items.find((item) => item.value === selectValue)?.title;
   }, [items, selectValue]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showActionSheet = useCallback(() => {
     const options = items.map((item) => item.title);
@@ -77,22 +86,33 @@ export const Select: React.FC<SelectProps> = ({
         },
       },
       (selectedIndex) => {
-        if (selectedIndex && selectedIndex < items.length) {
-          onChange(items[selectedIndex].value);
+        if (selectedIndex !== undefined && selectedIndex < items.length) {
+          const newValue = items[selectedIndex].value;
+          if (!isControlled) {
+            setSelectValue(newValue);
+          }
+          onChange(newValue);
         }
-      },
+      }
     );
-  }, [items, modalTitle, onChange, showActionSheetWithOptions, t]);
+  }, [
+    items,
+    modalTitle,
+    onChange,
+    showActionSheetWithOptions,
+    t,
+    isControlled,
+  ]);
 
   return (
     <Box style={style}>
       <Button
         isDisabled={isDisabled}
         isLoading={isLoading}
-        size="M"
+        size='M'
         title={buttonTitle ?? placeholder}
         variant={buttonVariant}
-        onPress={function (): void {
+        onPress={() => {
           if (selectType === 'actionsheet') {
             showActionSheet();
             return;
@@ -101,7 +121,7 @@ export const Select: React.FC<SelectProps> = ({
         }}
       />
       <Box py={8}>
-        <Text align="center" color={colors.labelLightSecondary}>
+        <Text align='center' color={colors.labelLightSecondary}>
           {label}
         </Text>
       </Box>
@@ -110,10 +130,13 @@ export const Select: React.FC<SelectProps> = ({
         isShown={isModalOpen}
         items={items}
         selectedItem={selectValue}
-        title={modalTitle || (label ?? 'Select a item...')}
+        title={modalTitle || label || 'Select a item...'}
         onClose={() => setIsModalOpen(false)}
         onSelect={(item) => {
-          setSelectValue(item.value);
+          if (!isControlled) {
+            setSelectValue(item.value);
+          }
+          onChange(item.value);
           setIsModalOpen(false);
         }}
       />

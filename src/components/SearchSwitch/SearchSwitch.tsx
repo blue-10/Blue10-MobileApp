@@ -1,6 +1,5 @@
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import { useMemo } from 'react';
-import { useBinding } from 'use-binding';
+import React, { useMemo, useState, useEffect } from 'react';
 
 import { colors } from '@/theme';
 
@@ -18,12 +17,36 @@ type Props = {
   style?: BoxProps['style'];
   items: [SearchSwitchItem, SearchSwitchItem];
   defaultValue?: string;
-  value?: string;
+  value?: string; // controlled
   onChange: (value: string) => void;
 };
 
-export const SearchSwitch: React.FC<Props> = ({ style, label, items, defaultValue, value, onChange }) => {
-  const [selectValue, setSelectValue] = useBinding<string>(defaultValue, value, onChange);
+export const SearchSwitch: React.FC<Props> = ({
+  style,
+  label,
+  items,
+  defaultValue,
+  value,
+  onChange,
+}) => {
+  const isControlled = value !== undefined;
+
+  const [selectValue, setSelectValue] = useState(
+    defaultValue ?? items[0].value
+  );
+
+  useEffect(() => {
+    if (isControlled) {
+      setSelectValue(value!);
+    }
+  }, [value, isControlled]);
+
+  const handleChange = (newValue: string) => {
+    if (!isControlled) {
+      setSelectValue(newValue);
+    }
+    onChange(newValue);
+  };
 
   const selectedIndex = useMemo(() => {
     return items.findIndex((item) => item.value === selectValue);
@@ -33,17 +56,17 @@ export const SearchSwitch: React.FC<Props> = ({ style, label, items, defaultValu
     <Box style={style}>
       <Box px={20} py={7}>
         <SegmentedControl
-          appearance="light"
+          appearance='light'
           selectedIndex={selectedIndex}
           values={items.map((item) => item.title)}
           onChange={(evt) => {
             const index = evt.nativeEvent.selectedSegmentIndex;
-            setSelectValue(items[index].value);
+            handleChange(items[index].value);
           }}
         />
       </Box>
       <Box py={8}>
-        <Text align="center" color={colors.labelLightSecondary}>
+        <Text align='center' color={colors.labelLightSecondary}>
           {label}
         </Text>
       </Box>
