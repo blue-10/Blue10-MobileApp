@@ -211,7 +211,7 @@ const stylesheet = StyleSheet.create({
     flex: 1,
   },
   itemFlex2: {
-    flex: 2.325,
+    flex: 2.26,
   },
   itemsFlexRow: {
     flexDirection: 'row',
