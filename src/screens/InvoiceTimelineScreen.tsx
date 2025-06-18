@@ -1,6 +1,6 @@
 import type { StackScreenProps } from '@react-navigation/stack';
 import { useQuery } from '@tanstack/react-query';
-import type React from 'react';
+import React from 'react';
 import { useCallback, useMemo } from 'react';
 import type { ListRenderItem } from 'react-native';
 import { FlatList, RefreshControl, View } from 'react-native';
@@ -56,7 +56,7 @@ export const InvoiceTimelineScreen: React.FC<Props> = ({ route }) => {
   } = useGetTimelineOfInvoice(id);
 
   const renderItem: ListRenderItem<InvoiceHistoryItem> = useCallback(
-    ({ item, index }) => <InvoiceTimelineItem isEven={index % 2 === 0} item={item} />,
+    ({ item, index }) => <InvoiceTimelineItem isEven={index % 2 === 0} item={item} id={index} />,
     [],
   );
 

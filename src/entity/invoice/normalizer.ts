@@ -80,6 +80,7 @@ export const normalizeInvoiceHistoryItemFromResponse = (response: GetInvoiceHist
   id: response.Id,
   toUser: response.ToUser,
   userId: response.UserId,
+  remark: response.Remark,
 });
 
 export const normalizeInvoiceActionsFromResponse = (response: GetActionsForInvoiceResponse): InvoiceActions => ({

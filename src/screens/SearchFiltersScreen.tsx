@@ -45,7 +45,10 @@ export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
                 {t('search_filter.title')}
               </Text>
               <TouchableIcon
-                defaultColor={{ color: colors.button.grey.background, fill: colors.button.grey.background }}
+                defaultColor={{
+                  color: colors.button.grey.background,
+                  fill: colors.button.grey.background,
+                }}
                 icon={SVGArrowCounterClockwise}
                 size={32}
                 onPress={() => reset()}

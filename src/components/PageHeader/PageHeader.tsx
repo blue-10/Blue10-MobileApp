@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import Svg, { Rect } from 'react-native-svg';
 

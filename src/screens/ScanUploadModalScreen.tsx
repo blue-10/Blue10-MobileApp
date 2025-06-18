@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Modal, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';

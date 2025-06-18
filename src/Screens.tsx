@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import type React from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';

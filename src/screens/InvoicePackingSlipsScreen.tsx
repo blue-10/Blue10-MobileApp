@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type React from 'react';
+import React from 'react';
 import { useCallback, useMemo } from 'react';
 import type { ListRenderItem } from 'react-native';
 import { Alert, FlatList, RefreshControl, View } from 'react-native';

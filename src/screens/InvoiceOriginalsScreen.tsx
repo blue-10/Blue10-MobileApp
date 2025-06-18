@@ -1,7 +1,7 @@
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { useQueryClient } from '@tanstack/react-query';
-import type React from 'react';
+import React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet, View } from 'react-native';

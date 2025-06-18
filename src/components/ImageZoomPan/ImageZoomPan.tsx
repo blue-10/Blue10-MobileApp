@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import { createRef, useRef, useState } from 'react';
 import type { ImageProps, ViewStyle } from 'react-native';
 import { Animated, View } from 'react-native';

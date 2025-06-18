@@ -1,6 +1,5 @@
-import { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Switch } from 'react-native';
-import { useBinding } from 'use-binding';
 
 import { colors, dimensions } from '@/theme';
 
@@ -9,19 +8,35 @@ import { ListItem } from '../ListItem/ListItem';
 
 type Props = Omit<ListItemProps, 'isChecked' | 'onPress'> & {
   isDisabled?: boolean;
-  isChecked?: boolean;
-  isDefaultChecked?: boolean;
+  isChecked?: boolean; // controlled prop
+  isDefaultChecked?: boolean; // uncontrolled initial value
   onChecked?: (isChecked: boolean) => void;
 };
 
 export const ListItemCheckbox: React.FC<Props> = ({
   isDisabled = false,
   isChecked,
-  isDefaultChecked,
+  isDefaultChecked = false,
   onChecked,
   ...listProps
 }) => {
-  const [isCheckedValue, setIsCheckedValue] = useBinding(isDefaultChecked, isChecked, onChecked);
+  const isControlled = isChecked !== undefined;
+
+  const [isCheckedValue, setIsCheckedValue] = useState(isDefaultChecked);
+
+  // Sync state when controlled prop changes
+  useEffect(() => {
+    if (isControlled) {
+      setIsCheckedValue(isChecked!);
+    }
+  }, [isChecked, isControlled]);
+
+  const handleSetCheckedValue = (value: boolean) => {
+    if (!isControlled) {
+      setIsCheckedValue(value);
+    }
+    onChecked?.(value);
+  };
 
   const suffixElement = useMemo(
     () => (
@@ -34,10 +49,10 @@ export const ListItemCheckbox: React.FC<Props> = ({
           true: colors.switch.trackcolorTrue,
         }}
         value={isCheckedValue}
-        onChange={(evt) => setIsCheckedValue(evt.nativeEvent.value)}
+        onChange={(evt) => handleSetCheckedValue(evt.nativeEvent.value)}
       />
     ),
-    [isCheckedValue, isDisabled, setIsCheckedValue],
+    [isCheckedValue, isDisabled],
   );
 
   return (
@@ -45,7 +60,7 @@ export const ListItemCheckbox: React.FC<Props> = ({
       {...listProps}
       suffixElement={suffixElement}
       onPress={() => {
-        setIsCheckedValue((value) => (value === undefined ? true : !value));
+        handleSetCheckedValue(!isCheckedValue);
       }}
     />
   );

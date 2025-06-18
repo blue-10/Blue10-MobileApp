@@ -1,5 +1,5 @@
 import type { StackScreenProps } from '@react-navigation/stack';
-import type React from 'react';
+import React from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import type { ListRenderItem } from 'react-native';
 import { FlatList, View } from 'react-native';

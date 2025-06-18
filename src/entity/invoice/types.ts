@@ -61,6 +61,7 @@ export type InvoiceHistoryItem = {
   toUserAbbreviation?: string;
   userId: string;
   userAbbreviation?: string;
+  remark?: string;
 };
 
 export type InvoiceActions = {

@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import type { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
