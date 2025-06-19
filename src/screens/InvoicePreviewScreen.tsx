@@ -11,6 +11,7 @@ import Text from '@/components/Text/Text';
 import { useInvoiceGetImage } from '@/hooks/queries/useInvoiceGetImage';
 import { useInvoiceGetImagesCount } from '@/hooks/queries/useInvoiceGetImagesCount';
 import { colors } from '@/theme';
+import { ImageZoomPan } from '@/components/ImageZoomPan/ImageZoomPan';
 
 type InvoicePreviewScreenProps = {
   id: string;
@@ -37,7 +38,7 @@ const InvoiceImageLoader: React.FC<InvoiceImageLoaderProps> = ({ id, page, isVis
       <View style={styles.page}>
         {!query.isFetching ? (
           <Box height="100%" px={8} py={8} width="100%">
-            <Image source={{ uri: imageDataUri }} style={styles.image} />
+            <ImageZoomPan source={{ uri: imageDataUri }} key={`invoiceImage-${id}`} />
           </Box>
         ) : (
           <Box height="100%" px={8} py={8} style={styles.page} width="100%">
