@@ -3,8 +3,18 @@ import { Animated } from 'react-native';
 
 export const forSlideRightToLeft = ({ current, next, inverted, layouts: { screen } }: StackCardInterpolationProps) => {
   const progress = Animated.add(
-    current.progress.interpolate({ extrapolate: 'clamp', inputRange: [0, 1], outputRange: [0, 1] }),
-    next ? next.progress.interpolate({ extrapolate: 'clamp', inputRange: [0, 1], outputRange: [0, 1] }) : 0,
+    current.progress.interpolate({
+      extrapolate: 'clamp',
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    next
+      ? next.progress.interpolate({
+          extrapolate: 'clamp',
+          inputRange: [0, 1],
+          outputRange: [0, 1],
+        })
+      : 0,
   );
 
   return {
@@ -31,8 +41,18 @@ export const forSlideRightToLeft = ({ current, next, inverted, layouts: { screen
 
 export const forSlideLeftToRight = ({ current, next, inverted, layouts: { screen } }: StackCardInterpolationProps) => {
   const progress = Animated.add(
-    current.progress.interpolate({ extrapolate: 'clamp', inputRange: [0, 1], outputRange: [0, 1] }),
-    next ? next.progress.interpolate({ extrapolate: 'clamp', inputRange: [0, 1], outputRange: [0, 1] }) : 0,
+    current.progress.interpolate({
+      extrapolate: 'clamp',
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    }),
+    next
+      ? next.progress.interpolate({
+          extrapolate: 'clamp',
+          inputRange: [0, 1],
+          outputRange: [0, 1],
+        })
+      : 0,
   );
 
   return {

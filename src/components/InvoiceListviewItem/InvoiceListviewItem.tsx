@@ -1,5 +1,5 @@
 import { format } from 'date-fns/format';
-import type React from 'react';
+import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
 import type { InvoiceListItem } from '../../entity/invoice/types';

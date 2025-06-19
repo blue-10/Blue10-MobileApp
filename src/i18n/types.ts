@@ -119,6 +119,7 @@ export type TranslationKeysType = {
     title: string;
     comment: string;
     action_completed_title: string;
+    skip: string;
   };
   invoice_action_select: {
     title: string;

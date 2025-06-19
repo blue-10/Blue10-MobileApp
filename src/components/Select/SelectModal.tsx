@@ -1,6 +1,5 @@
-import Header from '@react-navigation/elements/src/Header/Header';
-import HeaderBackButton from '@react-navigation/elements/src/Header/HeaderBackButton';
-import type React from 'react';
+import { Header, HeaderBackButton } from '@react-navigation/elements';
+import React from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ListRenderItem } from 'react-native';

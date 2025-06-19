@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type React from 'react';
+import React from 'react';
 import { useMemo } from 'react';
 
 import { queryKeys } from '@/constants';

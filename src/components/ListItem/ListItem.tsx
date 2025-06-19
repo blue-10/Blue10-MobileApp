@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import { StyleSheet, TouchableHighlight } from 'react-native';
 
 import CheckMarkIcon from '../../../assets/icons/checkmark-icon.svg';
