@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import type { DimensionValue } from 'react-native';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 

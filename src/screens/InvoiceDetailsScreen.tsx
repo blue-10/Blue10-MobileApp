@@ -1,19 +1,13 @@
 import type { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
-import type React from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, RefreshControl, ScrollView, StyleSheet } from 'react-native';
-
-import { useInvoiceSearchQuery } from '@/hooks/queries/useInvoiceSearchQuery';
-import { useNavigateToInvoice } from '@/hooks/useNavigateToInvoice';
-import { useSearchFilterStore } from '@/store/SearchFilterStore';
 
 import Box from '../components/Box/Box';
 import Button from '../components/Button/Button';
 import { InvoiceActionForm } from '../components/InvoiceActionForm/InvoiceActionForm';
-import { useInvoiceActionFormSubmit } from '../components/InvoiceActionForm/InvoiceActionFormSubmit';
-import { InvoiceDetailsNavigation } from '../components/InvoiceDetailsNavigation/InvoiceDetailsNavigation';
 import { InvoiceLabelValue } from '../components/InvoiceLabelValue/InvoiceLabelValue';
 import LoaderWrapper from '../components/LoaderWrapper/LoaderWrapper';
 import Text from '../components/Text/Text';
@@ -36,41 +30,10 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
   const { t } = useTranslation();
   const invoiceId = useMemo(() => route.params.id, [route.params.id]);
   const { data: item, isFetching, isLoading, refetch, isSuccess } = useInvoiceDetails(invoiceId);
-  const {
-    submit: actionFormSubmit,
-    isSubmitDisabled: isActionButtonDisabled,
-    isMutating: isActionMutating,
-  } = useInvoiceActionFormSubmit(invoiceId);
-  const navigateToInvoice = useNavigateToInvoice();
 
   useEffect(() => {
     setDidUsedPullToRefresh(false);
   }, [isSuccess]);
-
-  const lastFilter = useSearchFilterStore((store) => store.lastFilter);
-
-  const { getNextInvoice } = useInvoiceSearchQuery({ doNotSetLastFilter: true, filters: lastFilter ?? new Map() });
-
-  const onSuccessActionHandle = useCallback(
-    (nextInvoiceId: string | undefined) => {
-      if (nextInvoiceId) {
-        navigateToInvoice(nextInvoiceId);
-        return;
-      }
-      // return to To-Do list or search results screen if there are no next invoices.
-      if (navigation.canGoBack()) {
-        navigation.goBack();
-      }
-    },
-    [navigateToInvoice, navigation],
-  );
-
-  const onActionButtonPressed = useCallback(async () => {
-    // we get the next invoice first before submitting.
-    // because the query state can be reset when the action is submited.
-    const nextInvoice = getNextInvoice(invoiceId);
-    await actionFormSubmit({ onSuccess: () => onSuccessActionHandle(nextInvoice?.id) });
-  }, [actionFormSubmit, getNextInvoice, invoiceId, onSuccessActionHandle]);
 
   const tableColor = colors.labelLightSecondary;
   const isButtonsDisabled = isFetching;
@@ -92,7 +55,6 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
 
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={stylesheet.container}>
-      <InvoiceDetailsNavigation currentInvoiceId={invoiceId} isDisabled={isButtonsDisabled} />
       <ScrollView refreshControl={refreshControl} style={stylesheet.scrollContainer}>
         <Box borderBottom={1} borderColor={borderColor} mx={itemsMarginX} style={stylesheet.itemsFlexRow}>
           <Box borderColor={borderColor} borderRight={1} px={4} py={8} style={stylesheet.itemFlex2}>
@@ -225,19 +187,9 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
             />
           </Box>
         </Box>
-        <Box py={18}>
-          <InvoiceActionForm invoiceId={invoiceId} />
-        </Box>
       </ScrollView>
-      <Box borderColor={colors.borderColor} borderTop={1} px={26} py={32}>
-        <Button
-          isDisabled={isButtonsDisabled || isActionButtonDisabled}
-          isLoading={isActionMutating}
-          size="M"
-          title={t('invoice_details.button_execute')}
-          variant="primary"
-          onPress={() => onActionButtonPressed()}
-        />
+      <Box py={18}>
+        <InvoiceActionForm invoiceId={invoiceId} />
       </Box>
     </KeyboardAvoidingView>
   );

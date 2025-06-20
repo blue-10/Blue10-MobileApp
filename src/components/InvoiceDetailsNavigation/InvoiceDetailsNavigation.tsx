@@ -31,7 +31,10 @@ export const InvoiceDetailsNavigation: React.FC<Props> = ({ currentInvoiceId, is
     getNextInvoice,
     getPreviousInvoice,
     client: { hasNextPage, fetchNextPage },
-  } = useInvoiceSearchQuery({ doNotSetLastFilter: true, filters: lastFilter ?? new Map() });
+  } = useInvoiceSearchQuery({
+    doNotSetLastFilter: true,
+    filters: lastFilter ?? new Map(),
+  });
 
   const indexInInvoice = getIndexById(currentInvoiceId);
 

@@ -23,7 +23,6 @@ class ErrorBoundary extends React.Component<any, ErrorBoundaryState> {
 
   render() {
     const { children } = this.props;
-    // eslint-disable-next-line react/destructuring-assignment
     if (this.state.hasError) {
       // render error page
       return <ErrorView onLogout={() => this.setState({ hasError: false })} />;

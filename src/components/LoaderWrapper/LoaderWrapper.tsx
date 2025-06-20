@@ -1,4 +1,4 @@
-import type React from 'react';
+import React from 'react';
 import ContentLoader, { Rect } from 'react-content-loader/native';
 
 import type { TextStyleType } from '../../theme';

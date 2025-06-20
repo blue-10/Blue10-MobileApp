@@ -16,7 +16,6 @@ type Props = {
   valueLoadingWidth?: number;
   valueNumberOfLines?: number;
   valueEllipsizeMode?: TextProps['ellipsizeMode'];
-  // eslint-disable-next-line react/boolean-prop-naming
   valueAdjustsFontSizeToFit?: boolean;
 };
 

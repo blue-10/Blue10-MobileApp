@@ -1,8 +1,6 @@
-import type React from 'react';
-import { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { TextInputProps } from 'react-native';
 import { StyleSheet, TextInput } from 'react-native';
-import { useBinding } from 'use-binding';
 
 import SVGSearchIcon from '@/assets/icons/magnifyingglass.svg';
 import SVGMarkCircleFill from '@/assets/icons/xmark-circle-fill.svg';
@@ -14,9 +12,35 @@ type Props = TextInputProps & {
   onClear?: () => void;
 };
 
-export const SearchInput: React.FC<Props> = ({ style, defaultValue, value, onChangeText, onClear, ...props }) => {
-  const [inputValue, setInputValue] = useBinding(defaultValue, value, onChangeText);
+export const SearchInput: React.FC<Props> = ({ style, defaultValue = '', value, onChangeText, onClear, ...props }) => {
+  const isControlled = value !== undefined;
+  const [inputValue, setInputValue] = useState(defaultValue);
   const textRef = useRef<TextInput>(null);
+
+  // Sync internal state when controlled `value` changes
+  useEffect(() => {
+    if (isControlled) {
+      setInputValue(value ?? '');
+    }
+  }, [value]);
+
+  const handleChangeText = (text: string) => {
+    if (!isControlled) {
+      setInputValue(text);
+    }
+    onChangeText?.(text);
+  };
+
+  const handleClear = () => {
+    if (textRef.current) {
+      textRef.current.clear();
+    }
+    if (!isControlled) {
+      setInputValue('');
+    }
+    onClear?.();
+    onChangeText?.('');
+  };
 
   return (
     <Box px={16} py={8} style={styles.container}>
@@ -30,20 +54,18 @@ export const SearchInput: React.FC<Props> = ({ style, defaultValue, value, onCha
         returnKeyType="search"
         style={[styles.input, style]}
         value={inputValue}
-        onChangeText={setInputValue}
+        onChangeText={handleChangeText}
         {...props}
       />
-      {inputValue && inputValue.length > 0 && (
+      {!!inputValue && (
         <TouchableIcon
-          defaultColor={{ color: colors.searchInput.placeholder, fill: colors.searchInput.placeholder }}
+          defaultColor={{
+            color: colors.searchInput.placeholder,
+            fill: colors.searchInput.placeholder,
+          }}
           icon={SVGMarkCircleFill}
           size={16}
-          onPress={() => {
-            if (textRef.current) {
-              textRef.current.clear();
-              onClear?.();
-            }
-          }}
+          onPress={handleClear}
         />
       )}
     </Box>
