@@ -81,5 +81,5 @@
     "prettier": "^3.5.3"
   },
   "private": true,
-  "type": "module"
+  "type": "commonjs"
 }
