@@ -22,6 +22,7 @@ export type TranslationKeysType = {
     welcome_title: string;
     welcome_description: string;
     title: string;
+    history: string;
   };
   to_do_invoices: {
     screen_title: string;

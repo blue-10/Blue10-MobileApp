@@ -7,6 +7,7 @@ export const nl: TranslationKeysType = {
     title: 'Dashboard',
     welcome_description: 'Je bent ingelogd op: {{environment}}',
     welcome_title: 'Hoi {{name}}',
+    history: 'Geschiedenis',
   },
   error_view: {
     description:

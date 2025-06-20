@@ -7,6 +7,7 @@ export const en: TranslationKeysType = {
     title: 'Dashboard',
     welcome_description: 'Logged in using: {{environment}}',
     welcome_title: 'Hi {{name}}',
+    history: 'History',
   },
   error_view: {
     description:
