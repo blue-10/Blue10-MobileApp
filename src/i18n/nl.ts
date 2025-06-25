@@ -7,6 +7,7 @@ export const nl: TranslationKeysType = {
     title: 'Dashboard',
     welcome_description: 'Je bent ingelogd op: {{environment}}',
     welcome_title: 'Hoi {{name}}',
+    history: 'Geschiedenis',
   },
   error_view: {
     description:
@@ -200,5 +201,8 @@ export const nl: TranslationKeysType = {
     count_results_header_other: '{{count}} resultaten',
     count_results_header_zero: '0 resultaten',
     screen_title: 'To-do',
+  },
+  history: {
+    empty_history_list: 'Geen geschiedenis beschikbaar',
   },
 };

@@ -23,6 +23,7 @@ import { SearchResultsScreen } from './screens/SearchResultsScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { SwitchEnvironmentScreen } from './screens/SwitchEnvironmentScreen';
 import { colors } from './theme';
+import { HistoryScreen } from './screens/HistoryScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Screens: React.FC = () => {
@@ -49,6 +50,13 @@ const Screens: React.FC = () => {
             name="Settings"
             options={{
               title: t('settings.screen_title'),
+            }}
+          />
+          <Stack.Screen
+            component={HistoryScreen}
+            name="history"
+            options={{
+              title: t('dashboard.history'),
             }}
           />
           <Stack.Screen

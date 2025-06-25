@@ -29,4 +29,5 @@ export type RootStackParamList = {
   InvoiceAttachmentAddScreen: { id: string };
   SearchFiltersScreen: undefined;
   SearchResultsScreen: undefined;
+  history: undefined;
 };

@@ -7,6 +7,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import SvgCameraShape from '../../assets/icons/camerashape.svg';
 import SvgSwitchIcon from '../../assets/icons/dashboard-switch-icon.svg';
 import SvgGearShape from '../../assets/icons/gearshape.svg';
+import SvgHistory from '../../assets/icons/history.svg';
 import SvgMagnifyingGlass from '../../assets/icons/magnifyingglass.svg';
 import { DashboardItem } from '../components/DashboardItem/DashboardItem';
 import LoaderWrapper from '../components/LoaderWrapper/LoaderWrapper';
@@ -139,6 +140,15 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
             onPress={() => navigation.navigate('Settings')}
           >
             <SvgGearShape color={colors.white} height={75} style={{ alignSelf: 'center' }} width={75} />
+          </DashboardItem>
+          <DashboardItem
+            buttonSize={itemWidth}
+            color={colors.dashboard.history.background}
+            isLoading={false}
+            title={t('dashboard.history')}
+            onPress={() => navigation.navigate('history')}
+          >
+            <SvgHistory color={colors.white} height={75} style={{ alignSelf: 'center' }} width={75} />
           </DashboardItem>
         </View>
       </ScrollView>
