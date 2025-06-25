@@ -202,4 +202,7 @@ export const nl: TranslationKeysType = {
     count_results_header_zero: '0 resultaten',
     screen_title: 'To-do',
   },
+  history: {
+    empty_history_list: 'Geen geschiedenis beschikbaar',
+  },
 };

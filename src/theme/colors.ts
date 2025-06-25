@@ -48,6 +48,13 @@ export const colors = {
       background: 'rgba(255, 59, 48, 1)',
       text: whiteColor,
     },
+    history: {
+      background: 'rgb(18, 119, 170)',
+      text: whiteColor,
+      modal: {
+        background: 'rgba(0,0,0,0.85)',
+      },
+    },
   },
   error: 'red',
   header: {
@@ -65,6 +72,9 @@ export const colors = {
     text: {
       primary: primaryTextColor,
       secondary: secondaryTextColor,
+    },
+    images: {
+      background: '#e8e8e8',
     },
   },
   overlayBackground: 'rgba(0, 0, 0, 0.4)',

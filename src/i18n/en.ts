@@ -201,4 +201,7 @@ export const en: TranslationKeysType = {
     count_results_header_zero: '0 results',
     screen_title: 'To-do',
   },
+  history: {
+    empty_history_list: 'No history available',
+  },
 };

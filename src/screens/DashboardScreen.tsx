@@ -146,7 +146,7 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
             color={colors.dashboard.history.background}
             isLoading={false}
             title={t('dashboard.history')}
-            onPress={() => navigation.navigate('Settings')}
+            onPress={() => navigation.navigate('history')}
           >
             <SvgHistory color={colors.white} height={75} style={{ alignSelf: 'center' }} width={75} />
           </DashboardItem>

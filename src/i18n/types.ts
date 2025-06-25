@@ -196,4 +196,7 @@ export type TranslationKeysType = {
     yes: string;
     no: string;
   };
+  history: {
+    empty_history_list: string;
+  };
 };
