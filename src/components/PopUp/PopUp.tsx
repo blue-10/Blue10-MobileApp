@@ -10,7 +10,6 @@ interface PopUpProps {
 }
 
 const PopUp = ({ images }: PopUpProps) => {
-
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { addImages } = useImageStore();
 
@@ -23,9 +22,7 @@ const PopUp = ({ images }: PopUpProps) => {
   }, [images]);
 
   const handleYes = () => {
-    const normalizedImages = images.map(image => (
-      `file://${image.filePath}`
-    ));
+    const normalizedImages = images.map((image) => `file://${image.filePath}`);
     addImages(normalizedImages);
     setVisible(false);
     navigation.navigate('ScanSelectCompanyScreen');
@@ -37,21 +34,22 @@ const PopUp = ({ images }: PopUpProps) => {
 
   return (
     <View style={styles.container}>
-      <Modal
-        transparent
-        animationType="fade"
-        visible={visible}
-        onRequestClose={() => setVisible(false)}
-      >
+      <Modal transparent animationType="fade" visible={visible} onRequestClose={() => setVisible(false)}>
         <View style={styles.overlay}>
           <View style={styles.popup}>
             <View>
-            <View  style={styles.images}>
-                {images?.map((image,index) => (
-                    <Image width={80} height={80} borderRadius={4} source={{ uri: 'file://' + image?.filePath }} key={index}/>
+              <View style={styles.images}>
+                {images?.map((image, index) => (
+                  <Image
+                    width={80}
+                    height={80}
+                    borderRadius={4}
+                    source={{ uri: 'file://' + image?.filePath }}
+                    key={index}
+                  />
                 ))}
-            </View>
-            <Text style={styles.title}>Your files were received. Do you want to continue?</Text>
+              </View>
+              <Text style={styles.title}>Your files were received. Do you want to continue?</Text>
             </View>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.buttonNo} onPress={handleNo}>
@@ -109,7 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonNo: {
-    backgroundColor:  colors.dashboard.toDo.background,
+    backgroundColor: colors.dashboard.toDo.background,
     padding: 10,
     borderRadius: 8,
     flex: 1,
@@ -118,9 +116,9 @@ const styles = StyleSheet.create({
     color: colors.white,
     textAlign: 'center',
   },
-  images:{
+  images: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 10,
-  }
+  },
 });
