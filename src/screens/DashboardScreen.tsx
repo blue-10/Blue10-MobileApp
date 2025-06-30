@@ -1,8 +1,8 @@
 import type { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Linking, PermissionsAndroid, Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import SvgCameraShape from '../../assets/icons/camerashape.svg';
 import SvgSwitchIcon from '../../assets/icons/dashboard-switch-icon.svg';
@@ -19,10 +19,47 @@ import { useIsScrollable } from '../hooks/useIsScrollable';
 import type { RootStackParamList } from '../navigation/types';
 import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions, text } from '../theme/';
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
+import PopUp from '@/components/PopUp/PopUp';
 
 type Props = StackScreenProps<RootStackParamList, 'Dashboard'>;
 
 const GRID_GAP = 20;
+
+export const requestStoragePermission = async () => {
+  if (Platform.OS !== 'android') return true;
+
+  if (Platform.Version >= 30) {
+    // Android 11+
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+      {
+        title: 'Storage Permission Required',
+        message: 'App needs access to your storage to receive shared files',
+        buttonPositive: 'OK',
+      }
+    );
+
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      return true;
+    } else {
+      Linking.openSettings();
+      return false;
+    }
+  } else {
+    // Android < 11
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      {
+        title: 'Storage Permission Required',
+        message: 'App needs access to your storage to receive shared files',
+        buttonPositive: 'OK',
+      }
+    );
+
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
+  }
+};
 
 export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
   const {
@@ -63,6 +100,23 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
     resetScannedImages();
     navigation.navigate('ScanSelectCompanyScreen');
   }, [navigation, resetScannedImages]);
+
+    const [sharedFiles, setSharedFiles] = useState([]);
+
+     useEffect(() => {
+  ReceiveSharingIntent.getReceivedFiles(
+    (files) => {
+      setSharedFiles(files);
+    },
+    (error) => {
+      return    },
+    'ShareMedia'
+  );
+
+  return () => {
+    ReceiveSharingIntent.clearReceivedFiles();
+  };
+}, []);
 
   return (
     <ScreenWithStatusBarAndHeader>
@@ -142,6 +196,7 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
           </DashboardItem>
         </View>
       </ScrollView>
+      <PopUp images={sharedFiles}/>
     </ScreenWithStatusBarAndHeader>
   );
 };

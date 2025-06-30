@@ -1,7 +1,8 @@
-import type { ExpoConfig } from '@expo/config-types';
-// load .env
 import * as dotenv from 'dotenv';
+import { ExpoConfig } from 'expo/config';
 import { parse } from 'semver';
+import 'ts-node/register';
+
 dotenv.config();
 
 const getPackageVersion = (): string => {
@@ -71,6 +72,24 @@ const config: ExpoConfig = {
     },
     package: 'builders.are.we.blue10',
     versionCode: getVersionCode(version),
+    intentFilters: [
+  {
+    action: "SEND",
+    data: [
+      { mimeType: "image/*" },
+      { mimeType: "application/pdf" },
+    ],
+    category: ["DEFAULT", "BROWSABLE"],
+  },
+  {
+    action: "SEND_MULTIPLE",
+    data: [
+      { mimeType: "image/*" },
+      { mimeType: "application/pdf" },
+    ],
+    category: ["DEFAULT", "BROWSABLE"],
+  }
+],
   },
   assetBundlePatterns: ['**/*'],
   developmentClient: {
@@ -123,6 +142,7 @@ const config: ExpoConfig = {
         savePhotosPermission: 'Allow $(PRODUCT_NAME) to save photos.',
       },
     ],
+    ['./plugins/withShareIntentFix.ts', { android: true }],
   ],
   slug: 'blue10-app',
   splash: {
