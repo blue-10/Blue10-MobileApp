@@ -31,14 +31,11 @@ export const requestStoragePermission = async () => {
 
   if (Platform.Version >= 30) {
     // Android 11+
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
-      {
-        title: 'Storage Permission Required',
-        message: 'App needs access to your storage to receive shared files',
-        buttonPositive: 'OK',
-      }
-    );
+    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES, {
+      title: 'Storage Permission Required',
+      message: 'App needs access to your storage to receive shared files',
+      buttonPositive: 'OK',
+    });
 
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       return true;
@@ -48,14 +45,11 @@ export const requestStoragePermission = async () => {
     }
   } else {
     // Android < 11
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-      {
-        title: 'Storage Permission Required',
-        message: 'App needs access to your storage to receive shared files',
-        buttonPositive: 'OK',
-      }
-    );
+    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
+      title: 'Storage Permission Required',
+      message: 'App needs access to your storage to receive shared files',
+      buttonPositive: 'OK',
+    });
 
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   }
@@ -101,22 +95,23 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate('ScanSelectCompanyScreen');
   }, [navigation, resetScannedImages]);
 
-    const [sharedFiles, setSharedFiles] = useState([]);
+  const [sharedFiles, setSharedFiles] = useState([]);
 
-     useEffect(() => {
-  ReceiveSharingIntent.getReceivedFiles(
-    (files) => {
-      setSharedFiles(files);
-    },
-    (error) => {
-      return    },
-    'ShareMedia'
-  );
+  useEffect(() => {
+    ReceiveSharingIntent.getReceivedFiles(
+      (files: React.SetStateAction<never[]>) => {
+        setSharedFiles(files);
+      },
+      () => {
+        return;
+      },
+      'ShareMedia',
+    );
 
-  return () => {
-    ReceiveSharingIntent.clearReceivedFiles();
-  };
-}, []);
+    return () => {
+      ReceiveSharingIntent.clearReceivedFiles();
+    };
+  }, []);
 
   return (
     <ScreenWithStatusBarAndHeader>
@@ -196,7 +191,7 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
           </DashboardItem>
         </View>
       </ScrollView>
-      <PopUp images={sharedFiles}/>
+      <PopUp images={sharedFiles} />
     </ScreenWithStatusBarAndHeader>
   );
 };
