@@ -33,4 +33,4 @@ jobs:
         run: npm ci
 
       - name: 🚀 Build and submit app
-        run: eas build --non-interactive --profile production --platform android --auto-submit
+        run: eas build --non-interactive --profile production --platform ios --auto-submit
