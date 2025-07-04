@@ -1,4 +1,5 @@
 on:
+  workflow_dispatch:
   release:
     types:
       - published
@@ -28,26 +29,19 @@ jobs:
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
+      
+      - name: Write ASC key to File
+        env:
+          ASC_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_2025 }}
+          shell: bash
+          run: echo "$ASC_KEY" >> asc.p8
 
-      - name: 📄 Create ASC API Key JSON
-        run: |
-          cat > asc.json <<EOF
-          {
-            "type": "service-account",
-            "appStoreConnectApiKey": {
-              "keyId": "${{ secrets.APP_STORE_CONNECT_API_KEY_ID_2025 }}",
-              "issuerId": "${{ secrets.APPLE_ISSUER_ID }}",
-              "key": "${{ secrets.APP_STORE_CONNECT_API_KEY_2025 }}",
-              "inHouse": false
-            }
-          }
-          EOF
 
       - name: 📦 Install dependencies
         run: npm ci
 
       - name: 🚀 Build and submit iOS app
         env:
-          EXPO_APP_STORE_CONNECT_API_KEY_PATH: asc.json
+          EXPO_APP_STORE_CONNECT_API_KEY_PATH: asc.p8
           EXPO_APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: eas build --non-interactive --profile production --platform ios --auto-submit
