@@ -29,8 +29,22 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: 📄 Create ASC API Key JSON
+        run: |
+          cat > asc.json <<EOF
+          {
+            "type": "service-account",
+            "appStoreConnectApiKey": {
+              "keyId": "${{ secrets.APP_STORE_CONNECT_API_KEY_ID_2025 }}",
+              "issuerId": "${{ secrets.APPLE_ISSUER_ID }}",
+              "key": "${{ secrets.APP_STORE_CONNECT_API_KEY_2025 }}",
+              "inHouse": false
+            }
+          }
+          EOF
+
       - name: 📦 Install dependencies
         run: npm ci
 
       - name: 🚀 Build and submit app
-        run: eas build --non-interactive --profile production --platform android --auto-submit
+        run: EXPO_APP_STORE_CONNECT_API_KEY_PATH=asc.json eas build --non-interactive --profile production --platform ios --auto-submit
