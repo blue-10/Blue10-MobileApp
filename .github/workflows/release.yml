@@ -34,7 +34,7 @@ jobs:
         env:
           ASC_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_2025 }}
           shell: bash
-          run: echo "$ASC_KEY" >> asc.p8
+        run: echo "$ASC_KEY" >> asc.p8
 
 
       - name: 📦 Install dependencies
