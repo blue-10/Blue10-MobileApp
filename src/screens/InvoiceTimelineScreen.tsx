@@ -56,7 +56,7 @@ export const InvoiceTimelineScreen: React.FC<Props> = ({ route }) => {
   } = useGetTimelineOfInvoice(id);
 
   const renderItem: ListRenderItem<InvoiceHistoryItem> = useCallback(
-    ({ item, index }) => <InvoiceTimelineItem isEven={index % 2 === 0} item={item} />,
+    ({ item, index }) => <InvoiceTimelineItem isEven={index % 2 === 0} item={item} id={index} />,
     [],
   );
 
