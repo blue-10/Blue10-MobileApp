@@ -7,6 +7,7 @@ export const en: TranslationKeysType = {
     title: 'Dashboard',
     welcome_description: 'Logged in using: {{environment}}',
     welcome_title: 'Hi {{name}}',
+    history: 'History',
   },
   error_view: {
     description:
@@ -199,5 +200,8 @@ export const en: TranslationKeysType = {
     count_results_header_other: '{{count}} results',
     count_results_header_zero: '0 results',
     screen_title: 'To-do',
+  },
+  history: {
+    empty_history_list: 'No history available',
   },
 };
