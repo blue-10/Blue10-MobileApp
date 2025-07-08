@@ -23,20 +23,20 @@ export const supportedLocales = Object.keys(resources);
 const languageDetect = {
   async: true,
   cacheUserLanguage: Function.prototype,
-  detect: async () => {
-    // grab locale that the device is using.
+
+  detect: (callback: (lng: string) => void) => {
+  (async () => {
     const deviceLocale = Localization.getLocales()[0]?.languageCode || 'en';
-    // look up in the store for the saved locale
     let savedLocale: string | null = null;
     try {
       savedLocale = await SecureStore.getItemAsync(storeKeyLanguage);
     } catch {}
-    // check if saved locale is not null if so we use the device version
-    const newlocale = savedLocale !== null ? savedLocale : deviceLocale;
-
-    // check if locale can be used for the application else fallback to dutch.
-    return supportedLocales.includes(newlocale) ? newlocale : 'nl';
-  },
+    const newlocale = savedLocale ?? deviceLocale;
+    const finalLocale = supportedLocales.includes(newlocale) ? newlocale : 'nl';
+    console.log('Detected locale:', finalLocale);
+    callback(finalLocale);
+  })();
+},
   init: Function.prototype,
   type: 'languageDetector',
 } as Module;
