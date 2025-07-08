@@ -40,7 +40,7 @@ export const HistoryScreen = () => {
 
       for (const entry of entries) {
         if (entry.isDirectory()) {
-          const companyName = entry.name.replaceAll('_', '    ').replace('-',":");
+          const companyName = entry.name.replaceAll('_', '    ').replace('-', ':');
           const companyFiles = await RNFS.readDir(entry.path);
           const companyImages = companyFiles
             .filter((file) => file.isFile() && (file.name.endsWith('.jpg') || file.name.endsWith('.png')))
