@@ -25,18 +25,18 @@ const languageDetect = {
   cacheUserLanguage: Function.prototype,
 
   detect: (callback: (lng: string) => void) => {
-  (async () => {
-    const deviceLocale = Localization.getLocales()[0]?.languageCode || 'en';
-    let savedLocale: string | null = null;
-    try {
-      savedLocale = await SecureStore.getItemAsync(storeKeyLanguage);
-    } catch {}
-    const newlocale = savedLocale ?? deviceLocale;
-    const finalLocale = supportedLocales.includes(newlocale) ? newlocale : 'nl';
-    console.log('Detected locale:', finalLocale);
-    callback(finalLocale);
-  })();
-},
+    (async () => {
+      const deviceLocale = Localization.getLocales()[0]?.languageCode || 'en';
+      let savedLocale: string | null = null;
+      try {
+        savedLocale = await SecureStore.getItemAsync(storeKeyLanguage);
+      } catch {}
+      const newlocale = savedLocale ?? deviceLocale;
+      const finalLocale = supportedLocales.includes(newlocale) ? newlocale : 'nl';
+      console.log('Detected locale:', finalLocale);
+      callback(finalLocale);
+    })();
+  },
   init: Function.prototype,
   type: 'languageDetector',
 } as Module;
