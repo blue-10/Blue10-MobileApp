@@ -1,7 +1,7 @@
-const eslintPlugin = require('@typescript-eslint/eslint-plugin');
-const parser = require('@typescript-eslint/parser');
+import eslintPlugin from '@typescript-eslint/eslint-plugin';
+import parser from '@typescript-eslint/parser';
 
-module.exports = [
+export default [
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {

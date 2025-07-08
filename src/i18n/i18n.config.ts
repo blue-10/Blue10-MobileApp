@@ -25,7 +25,7 @@ const languageDetect = {
   cacheUserLanguage: Function.prototype,
   detect: async () => {
     // grab locale that the device is using.
-    const deviceLocale = Localization.locale.split('-')[0];
+    const deviceLocale = Localization.getLocales()[0]?.languageCode || 'en';
     // look up in the store for the saved locale
     let savedLocale: string | null = null;
     try {

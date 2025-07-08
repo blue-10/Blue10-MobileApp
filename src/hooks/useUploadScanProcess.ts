@@ -71,7 +71,7 @@ export const useUploadScanProcess = () => {
   const saveImagesBatch = async (imageUris: string[], companyName: string): Promise<string[]> => {
     const safeCompanyName = companyName.trim().replace(/\s+/g, '_');
 
-    const timestamp = new Date().toISOString().slice(0, 16).replace('T', '_');
+    const timestamp = new Date().toISOString().slice(0, 16).replace('T', '_').replace(':', '-');
     const folderId = `${timestamp}_${companyName}`;
     const folderPath = `${BASE_FOLDER}/${folderId}`;
 
