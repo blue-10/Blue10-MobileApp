@@ -41,6 +41,7 @@ export const en: TranslationKeysType = {
     no_user_selected: '(No user selected)',
     title: 'Actions',
     skip: 'Skip',
+    action_success: 'Action submitted successfully',
   },
   invoice_action_select: {
     title: 'Actions',

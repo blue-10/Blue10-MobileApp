@@ -16,7 +16,12 @@ export const ImageZoomPan: React.FC<Props> = ({ source, style }) => {
   // Pinch gesture using Gesture API
   const pinchGesture = Gesture.Pinch()
     .onUpdate((e) => {
-      scale.setValue(e.scale);
+      Animated.spring(scale, {
+        toValue: e.scale,
+        useNativeDriver: true,
+        friction: 5,
+        tension: 70,
+      }).start();
     })
     .onEnd(() => {
       scale.flattenOffset();
