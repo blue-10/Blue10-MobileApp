@@ -185,6 +185,7 @@ export const nl: TranslationKeysType = {
     title: 'Vind een factuur',
     user_label: 'Ligt bij',
     user_placeholder: '(Leeg)',
+    order_By_label: 'Sorteer op',
   },
   settings: {
     language_subtitle: 'Taal',

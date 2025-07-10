@@ -187,6 +187,7 @@ export type TranslationKeysType = {
     relation_label: string;
     document_number_label: string;
     button_search: string;
+    order_By_label: string;
   };
   listview_empty: {
     title: string;

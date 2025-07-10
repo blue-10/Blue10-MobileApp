@@ -41,13 +41,16 @@ export const useInvoiceSearchQuery = ({ filters, doNotSetLastFilter = false }: u
     getPreviousPageParam: (firstPage) => firstPage.paging.previous,
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
+      // @ts-ignore
       const results = await api.invoice.overview({
         ...queryFilter,
         CurrentPage: pageParam,
         PageSize: 25,
-        SortAscending: false,
-        SortName: 'DocumentDate',
+        SortAscending: true,
+        SortName: 'RelationName',
       });
+
+      console.log('useInvoiceSearchQuery results', results.data[0]);
 
       return {
         data: normalizeMap<InvoiceListItem>(results.data, normalizeInvoiceListItemFromResponseItem),

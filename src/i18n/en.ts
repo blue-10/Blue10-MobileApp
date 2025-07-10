@@ -184,6 +184,7 @@ export const en: TranslationKeysType = {
     title: 'Find an invoice',
     user_label: 'User',
     user_placeholder: 'No user selected',
+    order_By_label: 'Order by',
   },
   settings: {
     language_subtitle: 'Language',
