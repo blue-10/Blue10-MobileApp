@@ -177,7 +177,7 @@ export const nl: TranslationKeysType = {
     invoice_type_credit: 'Credit',
     invoice_type_debit: 'Debet',
     invoice_type_label: 'Soort',
-    ledger_entry_number_label: 'Bookstuknummer',
+    ledger_entry_number_label: 'boekstuknummer',
     relation_label: 'Leverancier',
     search_placeholder: 'Vrij zoeken',
     status_label: 'Overzicht',
