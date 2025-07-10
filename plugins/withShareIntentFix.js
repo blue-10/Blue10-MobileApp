@@ -1,7 +1,6 @@
-import { ConfigPlugin } from '@expo/config-plugins';
-import { withMainActivity } from '@expo/config-plugins/build/plugins/android-plugins.js';
+const { withMainActivity } = require('@expo/config-plugins/build/plugins/android-plugins');
 
-const withShareIntentFix: ConfigPlugin = (config) => {
+const withShareIntentFix = (config) => {
   return withMainActivity(config, (config) => {
     if (config.modResults.language === 'java') return config;
 
@@ -26,4 +25,4 @@ const withShareIntentFix: ConfigPlugin = (config) => {
   });
 };
 
-export default withShareIntentFix;
+module.exports = withShareIntentFix;

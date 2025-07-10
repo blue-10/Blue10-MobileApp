@@ -16,7 +16,7 @@ export const useCameraScan = ({ onEmptyResults }: useCameraScanParams) => {
   const openCamera = useCallback(async () => {
     try {
       const result = await DocumentScanner.scanDocument({
-        croppedImageQuality: 90,
+        croppedImageQuality: 100,
         responseType: ResponseType.ImageFilePath,
       });
 

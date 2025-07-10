@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 
 import { queryKeys } from '../../constants';
 import { normalizeInvoiceActionsFromResponse } from '../../entity/invoice/normalizer';
@@ -148,7 +148,12 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
     // because the query state can be reset when the action is submited.
     const nextInvoice = getNextInvoice(invoiceId);
     await actionFormSubmit({
-      onSuccess: () => onSuccessActionHandle(nextInvoice?.id),
+      onSuccess: () => {
+        Alert.alert(t('invoice_action_form.action_success'), '', [
+          { text: t('general.button_ok'), onPress: () => console.log('OK Pressed') },
+        ]);
+        onSuccessActionHandle(nextInvoice?.id);
+      },
     });
   }, [actionFormSubmit, getNextInvoice, invoiceId, onSuccessActionHandle]);
 

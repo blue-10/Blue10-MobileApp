@@ -22,6 +22,7 @@ export type TranslationKeysType = {
     welcome_title: string;
     welcome_description: string;
     title: string;
+    history: string;
   };
   to_do_invoices: {
     screen_title: string;
@@ -120,6 +121,7 @@ export type TranslationKeysType = {
     comment: string;
     action_completed_title: string;
     skip: string;
+    action_success: string;
   };
   invoice_action_select: {
     title: string;
@@ -194,5 +196,8 @@ export type TranslationKeysType = {
     description: string;
     yes: string;
     no: string;
+  };
+  history: {
+    empty_history_list: string;
   };
 };
