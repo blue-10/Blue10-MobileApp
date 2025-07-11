@@ -30,6 +30,22 @@ export const useInvoiceSearchQuery = ({ filters, doNotSetLastFilter = false }: u
     }
   }, [doNotSetLastFilter, filters, setLastFilter]);
 
+  const isSortAscending = useMemo(() => {
+    const sortOrder = queryFilter.SearchOrderBy;
+    if (!sortOrder) {
+      return false;
+    }
+    return sortOrder.startsWith('A_');
+  }, [queryFilter.SearchOrderBy]);
+
+  const orderName = useMemo(() => {
+    const sortOrder = queryFilter.SearchOrderBy;
+    if (!sortOrder) {
+      return 'DocumentDate';
+    }
+    return sortOrder.replace(/^A_|^D_/, '');
+  }, [queryFilter.SearchOrderBy]);
+
   const client = useInfiniteQuery<
     PagedInvoiceListItems,
     Error,
@@ -41,12 +57,13 @@ export const useInvoiceSearchQuery = ({ filters, doNotSetLastFilter = false }: u
     getPreviousPageParam: (firstPage) => firstPage.paging.previous,
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
+      // @ts-ignore
       const results = await api.invoice.overview({
         ...queryFilter,
         CurrentPage: pageParam,
         PageSize: 25,
-        SortAscending: false,
-        SortName: 'DocumentDate',
+        SortAscending: isSortAscending,
+        SortName: orderName,
       });
 
       return {
