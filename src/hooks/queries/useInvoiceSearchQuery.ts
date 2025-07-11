@@ -30,6 +30,22 @@ export const useInvoiceSearchQuery = ({ filters, doNotSetLastFilter = false }: u
     }
   }, [doNotSetLastFilter, filters, setLastFilter]);
 
+  const isSortAscending = useMemo(() => {
+    const sortOrder = queryFilter.SearchOrderBy;
+    if (!sortOrder) {
+      return false;
+    }
+    return sortOrder.startsWith('A_');
+  }, [queryFilter.SearchOrderBy]);
+
+  const orderName = useMemo(() => {
+    const sortOrder = queryFilter.SearchOrderBy;
+    if (!sortOrder) {
+      return 'DocumentDate';
+    }
+    return sortOrder.replace(/^A_|^D_/, '');
+  }, [queryFilter.SearchOrderBy]);
+
   const client = useInfiniteQuery<
     PagedInvoiceListItems,
     Error,
@@ -46,11 +62,9 @@ export const useInvoiceSearchQuery = ({ filters, doNotSetLastFilter = false }: u
         ...queryFilter,
         CurrentPage: pageParam,
         PageSize: 25,
-        SortAscending: true,
-        SortName: 'RelationName',
+        SortAscending: isSortAscending,
+        SortName: orderName,
       });
-
-      console.log('useInvoiceSearchQuery results', results.data[0]);
 
       return {
         data: normalizeMap<InvoiceListItem>(results.data, normalizeInvoiceListItemFromResponseItem),

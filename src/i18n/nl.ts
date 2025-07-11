@@ -186,6 +186,16 @@ export const nl: TranslationKeysType = {
     user_label: 'Ligt bij',
     user_placeholder: '(Leeg)',
     order_By_label: 'Sorteer op',
+    order_items: {
+      date_desc: 'Datum (Aflopend)',
+      date_asc: 'Datum (Oplopend)',
+      invoiceNR_desc: 'Factuurnr (Aflopend)',
+      invoiceNR_asc: 'Factuurnr (Oplopend)',
+      dueDate_desc: 'Vervaldatum (Aflopend)',
+      dueDate_asc: 'Vervaldatum (Oplopend)',
+      vendor_desc: 'Leverancier (Aflopend)',
+      vendor_asc: 'Leverancier (Oplopend)',
+    },
   },
   settings: {
     language_subtitle: 'Taal',
