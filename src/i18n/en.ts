@@ -184,6 +184,17 @@ export const en: TranslationKeysType = {
     title: 'Find an invoice',
     user_label: 'User',
     user_placeholder: 'No user selected',
+    order_By_label: 'Order by',
+    order_items: {
+      date_desc: 'Date (Desc)',
+      date_asc: 'Date (Asc)',
+      invoiceNR_desc: 'InvoiceNr (Desc)',
+      invoiceNR_asc: 'InvoiceNr (Asc)',
+      dueDate_desc: 'DueDate (Desc)',
+      dueDate_asc: 'DueDate (Asc)',
+      vendor_desc: 'Vendor (Desc)',
+      vendor_asc: 'Vendor (Asc)',
+    },
   },
   settings: {
     language_subtitle: 'Language',

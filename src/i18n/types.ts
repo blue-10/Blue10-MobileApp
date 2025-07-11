@@ -187,6 +187,17 @@ export type TranslationKeysType = {
     relation_label: string;
     document_number_label: string;
     button_search: string;
+    order_By_label: string;
+    order_items: {
+      date_desc: string;
+      date_asc: string;
+      invoiceNR_desc: string;
+      invoiceNR_asc: string;
+      dueDate_desc: string;
+      dueDate_asc: string;
+      vendor_desc: string;
+      vendor_asc: string;
+    };
   };
   listview_empty: {
     title: string;
