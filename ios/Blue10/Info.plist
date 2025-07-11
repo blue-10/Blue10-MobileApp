@@ -74,9 +74,13 @@
       <string>Alternate</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>public.image</string> <!-- یا نوع فایلی که می‌خوای دریافت کنی -->
+        <string>public.image</string>
       </array>
     </dict>
   </array>
+  <key>NSCameraUsageDescription</key>
+  <string>We need access to your camera to take photos.</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>We need access to your photo library to choose images.</string>
 </dict>
 </plist>

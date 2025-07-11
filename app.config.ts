@@ -105,6 +105,8 @@ const config: ExpoConfig = {
     },
     infoPlist: {
       CFBundleLocalizations: ['en', 'nl'],
+      NSCameraUsageDescription: 'To scan documents, camera access is required.',
+      NSPhotoLibraryUsageDescription: 'We need access to your photo library to choose images.',
     },
     supportsTablet: true,
   },
