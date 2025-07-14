@@ -42,7 +42,7 @@ export const ImageZoomPan: React.FC<Props> = ({ source, style }) => {
       scale.setValue(1);
     })
     .onUpdate((e) => {
-       scale.setValue(e.scale);
+      scale.setValue(e.scale);
     })
     .onEnd(() => {
       scale.flattenOffset();
@@ -66,7 +66,8 @@ export const ImageZoomPan: React.FC<Props> = ({ source, style }) => {
     });
 
   const doubleTapGesture = Gesture.Tap()
-    .numberOfTaps(2).onTouchesUp(() => {
+    .numberOfTaps(2)
+    .onTouchesUp(() => {
       // Reset to initial state on double tap
       scale.setValue(1);
       translateX.setValue(0);
@@ -87,11 +88,7 @@ export const ImageZoomPan: React.FC<Props> = ({ source, style }) => {
           style={[
             styles.image,
             {
-              transform: [
-                { translateX },
-                { translateY },
-                { scale },
-              ],
+              transform: [{ translateX }, { translateY }, { scale }],
             },
           ]}
         />
