@@ -6,7 +6,7 @@ import Photos
 
 class ShareViewController: SLComposeServiceViewController {
  // TODO: IMPORTANT: This should be your host app bundle identifier
- let hostAppBundleIdentifier = "org.name.Blue10"
+ let hostAppBundleIdentifier = "group.com.blue10.Scanner"
  let shareProtocol = "Blue10ShareMedia" //share url protocol (must be unique to your app, suggest using your apple bundle id, ie: `hostAppBundleIdentifier`)
  let sharedKey = "ShareKey"
  var sharedMedia: [SharedMediaFile] = []
