@@ -1,7 +1,8 @@
-import { RootStackParamList } from '@/navigation/types';
+import type { RootStackParamList } from '@/navigation/types';
 import { useImageStore } from '@/store/ImageStore';
 import { colors } from '@/theme';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import type { NavigationProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Modal, View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 

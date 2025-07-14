@@ -7,6 +7,7 @@ export const en: TranslationKeysType = {
     title: 'Dashboard',
     welcome_description: 'Logged in using: {{environment}}',
     welcome_title: 'Hi {{name}}',
+    history: 'History',
   },
   error_view: {
     description:
@@ -40,6 +41,7 @@ export const en: TranslationKeysType = {
     no_user_selected: '(No user selected)',
     title: 'Actions',
     skip: 'Skip',
+    action_success: 'Action submitted successfully',
   },
   invoice_action_select: {
     title: 'Actions',
@@ -182,6 +184,17 @@ export const en: TranslationKeysType = {
     title: 'Find an invoice',
     user_label: 'User',
     user_placeholder: 'No user selected',
+    order_By_label: 'Order by',
+    order_items: {
+      date_desc: 'Date (Desc)',
+      date_asc: 'Date (Asc)',
+      invoiceNR_desc: 'InvoiceNr (Desc)',
+      invoiceNR_asc: 'InvoiceNr (Asc)',
+      dueDate_desc: 'DueDate (Desc)',
+      dueDate_asc: 'DueDate (Asc)',
+      vendor_desc: 'Vendor (Desc)',
+      vendor_asc: 'Vendor (Asc)',
+    },
   },
   settings: {
     language_subtitle: 'Language',
@@ -199,5 +212,8 @@ export const en: TranslationKeysType = {
     count_results_header_other: '{{count}} results',
     count_results_header_zero: '0 results',
     screen_title: 'To-do',
+  },
+  history: {
+    empty_history_list: 'No history available',
   },
 };

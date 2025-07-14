@@ -1,7 +1,8 @@
 import * as dotenv from 'dotenv';
-import { ExpoConfig } from 'expo/config';
+import type { ExpoConfig } from 'expo/config';
 import { parse } from 'semver';
 import 'ts-node/register';
+import withShareIntentFix from './plugins/withShareIntentFix';
 
 dotenv.config();
 
@@ -104,6 +105,8 @@ const config: ExpoConfig = {
     },
     infoPlist: {
       CFBundleLocalizations: ['en', 'nl'],
+      NSCameraUsageDescription: 'To scan documents, camera access is required.',
+      NSPhotoLibraryUsageDescription: 'We need access to your photo library to choose images.',
     },
     supportsTablet: true,
   },
@@ -136,7 +139,7 @@ const config: ExpoConfig = {
         savePhotosPermission: 'Allow $(PRODUCT_NAME) to save photos.',
       },
     ],
-    ['./plugins/withShareIntentFix.ts', { android: true }],
+    [withShareIntentFix as any, { android: true }],
   ],
   slug: 'blue10-app',
   splash: {

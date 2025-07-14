@@ -51,4 +51,16 @@ export const enum searchKeys {
   relation = 'Relation',
   currentUser = 'CurrentUser',
   linkedToDocument = 'LinkedToDocument',
+  searchOrderBy = 'SearchOrderBy',
+}
+
+export const enum searchOrderKeys {
+  dateDesc = 'DateDesc',
+  dateAsc = 'DateAsc',
+  invoiceNrDesc = 'InvoiceNrDesc',
+  invoiceNrAsc = 'InvoiceNrAsc',
+  dueDateDesc = 'DueDateDesc',
+  dueDateAsc = 'DueDateAsc',
+  vendorDesc = 'VendorDesc',
+  vendorAsc = 'VendorAsc',
 }

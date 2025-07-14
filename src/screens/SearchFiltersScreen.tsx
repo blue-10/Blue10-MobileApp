@@ -12,6 +12,7 @@ import { type SelectItemValue } from '@/components/Select/Select';
 import { SelectCompany } from '@/components/SelectCompany/SelectCompany';
 import { SelectOverviewStatus } from '@/components/SelectOverviewStatus/SelectOverviewStatus';
 import { SelectUser } from '@/components/SelectUser/SelectUser';
+import { SelectSearchOrder } from '@/components/SelectSearchOrder/SelectSearchOrder';
 import Text from '@/components/Text/Text';
 import { TextLabelInput } from '@/components/TextLabelInput/TextLabelInput';
 import { TouchableIcon } from '@/components/TouchableIcon/TouchableIcon';
@@ -27,7 +28,9 @@ export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const isIOS = Platform.OS === 'ios';
   const { isScrollable, onContenteSizeChange, onLayout } = useIsScrollable();
-  const { reset, setFilter, getFilter } = useSearchFilterStore();
+  const { reset, setFilter, getFilter, filters } = useSearchFilterStore();
+
+  console.log('SearchFiltersScreen filters', filters);
 
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} keyboardVerticalOffset={96} style={styles.container}>
@@ -116,6 +119,15 @@ export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
               onChangeText={(value) => setFilter(searchKeys.documentNumber, value)}
             />
           </Box>
+          <Box style={styles.sortContainer}>
+            <SelectSearchOrder
+              label={t('search_filter.order_By_label')}
+              placeholder={t('search_filter.order_By_label')}
+              style={styles.selectItem}
+              value={getFilter(searchKeys.searchOrderBy)}
+              onChange={(value: SelectItemValue) => setFilter(searchKeys.searchOrderBy, value)}
+            />
+          </Box>
         </Box>
       </ScrollView>
       <Box borderColor={colors.borderColor} borderTop={1} px={26} py={32}>
@@ -150,5 +162,10 @@ const styles = StyleSheet.create({
   titleView: {
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  sortContainer: {
+    width: '50%',
+    margin: 'auto',
+    marginTop: 16,
   },
 });
