@@ -99,7 +99,6 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
   const [sharedFiles, setSharedFiles] = useState([]);
 
   useEffect(() => {
-    console.log('**************DashboardScreen useEffect');
     ReceiveSharingIntent.getReceivedFiles(
       (files: React.SetStateAction<never[]>) => {
         console.log('**************Received files:', files);
