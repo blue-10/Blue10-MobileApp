@@ -23,17 +23,33 @@ export const useCameraScan = ({ onEmptyResults }: useCameraScanParams) => {
       setHasPendingImages(true);
       const rotatedImagePaths: string[] = [];
 
-      // if the status is not Success, the user cancelled
-      if (result.status === ScanDocumentResponseStatus.Success) {
-        const imagePaths = result.scannedImages || [];
+      // بررسی وضعیت نتیجه و معتبر بودن تصاویر برگشتی
+      if (
+        result.status === ScanDocumentResponseStatus.Success &&
+        Array.isArray(result.scannedImages) &&
+        result.scannedImages.length > 0
+      ) {
+        for (let idx = 0; idx < result.scannedImages.length; idx++) {
+          const imagePath = result.scannedImages[idx];
 
-        for (let idx = 0; idx < imagePaths.length; idx++) {
-          rotatedImagePaths.push(await maniplateImageIfNeeded(imagePaths[idx]));
+          if (imagePath) {
+            try {
+              const rotated = await maniplateImageIfNeeded(imagePath);
+              rotatedImagePaths.push(rotated);
+            } catch (imgError) {
+              console.warn(`خطا در پردازش تصویر ${imagePath}:`, imgError);
+              // می‌تونی تصمیم بگیری که ادامه بدی یا نه
+            }
+          } else {
+            console.warn(`مسیر تصویر نامعتبر بود در اندیس ${idx}`);
+          }
         }
+      } else {
+        console.warn('کاربر دوربین را کنسل کرد یا تصویری دریافت نشد.');
       }
 
+      // بررسی نهایی اینکه تصویری برای اضافه شدن وجود داره یا نه
       if (images.length === 0 && rotatedImagePaths.length === 0) {
-        // note: do not reset hasPendingImages here or the useEffect() hook will re-open the camera while navigating
         onEmptyResults();
       } else {
         addImages(rotatedImagePaths);
@@ -44,9 +60,10 @@ export const useCameraScan = ({ onEmptyResults }: useCameraScanParams) => {
         }
       }
     } catch (reason) {
+      console.error('خطا در اسکن سند:', reason);
       captureError(reason, 'An error occurred while scanning documents');
       setHasPendingImages(false);
-      throw reason;
+      // throw رو حذف کردیم چون نمی‌خوایم باعث کرش React بشه
     }
   }, [images.length, onEmptyResults, addImages, selectedImageIndex, selectImage]);
 
