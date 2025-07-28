@@ -23,17 +23,30 @@ export const useCameraScan = ({ onEmptyResults }: useCameraScanParams) => {
       setHasPendingImages(true);
       const rotatedImagePaths: string[] = [];
 
-      // if the status is not Success, the user cancelled
-      if (result.status === ScanDocumentResponseStatus.Success) {
-        const imagePaths = result.scannedImages || [];
+      if (
+        result.status === ScanDocumentResponseStatus.Success &&
+        Array.isArray(result.scannedImages) &&
+        result.scannedImages.length > 0
+      ) {
+        for (let idx = 0; idx < result.scannedImages.length; idx++) {
+          const imagePath = result.scannedImages[idx];
 
-        for (let idx = 0; idx < imagePaths.length; idx++) {
-          rotatedImagePaths.push(await maniplateImageIfNeeded(imagePaths[idx]));
+          if (imagePath) {
+            try {
+              const rotated = await maniplateImageIfNeeded(imagePath);
+              rotatedImagePaths.push(rotated);
+            } catch (imgError) {
+              console.warn(`Error processing image ${imagePath}:`, imgError);
+            }
+          } else {
+            console.warn(`filePath is invalid at index ${idx}`);
+          }
         }
+      } else {
+        console.warn('User canceled the camera or no image was received.');
       }
 
       if (images.length === 0 && rotatedImagePaths.length === 0) {
-        // note: do not reset hasPendingImages here or the useEffect() hook will re-open the camera while navigating
         onEmptyResults();
       } else {
         addImages(rotatedImagePaths);
@@ -44,9 +57,9 @@ export const useCameraScan = ({ onEmptyResults }: useCameraScanParams) => {
         }
       }
     } catch (reason) {
+      console.error('Error scanning document:', reason);
       captureError(reason, 'An error occurred while scanning documents');
       setHasPendingImages(false);
-      throw reason;
     }
   }, [images.length, onEmptyResults, addImages, selectedImageIndex, selectImage]);
 
