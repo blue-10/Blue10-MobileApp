@@ -1,3 +1,4 @@
+import Box from '@/components/Box/Box';
 import { colors } from '@/theme';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,16 +8,36 @@ import RNFS from 'react-native-fs';
 const BASE_FOLDER = `${RNFS.DocumentDirectoryPath}/blue10Images`;
 
 type ImagesByCompany = {
-  [companyName: string]: string[];
+  [companyName: string]: {
+    images: string[];
+    documentTitle?: string;
+    dateSet?: string;
+    timeSet?: string;
+  };
 };
 
 export const HistoryScreen = () => {
   const [imagesByCompany, setImagesByCompany] = useState<ImagesByCompany>({});
+  const [documentTitle, setDocumentTitle] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [preview, setPreview] = useState<string | undefined>(undefined);
 
   const { t } = useTranslation();
+
+  const readMetaData = async (folderPath: string) => {
+    try {
+      const metaFilePath = `${folderPath}/metadata.json`;
+      const exists = await RNFS.exists(metaFilePath);
+      if (exists) {
+        const metaData = await RNFS.readFile(metaFilePath, 'utf8');
+        const parsedMetaData = JSON.parse(metaData) || {};
+        return parsedMetaData;
+      }
+    } catch (error) {
+      console.warn('Error reading metadata:', error);
+    }
+  }
 
   const loadImages = async () => {
     try {
@@ -38,24 +59,37 @@ export const HistoryScreen = () => {
         return timeB - timeA;
       });
 
-      for (const entry of entries) {
-        if (entry.isDirectory()) {
-          const companyName = entry.name.replaceAll('_', '    ').replace('-', ':');
-          const companyFiles = await RNFS.readDir(entry.path);
-          const companyImages = companyFiles
-            .filter((file) => file.isFile() && (file.name.endsWith('.jpg') || file.name.endsWith('.png')))
-            .map((file) => 'file://' + file.path);
+for (const entry of entries) {
+  if (entry.isDirectory()) {
+    const metaFile = await readMetaData(entry.path);
+    const documentTitle = metaFile?.documentType?.replaceAll('_', ' ');
+    const companyName = entry.name.split('_')[2];
+    const dateSet = entry.name.split('_')[0];
+    const timeSet = entry.name.split('_')[1].replace('-', ':');
 
-          if (companyImages.length > 0) {
-            groupedImages[companyName] = companyImages;
-          }
-        } else if (entry.isFile()) {
-          if (entry.name.endsWith('.jpg') || entry.name.endsWith('.png')) {
-            if (!groupedImages['Uncategorized']) groupedImages['Uncategorized'] = [];
-            groupedImages['Uncategorized'].push('file://' + entry.path);
-          }
-        }
+    const companyFiles = await RNFS.readDir(entry.path);
+    const companyImages = companyFiles
+      .filter((file) => file.isFile() && (file.name.endsWith('.jpg') || file.name.endsWith('.png')))
+      .map((file) => 'file://' + file.path);
+
+    if (companyImages.length > 0) {
+      groupedImages[companyName] = {
+        images: companyImages,
+        documentTitle: documentTitle,
+        dateSet: dateSet,
+        timeSet: timeSet
+      };
+    }
+  } else if (entry.isFile()) {
+    if (entry.name.endsWith('.jpg') || entry.name.endsWith('.png')) {
+      if (!groupedImages['Uncategorized']) {
+        groupedImages['Uncategorized'] = { images: [] };
       }
+      groupedImages['Uncategorized'].images.push('file://' + entry.path);
+    }
+  }
+}
+
 
       setImagesByCompany(groupedImages);
     } catch (error) {
@@ -86,11 +120,18 @@ export const HistoryScreen = () => {
     <ScrollView contentContainerStyle={{ padding: 10 }}>
       {Object.entries(imagesByCompany).map(([companyName, images]) => (
         <View key={companyName} style={{ marginBottom: 30 }}>
-          <Text style={styles.imageTitle}>{companyName}</Text>
+          <Box style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Text style={styles.imageTitle}>{companyName} / </Text>
+          {images.documentTitle && <Text style={styles.imageTitle}>{images.documentTitle}</Text>}
+          </Box>
+          <Box style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {images.dateSet && <Text style={styles.imageTitle}>{images.dateSet}   </Text>}
+            {images.timeSet && <Text style={styles.imageTitle}>{images.timeSet}</Text>}
+          </Box>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.container}>
               <View style={styles.imageContainer}>
-                {images.map((uri) => (
+                {images.images.map((uri) => (
                   <Pressable
                     key={uri}
                     onLongPress={() => {
@@ -122,6 +163,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: colors.list.images.background,
     borderRadius: 8,
+    marginTop: 10,
   },
   modalBackground: {
     flex: 1,
@@ -137,7 +179,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: 6,
   },
   imageItem: {
     width: 80,
@@ -147,6 +189,5 @@ const styles = StyleSheet.create({
   imageTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
 });
