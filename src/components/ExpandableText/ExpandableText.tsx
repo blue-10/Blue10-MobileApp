@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
+import type { NativeSyntheticEvent, TextLayoutEventData } from 'react-native';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
-
-const colors = {
-  list: {
-    separator: '#e0e0e0', // You can adjust this color as needed
-  },
-};
 
 type Props = {
   text: string;
@@ -13,17 +8,27 @@ type Props = {
 };
 
 const ExpandableText: React.FC<Props> = ({ text, initiallyExpanded }) => {
-  const [expanded, setExpanded] = useState(initiallyExpanded);
+  const [expanded, setExpanded] = useState(initiallyExpanded ?? false);
+  const [trimmedText, setTrimmedText] = useState(text);
 
-  let shortText = text.slice(0, 25);
-  if (text.length > 25) {
-    shortText += '...';
-  }
-  const displayText = expanded ? text : shortText;
+  const handleTextLayout = (e: NativeSyntheticEvent<TextLayoutEventData>) => {
+    if (!expanded) {
+      const { lines } = e.nativeEvent;
+      if (lines.length > 1) {
+        setTrimmedText(lines[0].text.trimEnd() + '…');
+      }
+    }
+  };
 
   return (
     <TouchableOpacity onPress={() => setExpanded(!expanded)}>
-      <Text style={styles.text}>{displayText}</Text>
+      <Text
+        style={styles.text}
+        numberOfLines={expanded ? undefined : 1}
+        onTextLayout={handleTextLayout}
+      >
+        {expanded ? text : trimmedText}
+      </Text>
     </TouchableOpacity>
   );
 };
