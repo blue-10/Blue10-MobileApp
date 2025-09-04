@@ -1,7 +1,9 @@
-import type { ExpoConfig } from '@expo/config-types';
-// load .env
 import * as dotenv from 'dotenv';
+import type { ExpoConfig } from 'expo/config';
 import { parse } from 'semver';
+import 'ts-node/register';
+import withShareIntentFix from './plugins/withShareIntentFix';
+
 dotenv.config();
 
 const getPackageVersion = (): string => {
@@ -71,6 +73,18 @@ const config: ExpoConfig = {
     },
     package: 'builders.are.we.blue10',
     versionCode: getVersionCode(version),
+    intentFilters: [
+      {
+        action: 'SEND',
+        data: [{ mimeType: 'image/*' }, { mimeType: 'application/pdf' }],
+        category: ['DEFAULT', 'BROWSABLE'],
+      },
+      {
+        action: 'SEND_MULTIPLE',
+        data: [{ mimeType: 'image/*' }, { mimeType: 'application/pdf' }],
+        category: ['DEFAULT', 'BROWSABLE'],
+      },
+    ],
   },
   assetBundlePatterns: ['**/*'],
   developmentClient: {
@@ -86,11 +100,16 @@ const config: ExpoConfig = {
   ios: {
     buildNumber: getBuildNumber(version),
     bundleIdentifier: 'com.blue10.Scanner',
+    entitlements: {
+        "com.apple.security.application-groups": ["group.Blue10.com"]
+    },
     config: {
       usesNonExemptEncryption: false,
     },
     infoPlist: {
       CFBundleLocalizations: ['en', 'nl'],
+      NSCameraUsageDescription: 'To scan documents, camera access is required.',
+      NSPhotoLibraryUsageDescription: 'We need access to your photo library to choose images.',
     },
     supportsTablet: true,
   },
@@ -123,6 +142,7 @@ const config: ExpoConfig = {
         savePhotosPermission: 'Allow $(PRODUCT_NAME) to save photos.',
       },
     ],
+    [withShareIntentFix as any, { android: true }],
   ],
   slug: 'blue10-app',
   splash: {
