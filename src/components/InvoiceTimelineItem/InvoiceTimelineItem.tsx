@@ -44,13 +44,16 @@ const InvoiceTimelineItem: React.FC<Props> = ({ item, isEven, id }) => {
         py={dimensions.list.singleItem.paddingVertical}
         style={[styles.remark, !isEven ? styles.even : styles.odd, {}]}
       >
-        <Box width={'70%'}>
-          <ExpandableText text={item.remark ?? ''} initiallyExpanded={id === 0} />
+        <Box width={'65%'}>
+          <ExpandableText text={item.remark ?? ''} initiallyExpanded={id === 0} widthPercent={65} />
         </Box>
-        <Box>
-          <Text color={colors.labelLightSecondary} variant="caption1Regular" style={{ marginRight: 10 }}>
-            {item.userAbbreviation} &gt; {item.toUserAbbreviation}
-          </Text>
+        <Box style={{ marginLeft: 8, marginRight: 8, width: '35%' }}>
+          <ExpandableText
+            text={`${item.userAbbreviation} > ${item.toUserAbbreviation}`}
+            initiallyExpanded={id === 0}
+            widthPercent={35}
+            color={colors.labelLightSecondary}
+          />
         </Box>
       </Box>
     </Box>
