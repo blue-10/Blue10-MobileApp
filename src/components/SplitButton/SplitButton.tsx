@@ -67,15 +67,15 @@ const SplitButton: React.FC<SplitButtonProps> = ({
   }, [variant, size]);
 
   const arrowButtonHeight = useMemo(() => {
-  switch (size) {
-    case 'L':
-      return 53;
-    case 'S':
-      return 44;
-    default:
-      return 47;
-  }
-}, [size]);
+    switch (size) {
+      case 'L':
+        return 53;
+      case 'S':
+        return 44;
+      default:
+        return 47;
+    }
+  }, [size]);
 
   const textVariant: TextStyleType = useMemo(() => {
     switch (size) {
@@ -106,7 +106,7 @@ const SplitButton: React.FC<SplitButtonProps> = ({
           align={textAlign}
           color={colors.button[variant].text}
           numberOfLines={1}
-          style={{flex: 1, textAlign: 'center', paddingLeft: iconLeft ? 8 : 0 }}
+          style={{ flex: 1, textAlign: 'center', paddingLeft: iconLeft ? 8 : 0 }}
           variant={textVariant}
         >
           {title}
@@ -120,7 +120,7 @@ const SplitButton: React.FC<SplitButtonProps> = ({
           styles.arrowButton,
           styles.variantSplitSide,
           styles[`variant${capitalize(variant)}` as keyof typeof styles],
-          { height: arrowButtonHeight }
+          { height: arrowButtonHeight },
         ]}
         onPress={onArrowPress}
       >

@@ -101,7 +101,7 @@ const config: ExpoConfig = {
     buildNumber: getBuildNumber(version),
     bundleIdentifier: 'com.blue10.Scanner',
     entitlements: {
-        "com.apple.security.application-groups": ["group.Blue10.com"]
+      'com.apple.security.application-groups': ['group.Blue10.com'],
     },
     config: {
       usesNonExemptEncryption: false,

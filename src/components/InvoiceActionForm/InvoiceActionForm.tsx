@@ -178,55 +178,55 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
         />
       </Box>
       {(formActions?.actions.length || 0) > 0 && (
-    <Box style={styles.buttonContainer}>
-      {/* User + Skip row */}
-      <Box mx={itemsMarginX} pt={6} style={styles.itemsFlexRow}>
-        {/* User button + label */}
-        <Box style={styles.itemColumn}>
-          <Button
-            isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
-            size="M"
-            title={getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected')}
-            variant="secondary"
-            onPress={onUserPress}
-          />
-          <Text align="center" color={tableColor} style={{ marginTop: 4 }}>
-            {t('invoice_action_form.button_user_help_text') /* "Gebruiker" */}
-          </Text>
-        </Box>
+        <Box style={styles.buttonContainer}>
+          {/* User + Skip row */}
+          <Box mx={itemsMarginX} pt={6} style={styles.itemsFlexRow}>
+            {/* User button + label */}
+            <Box style={styles.itemColumn}>
+              <Button
+                isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
+                size="M"
+                title={getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected')}
+                variant="secondary"
+                onPress={onUserPress}
+              />
+              <Text align="center" color={tableColor} style={{ marginTop: 4 }}>
+                {t('invoice_action_form.button_user_help_text') /* "Gebruiker" */}
+              </Text>
+            </Box>
 
-        {/* Skip button + label */}
-        <Box style={styles.itemColumn}>
-          <Button
-            isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
-            size="M"
-            title={t('invoice_action_form.skip')} // "Overslaan"
-            variant="secondary"
-            onPress={onSkipPress}
-          />
-          <Text align="center" color={tableColor} style={{ marginTop: 4 }}>
-            {t('invoice_action_form.skip')}
-          </Text>
-        </Box>
-      </Box>
+            {/* Skip button + label */}
+            <Box style={styles.itemColumn}>
+              <Button
+                isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
+                size="M"
+                title={t('invoice_action_form.skip')} // "Overslaan"
+                variant="secondary"
+                onPress={onSkipPress}
+              />
+              <Text align="center" color={tableColor} style={{ marginTop: 4 }}>
+                {t('invoice_action_form.skip')}
+              </Text>
+            </Box>
+          </Box>
 
-      {/* Big action button + label */}
-      <Box style={styles.itemColumnLarge}>
-        <SplitButton
-          isDisabled={isDisabled}
-          size="M"
-          title={selectedActionId ? actionIdToText(selectedActionId) : t('invoice_action_form.no_action_selected')}
-          variant="secondary"
-          onPress={() => onActionButtonPressed()}
-          onArrowPress={onActionSelected}
-        />
-        <Text align="center" color={tableColor} style={{ marginTop: 4 }}>
-          {t('invoice_action_form.button_action_help_text') /* "Actie" */}
-        </Text>
-      </Box>
+          {/* Big action button + label */}
+          <Box style={styles.itemColumnLarge}>
+            <SplitButton
+              isDisabled={isDisabled}
+              size="M"
+              title={selectedActionId ? actionIdToText(selectedActionId) : t('invoice_action_form.no_action_selected')}
+              variant="secondary"
+              onPress={() => onActionButtonPressed()}
+              onArrowPress={onActionSelected}
+            />
+            <Text align="center" color={tableColor} style={{ marginTop: 4 }}>
+              {t('invoice_action_form.button_action_help_text') /* "Actie" */}
+            </Text>
+          </Box>
+        </Box>
+      )}
     </Box>
-  )}
-</Box>
   );
 };
 
