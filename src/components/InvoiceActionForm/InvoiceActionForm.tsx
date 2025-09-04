@@ -166,87 +166,79 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
 
   return (
     <Box>
-      <Box mx={itemsMarginX} pb={10}>
+      <Box mx={itemsMarginX} pb={16}>
         <Text variant="title">{t('invoice_action_form.title')}</Text>
       </Box>
-      <Box mx={itemsMarginX} pb={12}>
+      <Box mx={itemsMarginX} pb={16}>
         <TextInput
           isDisabled={isDisabled}
-          placeholder={t('invoice_action_form.comment')}
+          label={t('invoice_action_form.comment')}
           value={comment}
           onChangeText={(value) => setComment(value)}
         />
       </Box>
       {(formActions?.actions.length || 0) > 0 && (
-    <Box style={styles.buttonContainer}>
-      {/* User + Skip row */}
-      <Box mx={itemsMarginX} pt={6} style={styles.itemsFlexRow}>
-        {/* User button + label */}
-        <Box style={styles.itemColumn}>
-          <Button
-            isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
-            size="M"
-            title={getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected')}
-            variant="secondary"
-            onPress={onUserPress}
-          />
-          <Text align="center" color={tableColor} style={{ marginTop: 4 }}>
-            {t('invoice_action_form.button_user_help_text') /* "Gebruiker" */}
+        <Box mx={itemsMarginX} pt={16} style={styles.itemsFlexRow}>
+          <Box style={styles.itemFlex1}>
+            <SplitButton
+              isDisabled={isDisabled}
+              size="S"
+              title={selectedActionId ? actionIdToText(selectedActionId) : t('invoice_action_form.no_action_selected')}
+              variant="secondary"
+              onPress={() => onActionButtonPressed()}
+              onArrowPress={onActionSelected}
+            />
+          </Box>
+          <Box style={styles.itemFlex1}>
+            <Button
+              isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
+              size="S"
+              title={getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected')}
+              variant="secondary"
+              onPress={onUserPress}
+            />
+          </Box>
+          <Box style={styles.itemFlex1}>
+            <Button
+              isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
+              size="S"
+              title={t('invoice_action_form.skip')}
+              variant="secondary"
+              onPress={onSkipPress}
+            />
+          </Box>
+        </Box>
+      )}
+      <Box mx={itemsMarginX} py={4} style={styles.itemsFlexRow}>
+        <Box style={styles.itemFlex1}>
+          <Text align="center" color={tableColor}>
+            {t('invoice_action_form.button_action_help_text')}
           </Text>
         </Box>
-
-        {/* Skip button + label */}
-        <Box style={styles.itemColumn}>
-          <Button
-            isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
-            size="M"
-            title={t('invoice_action_form.skip')} // "Overslaan"
-            variant="secondary"
-            onPress={onSkipPress}
-          />
-          <Text align="center" color={tableColor} style={{ marginTop: 4 }}>
+        <Box style={styles.itemFlex1}>
+          <Text align="center" color={tableColor}>
+            {t('invoice_action_form.button_user_help_text')}
+          </Text>
+        </Box>
+        <Box style={styles.itemFlex1}>
+          <Text align="center" color={tableColor}>
             {t('invoice_action_form.skip')}
           </Text>
         </Box>
       </Box>
-
-      {/* Big action button + label */}
-      <Box style={styles.itemColumnLarge}>
-        <SplitButton
-          isDisabled={isDisabled}
-          size="M"
-          title={selectedActionId ? actionIdToText(selectedActionId) : t('invoice_action_form.no_action_selected')}
-          variant="secondary"
-          onPress={() => onActionButtonPressed()}
-          onArrowPress={onActionSelected}
-        />
-        <Text align="center" color={tableColor} style={{ marginTop: 4 }}>
-          {t('invoice_action_form.button_action_help_text') /* "Actie" */}
-        </Text>
-      </Box>
     </Box>
-  )}
-</Box>
   );
 };
 
 const styles = StyleSheet.create({
+  itemFlex1: {
+    flex: 1,
+  },
   itemsFlexRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 16,
+    gap: '10',
   },
-  itemColumn: {
+  scrollContainer: {
     flex: 1,
-    alignItems: 'center',
-  },
-  itemColumnLarge: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 16,
-    marginHorizontal: 26,
-  },
-  buttonContainer: {
-    minHeight: 160,
   },
 });
