@@ -1,9 +1,13 @@
+
 import Box from '@/components/Box/Box';
+import { ImageZoomPan } from '@/components/ImageZoomPan/ImageZoomPan';
 import { colors } from '@/theme';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Image, View, Text, StyleSheet, Pressable, Modal, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, Image, View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import RNFS from 'react-native-fs';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import SvgCrossIcon from '../../assets/icons/xmark-circle-fill.svg';
 
 const BASE_FOLDER = `${RNFS.DocumentDirectoryPath}/blue10Images`;
 
@@ -148,13 +152,29 @@ for (const entry of entries) {
         </View>
       ))}
 
-      <Modal visible={modalVisible} transparent>
-        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-          <View style={styles.modalBackground}>
-            {preview && <Image source={{ uri: preview }} style={styles.fullImage} resizeMode="contain" />}
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+      <Modal
+  visible={modalVisible}
+  transparent
+  animationType="fade"
+>
+  <GestureHandlerRootView style={{ flex: 1 }}>
+    <View style={styles.modalBackground}>
+      <Pressable
+        style={styles.closeButton}
+        onPress={() => setModalVisible(false)}
+      >
+        <SvgCrossIcon width={32} height={32} color="#fff"/>
+      </Pressable>
+
+      {preview && (
+        <ImageZoomPan
+          source={{ uri: preview }}
+          style={styles.fullImage}
+        />
+      )}
+    </View>
+  </GestureHandlerRootView>
+</Modal>
     </ScrollView>
   );
 };
@@ -190,4 +210,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  closeButton: {
+    position: 'relative',
+    top: 20,
+    right: '-40%',
+    zIndex: 10,
+    borderRadius: 20,
+  }
 });
