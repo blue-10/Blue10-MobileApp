@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
 import type { NativeSyntheticEvent, TextLayoutEventData } from 'react-native';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 type Props = {
   text: string;
   initiallyExpanded?: boolean;
+  color?: string;
+  widthPercent: number;
 };
 
-const ExpandableText: React.FC<Props> = ({ text, initiallyExpanded }) => {
+const ExpandableText: React.FC<Props> = ({ text, initiallyExpanded, color, widthPercent }) => {
   const [expanded, setExpanded] = useState(initiallyExpanded ?? false);
   const [trimmedText, setTrimmedText] = useState(text);
+
+  
+  const screenWidth = Dimensions.get('window').width;
+  const containerWidth = (widthPercent / 100) * screenWidth;
 
   const handleTextLayout = (e: NativeSyntheticEvent<TextLayoutEventData>) => {
     if (!expanded) {
@@ -20,10 +26,21 @@ const ExpandableText: React.FC<Props> = ({ text, initiallyExpanded }) => {
     }
   };
 
+ useEffect(() => {
+    const avgCharWidth = 16 * 0.5;
+    const maxChars = Math.floor(containerWidth / avgCharWidth) - 1;
+
+    if (text.length > maxChars) {
+      setTrimmedText(text.slice(0, maxChars) + '…');
+    } else {
+      setTrimmedText(text);
+    }
+  }, [text, containerWidth, 16]);
+
   return (
     <TouchableOpacity onPress={() => setExpanded(!expanded)}>
       <Text
-        style={styles.text}
+        style={[styles.text, { color }]}
         numberOfLines={expanded ? undefined : 1}
         onTextLayout={handleTextLayout}
       >
