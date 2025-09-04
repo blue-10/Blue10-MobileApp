@@ -23,7 +23,7 @@ const PopUp = ({ images }: PopUpProps) => {
   }, [images]);
 
   const handleYes = () => {
-    const normalizedImages = images.map((image) => `file://${image.filePath}`);
+    const normalizedImages = images.map((image) => `file://${image}`);
     addImages(normalizedImages);
     setVisible(false);
     navigation.navigate('ScanSelectCompanyScreen');
@@ -41,13 +41,7 @@ const PopUp = ({ images }: PopUpProps) => {
             <View>
               <View style={styles.images}>
                 {images?.map((image, index) => (
-                  <Image
-                    width={80}
-                    height={80}
-                    borderRadius={4}
-                    source={{ uri: 'file://' + image?.filePath }}
-                    key={index}
-                  />
+                  <Image width={80} height={80} borderRadius={4} source={{ uri: `file://${image}` }} key={index} />
                 ))}
               </View>
               <Text style={styles.title}>Your files were received. Do you want to continue?</Text>

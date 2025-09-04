@@ -22,6 +22,7 @@ import { useImageStore } from '../store/ImageStore';
 import { colors, dimensions, text } from '../theme/';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import PopUp from '@/components/PopUp/PopUp';
+import RNFS from 'react-native-fs';
 
 type Props = StackScreenProps<RootStackParamList, 'Dashboard'>;
 
@@ -96,24 +97,72 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate('ScanSelectCompanyScreen');
   }, [navigation, resetScannedImages]);
 
-  const [sharedFiles, setSharedFiles] = useState([]);
+  const [sharedFiles, setSharedFiles] = useState<string[]>([]);
+  const [hasReadSharedJSON, setHasReadSharedJSON] = useState(false);
+
+  const saveFilesToDocuments = async (files: string[]) => {
+    const saved: string[] = [];
+    for (const file of files) {
+      try {
+        const fileName = file.split('/').pop();
+        const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+        await RNFS.copyFile(file, destPath);
+        saved.push(destPath);
+      } catch (err) {
+        console.log('Cannot copy shared file:', err);
+      }
+    }
+    return saved;
+  };
 
   useEffect(() => {
-    ReceiveSharingIntent.getReceivedFiles(
-      (files: React.SetStateAction<never[]>) => {
-        console.log('**************Received files:', files);
-        setSharedFiles(files);
-      },
-      () => {
-        return;
-      },
-      'Blue10ShareMedia',
-    );
+    // Android: ReceiveSharingIntent
+    if (Platform.OS === 'android') {
+      ReceiveSharingIntent.getReceivedFiles(
+        async (files: any[]) => {
+          const paths = files.map((f: any) => f.filePath);
+          const saved = await saveFilesToDocuments(paths);
+          setSharedFiles(saved);
+        },
+        () => {},
+        'Blue10ShareMedia',
+      );
+
+      return () => {
+        ReceiveSharingIntent.clearReceivedFiles();
+      };
+    }
+
+    // iOS: Linking URL from Share Extension
+    const handleURL = async (event: { url: string }) => {
+      if (!event.url || !event.url.includes('filePath=') || hasReadSharedJSON) return;
+
+      setHasReadSharedJSON(true);
+      const url = decodeURIComponent(event.url.split('filePath=')[1]);
+
+      try {
+        const contents = await RNFS.readFile(url, 'utf8');
+        const files = JSON.parse(contents);
+
+        const fullPaths = files.map((f: string) => url.replace('shared.json', f));
+        const saved = await saveFilesToDocuments(fullPaths);
+        setSharedFiles(saved);
+      } catch (err) {
+        console.log('Cannot read shared.json', err);
+      }
+    };
+
+    Linking.addEventListener('url', handleURL);
+
+    // اگر اپ با URL باز شد
+    Linking.getInitialURL().then((initialUrl) => {
+      if (initialUrl) handleURL({ url: initialUrl });
+    });
 
     return () => {
-      ReceiveSharingIntent.clearReceivedFiles();
+      Linking.removeAllListeners('url');
     };
-  }, []);
+  }, [hasReadSharedJSON]);
 
   return (
     <ScreenWithStatusBarAndHeader>
@@ -202,6 +251,8 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
           </DashboardItem>
         </View>
       </ScrollView>
+
+      {/* PopUp تصاویر share شده */}
       <PopUp images={sharedFiles} />
     </ScreenWithStatusBarAndHeader>
   );
