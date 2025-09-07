@@ -154,7 +154,6 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
 
     Linking.addEventListener('url', handleURL);
 
-    // اگر اپ با URL باز شد
     Linking.getInitialURL().then((initialUrl) => {
       if (initialUrl) handleURL({ url: initialUrl });
     });
@@ -252,7 +251,6 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
         </View>
       </ScrollView>
 
-      {/* PopUp تصاویر share شده */}
       <PopUp images={sharedFiles} />
     </ScreenWithStatusBarAndHeader>
   );
