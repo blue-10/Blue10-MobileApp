@@ -6,7 +6,6 @@ import Photos
 class ShareViewController: SLComposeServiceViewController {
 
     let shareProtocol = "Blue10ShareMedia"
-    let sharedKey = "ShareKey"
     var sharedMedia: [URL] = []
 
     let imageType = kUTTypeImage as String
@@ -14,8 +13,12 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func isContentValid() -> Bool { true }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        handleIncoming()
+    }
+
+    private func handleIncoming() {
         guard let content = extensionContext?.inputItems.first as? NSExtensionItem,
               let attachments = content.attachments else { return }
 
@@ -54,38 +57,39 @@ class ShareViewController: SLComposeServiceViewController {
             }
 
             if index == total - 1 {
-                self.sendToHostApp()
+                DispatchQueue.main.async {
+                    self.sendToHostApp()
+                }
             }
         }
     }
 
-  private func sendToHostApp() {
-      let urls = self.sharedMedia.map { $0.lastPathComponent }
-      
-      guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.blue10.app") else {
-          return
-      }
+    private func sendToHostApp() {
+        let urls = self.sharedMedia.map { $0.lastPathComponent }
 
-      let jsonURL = containerURL.appendingPathComponent("shared.json")
-    
-      if let encodedPath = jsonURL.path.addingPercentEncoding(withAllowedCharacters:     .urlQueryAllowed),
-         let url = URL(string: "\(shareProtocol)://filePath=\(encodedPath)") {
-         redirectToHostApp(with: url)
-      }
-      
-      do {
-          let data = try JSONEncoder().encode(urls)
-          try data.write(to: jsonURL)
-      } catch {
-          print("Cannot write shared.json: \(error)")
-      }
-      
-      if let encodedKey = "shared.json".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-         let url = URL(string: "\(shareProtocol)://dataUrl=\(encodedKey)#media") {
-          redirectToHostApp(with: url)
-      }
-  }
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.blue10.app") else {
+            dismissWithError()
+            return
+        }
 
+        let jsonURL = containerURL.appendingPathComponent("shared.json")
+
+        do {
+            let data = try JSONEncoder().encode(urls)
+            try data.write(to: jsonURL)
+        } catch {
+            print("Cannot write shared.json: \(error)")
+        }
+
+        if let encodedPath = jsonURL.path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+           let url = URL(string: "\(shareProtocol)://filePath=\(encodedPath)") {
+            redirectToHostApp(with: url)
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+        }
+    }
 
     private func redirectToHostApp(with url: URL) {
         var responder: UIResponder? = self
@@ -100,10 +104,6 @@ class ShareViewController: SLComposeServiceViewController {
             }
             responder = r.next
         }
-        // Complete request safely
-        if let ctx = self.extensionContext {
-            ctx.completeRequest(returningItems: nil, completionHandler: nil)
-        }
     }
 
     private func dismissWithError() {
@@ -111,8 +111,8 @@ class ShareViewController: SLComposeServiceViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
         self.present(alert, animated: true, completion: nil)
 
-        if let ctx = self.extensionContext {
-            ctx.completeRequest(returningItems: nil, completionHandler: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
         }
     }
 
