@@ -6,6 +6,7 @@ type Props = {
   onChangeText?: (text: string) => void;
   isSecureTextEntry?: boolean;
   isDisabled?: boolean;
+  placeholder?: string;
 };
 
 const TextInput: React.FC<Props> = ({ label, isSecureTextEntry, isDisabled = false, ...props }) => (

@@ -91,6 +91,15 @@ export const useUploadScanProcess = () => {
       savedPaths.push('file://' + destPath);
     }
 
+    const folderMetaData = {
+      companyName: safeCompanyName,
+      timestamp: new Date().toISOString(),
+      documentType: documentType?.key,
+    };
+
+    const metaFilePath = `${folderPath}/metadata.json`;
+    await RNFS.writeFile(metaFilePath, JSON.stringify(folderMetaData), 'utf8');
+
     return savedPaths;
   };
   // --------
