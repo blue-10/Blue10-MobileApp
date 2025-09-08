@@ -12,7 +12,6 @@ const ExpandableText: React.FC<Props> = ({ text, initiallyExpanded, color, width
   const [expanded, setExpanded] = useState(initiallyExpanded ?? false);
   const [trimmedText, setTrimmedText] = useState(text);
 
-  
   const screenWidth = Dimensions.get('window').width;
   const containerWidth = (widthPercent / 100) * screenWidth;
 
@@ -29,10 +28,7 @@ const ExpandableText: React.FC<Props> = ({ text, initiallyExpanded, color, width
 
   return (
     <TouchableOpacity onPress={() => setExpanded(!expanded)}>
-      <Text
-        style={[styles.text, color && { color }]}
-        numberOfLines={expanded ? undefined : 1}
-      >
+      <Text style={[styles.text, color && { color }]} numberOfLines={expanded ? undefined : 1}>
         {expanded ? text : trimmedText}
       </Text>
     </TouchableOpacity>
