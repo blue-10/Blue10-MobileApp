@@ -38,6 +38,7 @@ export const normalizeInvoiceFromResponse = (response: GetInvoiceDetailsResponse
     totalToPay: response.GrossAmount,
     userList: response.UserList ?? [],
     vatTotal: response.GrossAmount - response.NetAmount,
+    excelDocumentDate: typeof response.ExcelDocumentDate === 'string' ? parseDate(response.ExcelDocumentDate) : undefined,
   };
 };
 
@@ -51,6 +52,7 @@ export const normalizeInvoiceListItemFromResponseItem = (response: GetInvoiceOve
     invoiceNumber: response.DocumentNumber,
     price: response.GrossAmount ?? 0,
     totalCount: response.Count,
+    excelDocumentDate: typeof response.ExcelDocumentDate === 'string' ? parseDate(response.ExcelDocumentDate, "yyyy-MM-dd'T'HH:mm:ss") : undefined,
   };
 };
 
