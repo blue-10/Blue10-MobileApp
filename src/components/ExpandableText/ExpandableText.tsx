@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
-const colors = {
-  list: {
-    separator: '#e0e0e0', // You can adjust this color as needed
-  },
-};
-
 type Props = {
   text: string;
   initiallyExpanded?: boolean;
@@ -18,6 +12,7 @@ const ExpandableText: React.FC<Props> = ({ text, initiallyExpanded, color, width
   const [expanded, setExpanded] = useState(initiallyExpanded ?? false);
   const [trimmedText, setTrimmedText] = useState(text);
 
+  
   const screenWidth = Dimensions.get('window').width;
   const containerWidth = (widthPercent / 100) * screenWidth;
 
@@ -31,9 +26,13 @@ const ExpandableText: React.FC<Props> = ({ text, initiallyExpanded, color, width
       setTrimmedText(text);
     }
   }, [text, containerWidth, 16]);
+
   return (
     <TouchableOpacity onPress={() => setExpanded(!expanded)}>
-      <Text style={[styles.text, color && { color }]} numberOfLines={expanded ? undefined : 1}>
+      <Text
+        style={[styles.text, color && { color }]}
+        numberOfLines={expanded ? undefined : 1}
+      >
         {expanded ? text : trimmedText}
       </Text>
     </TouchableOpacity>

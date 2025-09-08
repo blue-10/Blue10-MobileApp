@@ -21,7 +21,6 @@ type ImagesByCompany = {
 
 export const HistoryScreen = () => {
   const [imagesByCompany, setImagesByCompany] = useState<ImagesByCompany>({});
-  const [documentTitle, setDocumentTitle] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [preview, setPreview] = useState<string | undefined>(undefined);
