@@ -1,6 +1,6 @@
 {
   "name": "blue10-app",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --dev-client",
@@ -71,7 +71,9 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.34.1",
     "unique-slug": "^5.0.0",
-    "zustand": "^5.0.5"
+    "zustand": "^5.0.5",
+    "expo-auth-session": "~6.2.1",
+    "expo-web-browser": "~14.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.27.4",

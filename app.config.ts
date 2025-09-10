@@ -95,6 +95,7 @@ const config: ExpoConfig = {
     supportsTablet: true,
   },
   name: 'Blue10',
+  scheme: "blue10",
   orientation: 'portrait',
   owner: 'blue10',
   plugins: [
@@ -123,6 +124,9 @@ const config: ExpoConfig = {
         savePhotosPermission: 'Allow $(PRODUCT_NAME) to save photos.',
       },
     ],
+    [
+    "expo-web-browser"
+    ]
   ],
   slug: 'blue10-app',
   splash: {
