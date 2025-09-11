@@ -1,7 +1,8 @@
 import Constants from 'expo-constants';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Linking, SafeAreaView, StyleSheet } from 'react-native';
+import { Linking, StyleSheet } from 'react-native';
+import WebView from 'react-native-webview';
 
 import { authConstants, lngConvert } from '../../constants';
 import { makeCookies, parseCookies } from '../../utils/cookiesUtils';
@@ -57,10 +58,11 @@ const urlToApiUrl = (url: string) => {
 const isTooManyRedirectError = (code: number) => code === -9 || code === -1007;
 
 const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToken }) => {
+  const webViewRef = useRef<WebView>(null);
+  const [webViewError, setWebViewError] = useState<WebViewError | undefined>();
   const [uri, setUri] = useState(mode === 'environment' ? authConstants.switchEnvironment : authConstants.loginPage);
   const { i18n } = useTranslation();
   const locale = lngConvert[i18n.language];
-  const { t } = useTranslation();
 
   const defaultHeaders = {
     'Accept-Language': `${locale},${i18n.language};q=0.5`,
@@ -84,20 +86,73 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
   };
   const headers = mode === 'environment' ? envHeaders : defaultHeaders;
   return (
-    <SafeAreaView style={styles.container}>
-      <Button onPress={() => Linking.openURL('https://login.blue10development.com/?mobile=true')} title={t("Login")} />
-    </SafeAreaView>
+    <>
+      <WebView
+        ref={webViewRef}
+        hideKeyboardAccessoryView
+        incognito={true}
+        injectedJavaScript={LOGIN_COOKIE_READER}
+        renderError={() => <></>}
+        renderLoading={() => <LoginSiteLoader />}
+        setBuiltInZoomControls={false}
+        source={{
+          headers,
+          uri,
+        }}
+        userAgent='https://accounts.google.com/'
+        startInLoadingState={true}
+        style={styles.webView}
+        onError={(event) => {
+          const { nativeEvent } = event;
+          setWebViewError({
+            errorCode: nativeEvent.code,
+            errorDescription: nativeEvent.description,
+            errorName: nativeEvent.domain,
+          });
+        }}
+        onMessage={(data) => {
+          const { url, data: cookieData } = data.nativeEvent;
+          if (url && !isUrlFromLogin(url)) {
+            const { refresh_token } = parseCookies(cookieData);
+            if (refresh_token) {
+              onRefreshToken(refresh_token, urlToApiUrl(url));
+            }
+          }
+        }}
+        onShouldStartLoadWithRequest={(request) => {
+        if (request.url.startsWith("blue10://")) {
+          Linking.openURL(request.url);
+          return false;
+        }
+        return true;
+      }}
+      />
+      {webViewError && (
+        <LoginSiteError
+          errorCode={webViewError.errorCode}
+          errorDescription={webViewError.errorDescription}
+          errorName={webViewError.errorName}
+          onRetry={() => {
+            const isTooManyRedirects = isTooManyRedirectError(webViewError.errorCode);
+            if (isTooManyRedirects) {
+              // there is no function to navigate to page. so we just change the uri to about:blank and back.
+              setUri('about:blank');
+              requestAnimationFrame(() => setUri(authConstants.loginPage));
+            } else {
+              webViewRef.current?.reload();
+            }
+            setWebViewError(undefined);
+          }}
+        />
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  webView: {
     flex: 1,
-    justifyContent: 'center',
-    width: '50%',
-    margin: 'auto',
   },
 });
-
 
 export default LoginSite;
