@@ -1,7 +1,7 @@
 import Constants from 'expo-constants';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
 
 import { authConstants, lngConvert } from '../../constants';
@@ -119,13 +119,7 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
             }
           }
         }}
-        onShouldStartLoadWithRequest={(request) => {
-        if (request.url.startsWith("blue10://")) {
-          Linking.openURL(request.url);
-          return false;
-        }
-        return true;
-      }}
+        onShouldStartLoadWithRequest={() => true}
       />
       {webViewError && (
         <LoginSiteError

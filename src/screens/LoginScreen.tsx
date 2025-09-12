@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useEffect } from 'react';
-import { Linking, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 
 import LoginSite from '../components/LoginSite/LoginSite';
 import { useApiStore } from '../store/ApiStore';
@@ -25,39 +25,6 @@ export const LoginScreen: React.FC = () => {
   useEffect(() => {
     loadRefreshTokenFromStore();
   }, [loadRefreshTokenFromStore]);
-
-  // handle URL scheme callback
-  useEffect(() => {
-    const handleUrl = ({ url }: { url: string }) => {
-      console.log('Received URL:', url);
-
-      // parse token from URL
-      const tokenMatch = url.match(/token=([^&]+)/);
-      if (!tokenMatch) return;
-      const token = tokenMatch[1];
-
-      const baseUrl = 'https://login.blue10development.com/?mobile=true';
-
-      // set refresh token
-      onRefreshToken(token, baseUrl);
-    };
-
-    // listener for when the app is open
-    Linking.addEventListener('url', handleUrl);
-    
-    // when app is opened from a closed state
-    Linking.getInitialURL().then((url) => {
-      if (url) handleUrl({ url });
-    });
-
-    const subscription = Linking.addEventListener('url', handleUrl);
-
-    Linking.getInitialURL().then(url => {
-      if (url) handleUrl({ url });
-    });
-
-    return () => subscription.remove();
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
