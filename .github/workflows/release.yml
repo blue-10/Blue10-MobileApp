@@ -1,7 +1,10 @@
 on:
+  workflow_dispatch:
   release:
     types:
       - published
+  dispatch:
+
 
 jobs:
   build:
