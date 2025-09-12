@@ -95,6 +95,7 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
         renderError={() => <></>}
         renderLoading={() => <LoginSiteLoader />}
         setBuiltInZoomControls={false}
+        userAgent='https://accounts.google.com/'
         source={{
           headers,
           uri,

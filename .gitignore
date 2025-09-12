@@ -20,3 +20,6 @@ web-build/
 _distrobution/
 build-*.apk
 build-*.tar.gz
+
+/android
+/android/app
