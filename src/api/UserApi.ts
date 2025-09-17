@@ -11,6 +11,12 @@ export class UserApi extends ApiServiceRequests {
     return data;
   }
 
+  /** Get users for selection */
+  public async getSelectableUsers() {
+    const { data } = await this.getAxios().get('/Document/GetSelectableUsers/1');
+    
+    return data;
+  }
   /**
    * Get current user
    */

@@ -51,6 +51,7 @@ export type GetCurrentUserResponse = {
   ApproveCompanies: any[];
   HandleCompanies: any[];
   SignCompanies: any[];
+  ReplacingUserIds: any[];
   MaySeeOtherUsers: boolean;
   MaySeeOtherCompanies: boolean;
   MaySeeAllDocuments: boolean;
