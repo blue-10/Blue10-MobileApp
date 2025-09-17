@@ -6,8 +6,7 @@ import { useGetCurrentUser } from '@/hooks/queries/useGetCurrentUser';
 
 type Props = Omit<SelectProps, 'items'>;
 
-export const SelectUser: React.FC<Props & {belongsTo?: string, replacingUserIds?: string[] }> = ({
-
+export const SelectUser: React.FC<Props & { belongsTo?: string; replacingUserIds?: string[] }> = ({
   belongsTo,
   replacingUserIds,
   ...selectProps
@@ -18,20 +17,16 @@ export const SelectUser: React.FC<Props & {belongsTo?: string, replacingUserIds?
   } = useGetAllUsers();
   const { data: selectableUserIds = [] } = useGetSelectableUsers();
   const { currentUser } = useGetCurrentUser();
- 
+
   const listOfUserIds = useMemo(() => {
-    return [
-      currentUser!.Id,
-      ...(belongsTo ? [belongsTo] : []),
-      ...(currentUser?.ReplacingUserIds ?? []),
-    ];
+    return [currentUser!.Id, ...(belongsTo ? [belongsTo] : []), ...(currentUser?.ReplacingUserIds ?? [])];
   }, [currentUser, belongsTo]);
 
   const filteredUsers = useMemo(() => {
     return data.filter(
-      u =>
-        (selectableUserIds.map((i:string) => i.toLowerCase()).includes(u.id.toLowerCase()) && u.isSelectable) ||
-        listOfUserIds.map((i:string) => i.toLowerCase()).includes(u.id.toLowerCase())
+      (u) =>
+        (selectableUserIds.map((i: string) => i.toLowerCase()).includes(u.id.toLowerCase()) && u.isSelectable) ||
+        listOfUserIds.map((i: string) => i.toLowerCase()).includes(u.id.toLowerCase()),
     );
   }, [data, selectableUserIds, listOfUserIds]);
 
