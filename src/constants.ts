@@ -19,6 +19,7 @@ export const enum queryKeys {
   environments = 'environments',
   invoice = 'invoice',
   users = 'users',
+  selectableUsers = 'selectable',
   invoicesToDo = 'invoicesToDo',
   invoiceAttachments = 'invoiceAttachments',
   invoicePackingSlips = 'invoicePackingSlips',
