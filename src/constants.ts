@@ -43,7 +43,7 @@ export const authConstants = {
 export const enum searchKeys {
   description = 'Description',
   status = 'Status',
-  company = 'Company',
+  company = 'CompanyId',
   userList = 'UserList',
   invoiceType = 'InvoiceType',
   ledgerEntryNumber = 'LedgerEntryNumber',

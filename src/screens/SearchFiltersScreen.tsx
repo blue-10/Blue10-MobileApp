@@ -42,11 +42,16 @@ export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
         onLayout={onLayout}
       >
         <Box style={styles.container}>
-          <Box px={26} py={26} style={styles.content}>
+          <Box px={26} py={12} style={styles.content}>
             <Box style={styles.titleView}>
-              <Text style={styles.titleText} variant="largeTitle">
-                {t('search_filter.title')}
-              </Text>
+               <Box py={16} style={styles.inputContainer}>
+              <SearchInput
+                defaultValue=""
+                placeholder={t('search_filter.search_placeholder')}
+                value={getFilter(searchKeys.description)}
+                onChangeText={(value) => setFilter(searchKeys.description, value)}
+              />
+            </Box>
               <TouchableIcon
                 defaultColor={{
                   color: colors.button.grey.background,
@@ -55,14 +60,6 @@ export const SearchFiltersScreen: React.FC<Props> = ({ navigation }) => {
                 icon={SVGArrowCounterClockwise}
                 size={32}
                 onPress={() => reset()}
-              />
-            </Box>
-            <Box py={16}>
-              <SearchInput
-                defaultValue=""
-                placeholder={t('search_filter.search_placeholder')}
-                value={getFilter(searchKeys.description)}
-                onChangeText={(value) => setFilter(searchKeys.description, value)}
               />
             </Box>
             <Box style={styles.containerRow}>
@@ -162,10 +159,14 @@ const styles = StyleSheet.create({
   titleView: {
     alignItems: 'center',
     flexDirection: 'row',
+    gap: 16,
   },
   sortContainer: {
     width: '50%',
     margin: 'auto',
-    marginTop: 16,
+    marginTop: 8,
+  },
+  inputContainer: {
+    flex: 1,
   },
 });
