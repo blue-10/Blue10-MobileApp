@@ -186,8 +186,8 @@ export const en: TranslationKeysType = {
     user_placeholder: 'No user selected',
     order_By_label: 'Order by',
     order_items: {
-      date_desc: 'Date (Desc)',
-      date_asc: 'Date (Asc)',
+      date_desc: 'Invoice Date (Desc)',
+      date_asc: 'Invoice Date (Asc)',
       invoiceNR_desc: 'InvoiceNr (Desc)',
       invoiceNR_asc: 'InvoiceNr (Asc)',
       dueDate_desc: 'DueDate (Desc)',

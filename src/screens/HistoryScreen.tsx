@@ -3,7 +3,7 @@ import { ImageZoomPan } from '@/components/ImageZoomPan/ImageZoomPan';
 import { colors } from '@/theme';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Image, View, Text, StyleSheet, Pressable, Modal } from 'react-native';
+import { ScrollView, Image, View, Text, StyleSheet, Pressable, Modal, SafeAreaView } from 'react-native';
 import RNFS from 'react-native-fs';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SvgCrossIcon from '../../assets/icons/xmark-circle-fill.svg';
@@ -151,13 +151,15 @@ export const HistoryScreen = () => {
 
       <Modal visible={modalVisible} transparent animationType="fade">
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <View style={styles.modalBackground}>
-            <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <SvgCrossIcon width={32} height={32} color="#fff" />
-            </Pressable>
+          <SafeAreaView style={{ flex: 1, backgroundColor: colors.dashboard.history.modal.background }}>
+            <View style={styles.modalBackground}>
+              <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                <SvgCrossIcon width={32} height={32} color="#fff" />
+              </Pressable>
 
-            {preview && <ImageZoomPan source={{ uri: preview }} style={styles.fullImage} />}
-          </View>
+              {preview && <ImageZoomPan source={{ uri: preview }} style={styles.fullImage} />}
+            </View>
+          </SafeAreaView>
         </GestureHandlerRootView>
       </Modal>
     </ScrollView>

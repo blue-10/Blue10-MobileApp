@@ -18,6 +18,7 @@ export type Invoice = {
   lastUpdate: string;
   currentUserId: string;
   userList: string[];
+  excelDocumentDate?: Date;
 };
 
 export type InvoiceListItem = {
@@ -30,6 +31,7 @@ export type InvoiceListItem = {
   deadlineDate?: Date;
   currency: string;
   totalCount: number;
+  excelDocumentDate?: Date;
 };
 
 export type InvoiceAttachment = {

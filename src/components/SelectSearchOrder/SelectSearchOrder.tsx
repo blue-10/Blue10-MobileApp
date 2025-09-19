@@ -10,8 +10,8 @@ type Props = Omit<SelectProps, 'items'>;
 export const SelectSearchOrder: React.FC<Props> = ({ ...selectProps }) => {
   const data = useMemo(
     () => [
-      { id: 'D_DocumentDate', name: t('search_filter.order_items.date_desc') },
-      { id: 'A_DocumentDate', name: t('search_filter.order_items.date_asc') },
+      { id: 'D_ExcelDocumentDate', name: t('search_filter.order_items.date_desc') },
+      { id: 'A_ExcelDocumentDate', name: t('search_filter.order_items.date_asc') },
       { id: 'D_DocumentNumber', name: t('search_filter.order_items.invoiceNR_desc') },
       { id: 'A_DocumentNumber', name: t('search_filter.order_items.invoiceNR_asc') },
       { id: 'D_DueDate', name: t('search_filter.order_items.dueDate_desc') },

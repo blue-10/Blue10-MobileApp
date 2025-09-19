@@ -187,8 +187,8 @@ export const nl: TranslationKeysType = {
     user_placeholder: '(Leeg)',
     order_By_label: 'Sorteer op',
     order_items: {
-      date_desc: 'Datum (Aflopend)',
-      date_asc: 'Datum (Oplopend)',
+      date_desc: 'Factuurdatum (Aflopend)',
+      date_asc: 'Factuurdatum (Oplopend)',
       invoiceNR_desc: 'Factuurnr (Aflopend)',
       invoiceNR_asc: 'Factuurnr (Oplopend)',
       dueDate_desc: 'Vervaldatum (Aflopend)',
