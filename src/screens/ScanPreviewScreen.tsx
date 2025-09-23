@@ -150,7 +150,7 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
       resetUploadStore();
 
       if (uploadSuccessful) {
-        setHasPendingImages(false);
+        setHasPendingImages(true);
 
         navigation.reset({
           index: 0,
