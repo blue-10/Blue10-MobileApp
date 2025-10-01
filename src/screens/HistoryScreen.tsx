@@ -79,7 +79,7 @@ export const HistoryScreen = () => {
             const folderKey = entry.name;
 
             groupedImages[folderKey] = {
-              companyName, // هنوز می‌خوای نمایش بدی
+              companyName,
               images: companyImages,
               documentTitle: documentTitle,
               dateSet: dateSet,
