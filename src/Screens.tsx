@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
@@ -24,10 +24,112 @@ import { SettingsScreen } from './screens/SettingsScreen';
 import { SwitchEnvironmentScreen } from './screens/SwitchEnvironmentScreen';
 import { colors } from './theme';
 import { HistoryScreen } from './screens/HistoryScreen';
+import PopUp from './components/PopUp/PopUp';
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
+import RNFS from 'react-native-fs';
 
 const Stack = createStackNavigator<RootStackParamList>();
+import { Linking, PermissionsAndroid, Platform } from 'react-native';
+
+export const requestStoragePermission = async () => {
+  if (Platform.OS !== 'android') return true;
+
+  if (Platform.Version >= 30) {
+    // Android 11+
+    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES, {
+      title: 'Storage Permission Required',
+      message: 'App needs access to your storage to receive shared files',
+      buttonPositive: 'OK',
+    });
+
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      return true;
+    } else {
+      Linking.openSettings();
+      return false;
+    }
+  } else {
+    // Android < 11
+    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
+      title: 'Storage Permission Required',
+      message: 'App needs access to your storage to receive shared files',
+      buttonPositive: 'OK',
+    });
+
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
+  }
+};
+
 const Screens: React.FC = () => {
   const { t } = useTranslation();
+  // const navigation = useNavigation();
+
+  const [hasReadSharedJSON, setHasReadSharedJSON] = useState(false);
+  const [sharedImages, setSharedImages] = useState<string[]>([]);
+
+  const saveFilesToDocuments = async (files: string[]) => {
+    const saved: string[] = [];
+    for (const file of files) {
+      try {
+        const fileName = file.split('/').pop();
+        const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+        await RNFS.copyFile(file, destPath);
+        saved.push(destPath);
+      } catch (err) {
+        console.log('Cannot copy shared file:', err);
+      }
+    }
+    return saved;
+  };
+
+  useEffect(() => {
+    // Android: ReceiveSharingIntent
+    if (Platform.OS === 'android') {
+      ReceiveSharingIntent.getReceivedFiles(
+        async (files: any[]) => {
+          const paths = files.map((f: any) => f.filePath);
+          const saved = await saveFilesToDocuments(paths);
+          setSharedImages(saved);
+        },
+        () => {},
+        'Blue10ShareMedia',
+      );
+
+      return () => {
+        ReceiveSharingIntent.clearReceivedFiles();
+      };
+    }
+
+    // iOS: Linking URL from Share Extension
+    const handleURL = async (event: { url: string }) => {
+      if (!event.url || !event.url.includes('filePath=') || hasReadSharedJSON) return;
+
+      setHasReadSharedJSON(true);
+      const url = decodeURIComponent(event.url.split('filePath=')[1]);
+
+      try {
+        const contents = await RNFS.readFile(url, 'utf8');
+        const files = JSON.parse(contents);
+
+        const fullPaths = files.map((f: string) => url.replace('shared.json', f));
+        const saved = await saveFilesToDocuments(fullPaths);
+        setSharedImages(saved);
+      } catch (err) {
+        console.log('Cannot read shared.json', err);
+      }
+    };
+
+    Linking.addEventListener('url', handleURL);
+
+    Linking.getInitialURL().then((initialUrl) => {
+      if (initialUrl) handleURL({ url: initialUrl });
+    });
+
+    return () => {
+      Linking.removeAllListeners('url');
+    };
+  }, [hasReadSharedJSON]);
+
   return (
     <ErrorBoundary>
       <NavigationContainer>
@@ -188,6 +290,7 @@ const Screens: React.FC = () => {
             }}
           />
         </Stack.Navigator>
+        <PopUp images={sharedImages} />
       </NavigationContainer>
     </ErrorBoundary>
   );

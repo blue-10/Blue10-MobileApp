@@ -12,6 +12,7 @@ const BASE_FOLDER = `${RNFS.DocumentDirectoryPath}/blue10Images`;
 
 type ImagesByCompany = {
   [companyName: string]: {
+    companyName: string;
     images: string[];
     documentTitle?: string;
     dateSet?: string;
@@ -75,7 +76,10 @@ export const HistoryScreen = () => {
             .map((file) => 'file://' + file.path);
 
           if (companyImages.length > 0) {
-            groupedImages[companyName] = {
+            const folderKey = entry.name;
+
+            groupedImages[folderKey] = {
+              companyName, // هنوز می‌خوای نمایش بدی
               images: companyImages,
               documentTitle: documentTitle,
               dateSet: dateSet,
@@ -122,7 +126,7 @@ export const HistoryScreen = () => {
       {Object.entries(imagesByCompany).map(([companyName, images]) => (
         <View key={companyName} style={{ marginBottom: 30 }}>
           <Box style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-            <Text style={styles.imageTitle}>{companyName} / </Text>
+            <Text style={styles.imageTitle}>{images.companyName} / </Text>
             {images.documentTitle && <Text style={styles.imageTitle}>{images.documentTitle}</Text>}
           </Box>
           <Box style={{ flexDirection: 'row', alignItems: 'center' }}>

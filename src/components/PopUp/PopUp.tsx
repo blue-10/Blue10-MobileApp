@@ -34,41 +34,34 @@ const PopUp = ({ images }: PopUpProps) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Modal transparent animationType="fade" visible={visible} onRequestClose={() => setVisible(false)}>
-        <View style={styles.overlay}>
-          <View style={styles.popup}>
-            <View>
-              <View style={styles.images}>
-                {images?.map((image, index) => (
-                  <Image width={80} height={80} borderRadius={4} source={{ uri: `file://${image}` }} key={index} />
-                ))}
-              </View>
-              <Text style={styles.title}>Your files were received. Do you want to continue?</Text>
+    <Modal transparent animationType="fade" visible={visible} onRequestClose={() => setVisible(false)}>
+      <View style={styles.overlay}>
+        <View style={styles.popup}>
+          <View>
+            <View style={styles.images}>
+              {images?.map((image, index) => (
+                <Image width={80} height={80} borderRadius={4} source={{ uri: `file://${image}` }} key={index} />
+              ))}
             </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.buttonNo} onPress={handleNo}>
-                <Text style={styles.buttonText}>No</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonYes} onPress={handleYes}>
-                <Text style={styles.buttonText}>Yes</Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.title}>Your files were received. Do you want to continue?</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.buttonNo} onPress={handleNo}>
+              <Text style={styles.buttonText}>No</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonYes} onPress={handleYes}>
+              <Text style={styles.buttonText}>Yes</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Modal>
   );
 };
 
 export default PopUp;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-  },
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.4)',
