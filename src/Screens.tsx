@@ -27,9 +27,9 @@ import { HistoryScreen } from './screens/HistoryScreen';
 import PopUp from './components/PopUp/PopUp';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import RNFS from 'react-native-fs';
+import { Linking, PermissionsAndroid, Platform } from 'react-native';
 
 const Stack = createStackNavigator<RootStackParamList>();
-import { Linking, PermissionsAndroid, Platform } from 'react-native';
 
 export const requestStoragePermission = async () => {
   if (Platform.OS !== 'android') return true;
@@ -62,7 +62,6 @@ export const requestStoragePermission = async () => {
 
 const Screens: React.FC = () => {
   const { t } = useTranslation();
-  // const navigation = useNavigation();
 
   const [hasReadSharedJSON, setHasReadSharedJSON] = useState(false);
   const [sharedImages, setSharedImages] = useState<string[]>([]);

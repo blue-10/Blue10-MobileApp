@@ -123,8 +123,8 @@ export const HistoryScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={{ padding: 10 }}>
-      {Object.entries(imagesByCompany).map(([companyName, images]) => (
-        <View key={companyName} style={{ marginBottom: 30 }}>
+      {Object.entries(imagesByCompany).map(([folderKey, images]) => (
+        <View key={folderKey} style={{ marginBottom: 30 }}>
           <Box style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
             <Text style={styles.imageTitle}>{images.companyName} / </Text>
             {images.documentTitle && <Text style={styles.imageTitle}>{images.documentTitle}</Text>}

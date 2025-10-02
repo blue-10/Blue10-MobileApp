@@ -1,8 +1,8 @@
 import type { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, PermissionsAndroid, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import SvgCameraShape from '../../assets/icons/camerashape.svg';
 import SvgSwitchIcon from '../../assets/icons/dashboard-switch-icon.svg';
