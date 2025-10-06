@@ -22,6 +22,7 @@ export type TranslationKeysType = {
     welcome_title: string;
     welcome_description: string;
     title: string;
+    history: string;
   };
   to_do_invoices: {
     screen_title: string;
@@ -120,6 +121,7 @@ export type TranslationKeysType = {
     comment: string;
     action_completed_title: string;
     skip: string;
+    action_success: string;
   };
   invoice_action_select: {
     title: string;
@@ -185,6 +187,17 @@ export type TranslationKeysType = {
     relation_label: string;
     document_number_label: string;
     button_search: string;
+    order_By_label: string;
+    order_items: {
+      date_desc: string;
+      date_asc: string;
+      invoiceNR_desc: string;
+      invoiceNR_asc: string;
+      dueDate_desc: string;
+      dueDate_asc: string;
+      vendor_desc: string;
+      vendor_asc: string;
+    };
   };
   listview_empty: {
     title: string;
@@ -194,5 +207,8 @@ export type TranslationKeysType = {
     description: string;
     yes: string;
     no: string;
+  };
+  history: {
+    empty_history_list: string;
   };
 };

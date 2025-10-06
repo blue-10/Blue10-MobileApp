@@ -31,7 +31,7 @@ export const ListItem: React.FC<ListItemProps> = ({
       underlayColor={colors.primary}
       onPress={onPress}
     >
-      <>
+      <Box style={styles.item}>
         {variant === 'checkbox' && (
           <Box mx={8} style={styles.checkboxView}>
             {isChecked && <CheckMarkIcon color={colors.primary} height={16} width={16} />}
@@ -48,7 +48,7 @@ export const ListItem: React.FC<ListItemProps> = ({
           )}
         </Box>
         {suffixElement && <Box>{suffixElement}</Box>}
-      </>
+      </Box>
     </TouchableHighlight>
   );
 };

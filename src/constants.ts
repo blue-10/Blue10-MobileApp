@@ -19,6 +19,7 @@ export const enum queryKeys {
   environments = 'environments',
   invoice = 'invoice',
   users = 'users',
+  selectableUsers = 'selectable',
   invoicesToDo = 'invoicesToDo',
   invoiceAttachments = 'invoiceAttachments',
   invoicePackingSlips = 'invoicePackingSlips',
@@ -43,7 +44,7 @@ export const authConstants = {
 export const enum searchKeys {
   description = 'Description',
   status = 'Status',
-  company = 'Company',
+  company = 'CompanyId',
   userList = 'UserList',
   invoiceType = 'InvoiceType',
   ledgerEntryNumber = 'LedgerEntryNumber',
@@ -51,4 +52,16 @@ export const enum searchKeys {
   relation = 'Relation',
   currentUser = 'CurrentUser',
   linkedToDocument = 'LinkedToDocument',
+  searchOrderBy = 'SearchOrderBy',
+}
+
+export const enum searchOrderKeys {
+  dateDesc = 'DateDesc',
+  dateAsc = 'DateAsc',
+  invoiceNrDesc = 'InvoiceNrDesc',
+  invoiceNrAsc = 'InvoiceNrAsc',
+  dueDateDesc = 'DueDateDesc',
+  dueDateAsc = 'DueDateAsc',
+  vendorDesc = 'VendorDesc',
+  vendorAsc = 'VendorAsc',
 }

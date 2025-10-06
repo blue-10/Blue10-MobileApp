@@ -51,6 +51,7 @@ export type GetCurrentUserResponse = {
   ApproveCompanies: any[];
   HandleCompanies: any[];
   SignCompanies: any[];
+  ReplacingUserIds: any[];
   MaySeeOtherUsers: boolean;
   MaySeeOtherCompanies: boolean;
   MaySeeAllDocuments: boolean;
@@ -148,6 +149,7 @@ export type GetInvoiceOverviewResponseItem = PagedItem & {
   PaymentDate?: string;
   DueDate?: string | null;
   LastHistory: string;
+  ExcelDocumentDate?: string;
 };
 
 export type GetInvoiceDetailsResponse = {
@@ -164,6 +166,7 @@ export type GetInvoiceDetailsResponse = {
   DocumentNumber: string;
   DocumentType: number;
   DueDate: string | null;
+  ExcelDocumentDate: string;
   ErpAdapter: number;
   ErrorMessage: string;
   FreeField1: string;

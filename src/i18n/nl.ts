@@ -7,6 +7,7 @@ export const nl: TranslationKeysType = {
     title: 'Dashboard',
     welcome_description: 'Je bent ingelogd op: {{environment}}',
     welcome_title: 'Hoi {{name}}',
+    history: 'Geschiedenis',
   },
   error_view: {
     description:
@@ -40,6 +41,7 @@ export const nl: TranslationKeysType = {
     no_user_selected: '(Geen gebruiker geselecteerd)',
     title: 'Acties',
     skip: 'Overslaan',
+    action_success: 'Actie succesvol ingediend',
   },
   invoice_action_select: {
     title: 'Acties',
@@ -174,8 +176,8 @@ export const nl: TranslationKeysType = {
     document_number_label: 'Factuurnummer',
     invoice_type_credit: 'Credit',
     invoice_type_debit: 'Debet',
-    invoice_type_label: 'Soort',
-    ledger_entry_number_label: 'Bookstuknummer',
+    invoice_type_label: 'Type',
+    ledger_entry_number_label: 'Boekstuknummer',
     relation_label: 'Leverancier',
     search_placeholder: 'Vrij zoeken',
     status_label: 'Overzicht',
@@ -183,6 +185,17 @@ export const nl: TranslationKeysType = {
     title: 'Vind een factuur',
     user_label: 'Ligt bij',
     user_placeholder: '(Leeg)',
+    order_By_label: 'Sorteer op',
+    order_items: {
+      date_desc: 'Factuurdatum (Aflopend)',
+      date_asc: 'Factuurdatum (Oplopend)',
+      invoiceNR_desc: 'Factuurnr (Aflopend)',
+      invoiceNR_asc: 'Factuurnr (Oplopend)',
+      dueDate_desc: 'Vervaldatum (Aflopend)',
+      dueDate_asc: 'Vervaldatum (Oplopend)',
+      vendor_desc: 'Leverancier (Aflopend)',
+      vendor_asc: 'Leverancier (Oplopend)',
+    },
   },
   settings: {
     language_subtitle: 'Taal',
@@ -200,5 +213,8 @@ export const nl: TranslationKeysType = {
     count_results_header_other: '{{count}} resultaten',
     count_results_header_zero: '0 resultaten',
     screen_title: 'To-do',
+  },
+  history: {
+    empty_history_list: 'Geen geschiedenis beschikbaar',
   },
 };

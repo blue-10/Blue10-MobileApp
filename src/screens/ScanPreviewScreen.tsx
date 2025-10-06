@@ -151,7 +151,11 @@ export const ScanPreviewScreen: React.FC<Props> = ({ navigation }) => {
 
       if (uploadSuccessful) {
         setHasPendingImages(true);
-        toDashboard();
+
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Dashboard' }],
+        });
       }
     },
     [resetUploadStore, setHasPendingImages, toDashboard],
