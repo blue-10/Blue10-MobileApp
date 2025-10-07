@@ -1,7 +1,7 @@
 import type { NavigationProp } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet } from 'react-native';
 
@@ -37,14 +37,23 @@ type Props = {
 export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
   const api = useApi();
   const { t } = useTranslation();
-  const { getUserById } = useGetAllUsers();
+  const { getUserById, data } = useGetAllUsers();
   const actionIdToText = useActionIdToText();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { isPending: isMutationLoading } = useNewActionMutation(invoiceId);
   const { isFetching: isFetchingInvoice, isFetchedAfterMount: isInvoiceFetchedAfterMount } =
     useInvoiceDetails(invoiceId);
-  const { comment, reset, selectedActionId, selectedUserId, setComment, setSelectedActionId, setSelectedUserId } =
-    useInvoiceActionFormStore();
+  const {
+    comment,
+    reset,
+    selectedActionId,
+    selectedUserId,
+    setComment,
+    setSelectedActionId,
+    setSelectedUserId,
+    hasUserSelected,
+    setHasUserSelected,
+  } = useInvoiceActionFormStore();
   const {
     data: formActions,
     isFetchedAfterMount,
@@ -76,26 +85,28 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
   }, [formActions?.suggestedRemark, isFetchedAfterMount, setComment]);
 
   useEffect(() => {
-    if (isFetchedAfterMount && formActions?.suggestedUserId) {
-      setSelectedUserId(formActions.suggestedUserId);
-    }
-  }, [formActions?.suggestedUserId, isFetchedAfterMount, setSelectedUserId]);
-
-  useEffect(() => {
     if (isFetchedAfterMount && formActions?.suggestedAction) {
       setSelectedActionId(formActions.suggestedAction);
     }
   }, [formActions?.suggestedAction, isFetchedAfterMount, setSelectedActionId]);
 
   useEffect(() => {
-    if (isFetchedAfterAction) {
-      if (actionData?.suggestedUserId && selectedUserId === '') {
-        setSelectedUserId(actionData.suggestedUserId);
-      } else if (!(actionData?.userIds || []).includes(selectedUserId)) {
-        setSelectedUserId('');
-      }
+    if (isFetchedAfterMount && formActions?.suggestedUserId && !hasUserSelected) {
+      setSelectedUserId(formActions.suggestedUserId);
     }
-  }, [actionData?.suggestedUserId, actionData?.userIds, isFetchedAfterAction, selectedUserId, setSelectedUserId]);
+    if (isFetchedAfterAction && actionData?.suggestedUserId && !hasUserSelected) {
+      setSelectedUserId(actionData.suggestedUserId);
+    }
+
+    if (!actionData?.suggestedUserId && actionData?.userIds.length === 1) {
+      console.log('hey');
+      setSelectedUserId(actionData.userIds[0]);
+      setHasUserSelected(false);
+    } else if (!actionData?.suggestedUserId && actionData?.userIds.length !== 1) {
+      setSelectedUserId('');
+      setHasUserSelected(false);
+    }
+  }, [actionData?.suggestedAction, actionData?.suggestedUserId, formActions?.suggestedAction]);
   // endregion
 
   // region actions
@@ -164,6 +175,11 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
     }
   };
 
+  const getUserButtonTitle = useMemo(() => {
+    if (!actionData?.userIds.length) return t('NO_SELECTABLE_USERS');
+    return getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected');
+  }, [actionData?.userIds, getUserById, selectedUserId, selectedActionId]);
+
   return (
     <Box>
       <Box mx={itemsMarginX} pb={10}>
@@ -186,7 +202,7 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
               <Button
                 isDisabled={!selectedActionId || isFetchingUsersForAction || isDisabled}
                 size="M"
-                title={getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected')}
+                title={getUserButtonTitle}
                 variant="secondary"
                 onPress={onUserPress}
               />

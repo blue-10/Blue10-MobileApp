@@ -1,4 +1,4 @@
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { createPdf } from 'react-native-images-to-pdf';
 // @ts-ignore
 import unique_slug from 'unique-slug';

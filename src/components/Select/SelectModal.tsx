@@ -3,7 +3,8 @@ import React from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ListRenderItem } from 'react-native';
-import { FlatList, Modal, Platform, SafeAreaView, View } from 'react-native';
+import { FlatList, Modal, Platform, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, dimensions } from '@/theme';
 

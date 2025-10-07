@@ -1,5 +1,5 @@
 import { Buffer } from 'buffer';
-import { readAsStringAsync } from 'expo-file-system';
+import { readAsStringAsync } from 'expo-file-system/legacy';
 import * as MediaLibrary from 'expo-media-library';
 import { FileSystem } from 'react-native-file-access';
 

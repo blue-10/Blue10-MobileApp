@@ -22,6 +22,7 @@ export const InvoiceSelectUserScreen: React.FC<Props> = ({
   const { data } = useGetAllUsers();
   const [selectedUserId, setSelectedUserId] = useState<string>(selectedUserIdParam ?? '');
   const setActionFormUserId = useInvoiceActionFormStore((state) => state.setSelectedUserId);
+  const setHasUserSelected = useInvoiceActionFormStore((state) => state.setHasUserSelected);
 
   const items = useMemo(() => {
     return onlyShowUsers ? data.filter((user) => onlyShowUsers.includes(user.id)) : data;
@@ -36,6 +37,7 @@ export const InvoiceSelectUserScreen: React.FC<Props> = ({
         variant="checkbox"
         onPress={() => {
           setSelectedUserId(item.id);
+          setHasUserSelected(true);
           setActionFormUserId(item.id);
           navigation.pop();
         }}

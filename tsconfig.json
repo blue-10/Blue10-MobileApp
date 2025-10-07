@@ -6,6 +6,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/assets/*": ["./assets/*"]
-    }
+    },
+    "jsx": "react-native"
   }
 }

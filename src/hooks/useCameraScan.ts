@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
-import DocumentScanner, { ResponseType, ScanDocumentResponseStatus } from 'react-native-document-scanner-plugin';
+import DocumentScanner from 'react-native-document-scanner-plugin';
+import ScanDocumentResponseStatus from 'react-native-document-scanner-plugin';
+import ResponseType from 'react-native-document-scanner-plugin';
 
 import { useImageStore } from '../store/ImageStore';
 import { maniplateImageIfNeeded } from '../utils/imageUtils';
@@ -17,14 +19,12 @@ export const useCameraScan = ({ onEmptyResults }: useCameraScanParams) => {
     try {
       const result = await DocumentScanner.scanDocument({
         croppedImageQuality: 100,
-        responseType: ResponseType.ImageFilePath,
       });
 
       setHasPendingImages(true);
       const rotatedImagePaths: string[] = [];
 
       if (
-        result.status === ScanDocumentResponseStatus.Success &&
         Array.isArray(result.scannedImages) &&
         result.scannedImages.length > 0
       ) {

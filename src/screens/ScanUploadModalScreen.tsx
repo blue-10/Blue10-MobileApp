@@ -1,7 +1,8 @@
 import React from 'react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Modal, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import SvgArrowLeftIcon from '../../assets/icons/arrow-round-left.svg';
 import SvgRetryIcon from '../../assets/icons/retry-icon.svg';

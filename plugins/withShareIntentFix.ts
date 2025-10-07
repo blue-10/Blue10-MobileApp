@@ -11,7 +11,7 @@ const withShareIntentFix: ConfigPlugin = (config) => {
       src = src.replace(
         /}\s*$/,
         `
-    override fun onNewIntent(intent: android.content.Intent?) {
+    override fun onNewIntent(intent: android.content.Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
     }

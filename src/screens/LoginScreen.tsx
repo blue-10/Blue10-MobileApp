@@ -1,7 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useEffect } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import LoginSite from '../components/LoginSite/LoginSite';
 import { useApiStore } from '../store/ApiStore';
