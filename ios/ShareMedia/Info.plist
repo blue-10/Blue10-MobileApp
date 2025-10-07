@@ -9,7 +9,6 @@
 			<key>PHSupportedMediaTypes</key>
 			<array>
 				<string>Image</string>
-				<string>Pdf</string>
 			</array>
 			<key>NSExtensionActivationRule</key>
 			<dict>
