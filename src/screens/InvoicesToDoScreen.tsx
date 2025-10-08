@@ -12,6 +12,7 @@ import { TopBarWithSubTitle } from '../components/TopBarWithSubTitle/TopBarWithS
 import { queryKeys } from '../constants';
 import { useInvoiceToDoQuery } from '../hooks/queries/useInvoiceToDoQuery';
 import type { RootStackParamList } from '../navigation/types';
+import { useIsFocused } from '@react-navigation/native';
 
 export type InvoicesToDoScreenProps = StackScreenProps<RootStackParamList, 'InvoicesToDoScreen'>;
 
@@ -20,6 +21,15 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
 
   const queryClient = useQueryClient();
   const [totalInvoices, setTotalInvoices] = useState<number>(route.params?.invoices ?? 0);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {      
+      refetch();
+    }
+  }, [isFocused]);
+
 
   // region update screen top bar subtitle
   useEffect(() => {
