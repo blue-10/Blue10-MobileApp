@@ -42,6 +42,7 @@ export const nl: TranslationKeysType = {
     title: 'Acties',
     skip: 'Overslaan',
     action_success: 'Actie succesvol ingediend',
+    no_selectable_users: 'Geen selecteerbare gebruikers'
   },
   invoice_action_select: {
     title: 'Acties',

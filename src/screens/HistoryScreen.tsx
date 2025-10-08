@@ -3,10 +3,11 @@ import { ImageZoomPan } from '@/components/ImageZoomPan/ImageZoomPan';
 import { colors } from '@/theme';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Image, View, Text, StyleSheet, Pressable, Modal, SafeAreaView } from 'react-native';
+import { ScrollView, Image, View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import RNFS from 'react-native-fs';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SvgCrossIcon from '../../assets/icons/xmark-circle-fill.svg';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BASE_FOLDER = `${RNFS.DocumentDirectoryPath}/blue10Images`;
 

@@ -2,7 +2,7 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import LoginSite from '../components/LoginSite/LoginSite';
 import LoginSiteLoader from '../components/LoginSite/LoginSiteLoader';
 import { useApi } from '../hooks/useApi';

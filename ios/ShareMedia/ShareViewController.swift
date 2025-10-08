@@ -9,7 +9,6 @@ class ShareViewController: SLComposeServiceViewController {
     var sharedMedia: [URL] = []
 
     let imageType = kUTTypeImage as String
-    let pdfType = kUTTypePDF as String
 
     override func isContentValid() -> Bool { true }
 
@@ -23,15 +22,14 @@ class ShareViewController: SLComposeServiceViewController {
               let attachments = content.attachments else { return }
 
         for (index, attachment) in attachments.enumerated() {
-            if attachment.hasItemConformingToTypeIdentifier(imageType) ||
-               attachment.hasItemConformingToTypeIdentifier(pdfType) {
+            if attachment.hasItemConformingToTypeIdentifier(imageType) {
                 handleAttachment(attachment: attachment, index: index, total: attachments.count)
             }
         }
     }
 
     private func handleAttachment(attachment: NSItemProvider, index: Int, total: Int) {
-        let type = attachment.hasItemConformingToTypeIdentifier(imageType) ? imageType : pdfType
+        let type = imageType
         attachment.loadItem(forTypeIdentifier: type, options: nil) { [weak self] data, error in
             guard let self = self, error == nil, let url = data as? URL else {
                 self?.dismissWithError()
