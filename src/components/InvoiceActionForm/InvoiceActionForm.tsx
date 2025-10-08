@@ -99,7 +99,6 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
     }
 
     if (!actionData?.suggestedUserId && actionData?.userIds.length === 1) {
-      console.log('hey');
       setSelectedUserId(actionData.userIds[0]);
       setHasUserSelected(false);
     } else if (!actionData?.suggestedUserId && actionData?.userIds.length !== 1) {
