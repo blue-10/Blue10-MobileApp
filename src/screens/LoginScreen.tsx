@@ -1,6 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

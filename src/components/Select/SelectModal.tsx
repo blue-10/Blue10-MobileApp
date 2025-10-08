@@ -1,6 +1,5 @@
 import { Header, HeaderBackButton } from '@react-navigation/elements';
-import React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ListRenderItem } from 'react-native';
 import { FlatList, Modal, Platform, View } from 'react-native';

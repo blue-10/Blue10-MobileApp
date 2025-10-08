@@ -1,7 +1,5 @@
 import { useCallback, useState } from 'react';
 import DocumentScanner from 'react-native-document-scanner-plugin';
-import ScanDocumentResponseStatus from 'react-native-document-scanner-plugin';
-import ResponseType from 'react-native-document-scanner-plugin';
 
 import { useImageStore } from '../store/ImageStore';
 import { maniplateImageIfNeeded } from '../utils/imageUtils';

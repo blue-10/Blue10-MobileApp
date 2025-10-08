@@ -176,7 +176,7 @@ export const InvoiceActionForm: React.FC<Props> = ({ invoiceId }) => {
   };
 
   const getUserButtonTitle = useMemo(() => {
-    if (!actionData?.userIds.length) return t('NO_SELECTABLE_USERS');
+    if (!actionData?.userIds.length) return t('invoice_action_form.no_selectable_users');
     return getUserById(selectedUserId)?.name ?? t('invoice_action_form.no_user_selected');
   }, [actionData?.userIds, getUserById, selectedUserId, selectedActionId]);
 
