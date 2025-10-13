@@ -3,12 +3,13 @@ import type { ExpoConfig } from 'expo/config';
 import { parse } from 'semver';
 import 'ts-node/register';
 import withShareIntentFix from './plugins/withShareIntentFix';
-import removeMediaPermissions from './plugins/removeMediaPermissions';
+
+const removeMediaPermissions = require('./plugins/removeMediaPermissions.js');
 
 dotenv.config();
 
 const getPackageVersion = (): string => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+   
   const packageJson = require('./package.json');
   return packageJson.version || '0.0.0';
 };
@@ -118,7 +119,6 @@ const config: ExpoConfig = {
   orientation: 'portrait',
   owner: 'blue10',
   plugins: [
-    [removeMediaPermissions as any, { android: true }],
     'expo-localization',
     // disabled for now, this uploads the execution symbols to sentry. this not needed for now.
     // [
@@ -145,6 +145,7 @@ const config: ExpoConfig = {
       },
     ],
     [withShareIntentFix as any, { android: true }],
+    [removeMediaPermissions as any, { android: true }],
   ],
   slug: 'blue10-app',
   splash: {
