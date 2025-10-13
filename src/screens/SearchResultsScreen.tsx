@@ -55,7 +55,7 @@ export const SearchResultsScreen: React.FC<Props> = ({ navigation }) => {
         isFetching={isFetching}
         isFetchingNextPage={isFetchingNextPage}
         items={all}
-        onItemPress={(item) => navigation.navigate('InvoiceDetailsScreen', { id: item.id })}
+        onItemPress={(item) => navigation.push('InvoiceDetailsScreen', { id: item.id })}
         onLoadMore={loadMore}
         onRefresh={refresh}
         onRetry={refetch}

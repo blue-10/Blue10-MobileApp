@@ -3,6 +3,7 @@ import type { ExpoConfig } from 'expo/config';
 import { parse } from 'semver';
 import 'ts-node/register';
 import withShareIntentFix from './plugins/withShareIntentFix';
+import removeMediaPermissions from './plugins/removeMediaPermissions';
 
 dotenv.config();
 
@@ -117,6 +118,7 @@ const config: ExpoConfig = {
   orientation: 'portrait',
   owner: 'blue10',
   plugins: [
+    [removeMediaPermissions as any, { android: true }],
     'expo-localization',
     // disabled for now, this uploads the execution symbols to sentry. this not needed for now.
     // [

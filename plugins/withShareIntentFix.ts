@@ -1,4 +1,4 @@
-import { ConfigPlugin } from '@expo/config-plugins';
+import type { ConfigPlugin } from '@expo/config-plugins';
 import { withMainActivity } from '@expo/config-plugins/build/plugins/android-plugins.js';
 
 const withShareIntentFix: ConfigPlugin = (config) => {

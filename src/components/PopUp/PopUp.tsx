@@ -12,7 +12,7 @@ interface PopUpProps {
 
 const PopUp = ({ images }: PopUpProps) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const { addImages } = useImageStore();
+  const { addImages, reset } = useImageStore();
 
   const [visible, setVisible] = useState(false);
 
@@ -23,6 +23,7 @@ const PopUp = ({ images }: PopUpProps) => {
   }, [images]);
 
   const handleYes = () => {
+    reset();
     const normalizedImages = images.map((image) => `file://${image}`);
     addImages(normalizedImages);
     setVisible(false);
