@@ -12,7 +12,7 @@ import { TopBarWithSubTitle } from '../components/TopBarWithSubTitle/TopBarWithS
 import { queryKeys } from '../constants';
 import { useInvoiceToDoQuery } from '../hooks/queries/useInvoiceToDoQuery';
 import type { RootStackParamList } from '../navigation/types';
-import { useIsFocused } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
 export type InvoicesToDoScreenProps = StackScreenProps<RootStackParamList, 'InvoicesToDoScreen'>;
 
@@ -24,8 +24,8 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
   const [totalInvoices, setTotalInvoices] = useState<number>(route.params?.invoices ?? 0);
 
   // region update screen top bar subtitle
-  useEffect(() => {
-    if (isFocused) {
+  useFocusEffect(
+    useCallback(() => {
       navigation.setOptions({
         headerShown: true,
         headerTitle: (props) => (
@@ -37,8 +37,8 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
           />
         ),
       });
-    }
-  }, [isFocused, totalInvoices, navigation, t]);
+    }, [navigation, totalInvoices, t]),
+  );
   // endregion
 
   const {
@@ -50,7 +50,9 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
   useEffect(() => {
     const totalCount = all.length === 0 ? 0 : all[0].totalCount || 0;
 
-    setTotalInvoices((value) => (value !== totalCount ? totalCount : value));
+    if (totalCount !== totalInvoices) {
+      setTotalInvoices(totalCount);
+    }
   }, [all]);
   // endregion
 
