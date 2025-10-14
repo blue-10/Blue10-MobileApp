@@ -3,38 +3,38 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		1BB0A6FA2971A73D98AC4C83 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B78F0E30EA867298B76E7F0 /* ExpoModulesProvider.swift */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		654601C95D33101C07F848C4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C8CC348A1303067C800DDBD2 /* PrivacyInfo.xcprivacy */; };
-		8474946466EDAE3FB9D477A8 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE5EA72911D03B32E18A23E /* ExpoModulesProvider.swift */; };
-		B085950C2E659EB500D7864D /* ShareMedia.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B08595022E659EB500D7864D /* ShareMedia.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		97B28DDB8307FD6C5EF09973 /* libPods-Blue10.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE19D2D47DC341E4FAE7DD3 /* libPods-Blue10.a */; };
+		B0C0EA932E9EA72000A457A8 /* ShareMedia.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B0C0EA892E9EA72000A457A8 /* ShareMedia.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		DAA51632C4B6D09B38B4FC35 /* libPods-Blue10.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CD2DF39A8F4DCEB4C192781 /* libPods-Blue10.a */; };
+		EF860EF906438DB8EB1265C7 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 851B13BBBFE68693C4452298 /* PrivacyInfo.xcprivacy */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B085950A2E659EB500D7864D /* PBXContainerItemProxy */ = {
+		B0C0EA912E9EA72000A457A8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B08595012E659EB500D7864D;
+			remoteGlobalIDString = B0C0EA882E9EA72000A457A8;
 			remoteInfo = ShareMedia;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		B085950D2E659EB500D7864D /* Embed Foundation Extensions */ = {
+		B0C0EA942E9EA72000A457A8 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				B085950C2E659EB500D7864D /* ShareMedia.appex in Embed Foundation Extensions */,
+				B0C0EA932E9EA72000A457A8 /* ShareMedia.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -45,38 +45,31 @@
 		13B07F961A680F5B00A75B9A /* Blue10.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blue10.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Blue10/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Blue10/Info.plist; sourceTree = "<group>"; };
-		7CD2DF39A8F4DCEB4C192781 /* libPods-Blue10.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Blue10.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B78F0E30EA867298B76E7F0 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Blue10/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		684B8D5A2370A3D95A139A1D /* Pods-Blue10.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blue10.release.xcconfig"; path = "Target Support Files/Pods-Blue10/Pods-Blue10.release.xcconfig"; sourceTree = "<group>"; };
+		851B13BBBFE68693C4452298 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Blue10/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Blue10/SplashScreen.storyboard; sourceTree = "<group>"; };
-		B08595022E659EB500D7864D /* ShareMedia.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareMedia.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0C0EA892E9EA72000A457A8 /* ShareMedia.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareMedia.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAE19D2D47DC341E4FAE7DD3 /* libPods-Blue10.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Blue10.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		BDE3758C17E6CBA8BC5EB04E /* Pods-Blue10.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blue10.debug.xcconfig"; path = "Target Support Files/Pods-Blue10/Pods-Blue10.debug.xcconfig"; sourceTree = "<group>"; };
-		C8CC348A1303067C800DDBD2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Blue10/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		BB6EA39FFB306E7DE85A7913 /* Pods-Blue10.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blue10.debug.xcconfig"; path = "Target Support Files/Pods-Blue10/Pods-Blue10.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		EDE5EA72911D03B32E18A23E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Blue10/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		EF4FFB9570F10EFBC9B43C3E /* Pods-Blue10.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blue10.release.xcconfig"; path = "Target Support Files/Pods-Blue10/Pods-Blue10.release.xcconfig"; sourceTree = "<group>"; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Blue10/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* Blue10-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Blue10-Bridging-Header.h"; path = "Blue10/Blue10-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		B08595102E659EB500D7864D /* Exceptions for "ShareMedia" folder in "ShareMedia" target */ = {
+		B0C0EA972E9EA72000A457A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = B08595012E659EB500D7864D /* ShareMedia */;
+			target = B0C0EA882E9EA72000A457A8 /* ShareMedia */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B08595032E659EB500D7864D /* ShareMedia */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				B08595102E659EB500D7864D /* Exceptions for "ShareMedia" folder in "ShareMedia" target */,
-			);
-			path = ShareMedia;
-			sourceTree = "<group>";
-		};
+		B0C0EA8A2E9EA72000A457A8 /* ShareMedia */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B0C0EA972E9EA72000A457A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ShareMedia; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,11 +77,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAA51632C4B6D09B38B4FC35 /* libPods-Blue10.a in Frameworks */,
+				97B28DDB8307FD6C5EF09973 /* libPods-Blue10.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B08594FF2E659EB500D7864D /* Frameworks */ = {
+		B0C0EA862E9EA72000A457A8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -107,7 +100,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				C8CC348A1303067C800DDBD2 /* PrivacyInfo.xcprivacy */,
+				851B13BBBFE68693C4452298 /* PrivacyInfo.xcprivacy */,
 			);
 			name = Blue10;
 			sourceTree = "<group>";
@@ -116,34 +109,26 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				7CD2DF39A8F4DCEB4C192781 /* libPods-Blue10.a */,
+				BAE19D2D47DC341E4FAE7DD3 /* libPods-Blue10.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		32D5232725421B6543163B63 /* ExpoModulesProviders */ = {
+		5CA7AE5CD4347CC9FFA45556 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				6D34A84C90A42207A48EED0C /* Blue10 */,
+				99737FA4B914FD331D98FA98 /* Blue10 */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
-		44BECFDE7C7D4F71043A0963 /* Pods */ = {
+		625F714C61B507477056F5AE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BDE3758C17E6CBA8BC5EB04E /* Pods-Blue10.debug.xcconfig */,
-				EF4FFB9570F10EFBC9B43C3E /* Pods-Blue10.release.xcconfig */,
+				BB6EA39FFB306E7DE85A7913 /* Pods-Blue10.debug.xcconfig */,
+				684B8D5A2370A3D95A139A1D /* Pods-Blue10.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		6D34A84C90A42207A48EED0C /* Blue10 */ = {
-			isa = PBXGroup;
-			children = (
-				EDE5EA72911D03B32E18A23E /* ExpoModulesProvider.swift */,
-			);
-			name = Blue10;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -158,11 +143,11 @@
 			children = (
 				13B07FAE1A68108700A75B9A /* Blue10 */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				B08595032E659EB500D7864D /* ShareMedia */,
+				B0C0EA8A2E9EA72000A457A8 /* ShareMedia */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				44BECFDE7C7D4F71043A0963 /* Pods */,
-				32D5232725421B6543163B63 /* ExpoModulesProviders */,
+				625F714C61B507477056F5AE /* Pods */,
+				5CA7AE5CD4347CC9FFA45556 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -173,9 +158,17 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* Blue10.app */,
-				B08595022E659EB500D7864D /* ShareMedia.appex */,
+				B0C0EA892E9EA72000A457A8 /* ShareMedia.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		99737FA4B914FD331D98FA98 /* Blue10 */ = {
+			isa = PBXGroup;
+			children = (
+				2B78F0E30EA867298B76E7F0 /* ExpoModulesProvider.swift */,
+			);
+			name = Blue10;
 			sourceTree = "<group>";
 		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
@@ -195,43 +188,45 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Blue10" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				C7E463EC91ED1BA2B52A10D9 /* [Expo] Configure project */,
+				A96EC720EEF8AAB88022B56B /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				F1EB61B2179D7E50738A9630 /* [CP] Embed Pods Frameworks */,
-				B085950D2E659EB500D7864D /* Embed Foundation Extensions */,
+				963CDE2835C324BD351A8A7E /* [CP] Embed Pods Frameworks */,
+				B0C0EA942E9EA72000A457A8 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				B085950B2E659EB500D7864D /* PBXTargetDependency */,
+				B0C0EA922E9EA72000A457A8 /* PBXTargetDependency */,
 			);
 			name = Blue10;
 			productName = Blue10;
 			productReference = 13B07F961A680F5B00A75B9A /* Blue10.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B08595012E659EB500D7864D /* ShareMedia */ = {
+		B0C0EA882E9EA72000A457A8 /* ShareMedia */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B08595112E659EB500D7864D /* Build configuration list for PBXNativeTarget "ShareMedia" */;
+			buildConfigurationList = B0C0EA982E9EA72000A457A8 /* Build configuration list for PBXNativeTarget "ShareMedia" */;
 			buildPhases = (
-				B08594FE2E659EB500D7864D /* Sources */,
-				B08594FF2E659EB500D7864D /* Frameworks */,
-				B08595002E659EB500D7864D /* Resources */,
+				B0C0EA852E9EA72000A457A8 /* Sources */,
+				B0C0EA862E9EA72000A457A8 /* Frameworks */,
+				B0C0EA872E9EA72000A457A8 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				B08595032E659EB500D7864D /* ShareMedia */,
+				B0C0EA8A2E9EA72000A457A8 /* ShareMedia */,
 			);
 			name = ShareMedia;
+			packageProductDependencies = (
+			);
 			productName = ShareMedia;
-			productReference = B08595022E659EB500D7864D /* ShareMedia.appex */;
+			productReference = B0C0EA892E9EA72000A457A8 /* ShareMedia.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -246,12 +241,13 @@
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1250;
 					};
-					B08595012E659EB500D7864D = {
+					B0C0EA882E9EA72000A457A8 = {
 						CreatedOnToolsVersion = 16.4;
 					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Blue10" */;
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -259,13 +255,12 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* Blue10 */,
-				B08595012E659EB500D7864D /* ShareMedia */,
+				B0C0EA882E9EA72000A457A8 /* ShareMedia */,
 			);
 		};
 /* End PBXProject section */
@@ -278,11 +273,11 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				654601C95D33101C07F848C4 /* PrivacyInfo.xcprivacy in Resources */,
+				EF860EF906438DB8EB1265C7 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B08595002E659EB500D7864D /* Resources */ = {
+		B0C0EA872E9EA72000A457A8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -299,6 +294,8 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
 			);
 			name = "Bundle React Native code and images";
 			outputPaths = (
@@ -334,23 +331,72 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Blue10/Pods-Blue10-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blue10/Pods-Blue10-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXApplication/ExpoApplication_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoDevice/ExpoDevice_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoLocalization/ExpoLocalization_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoMediaLibrary/ExpoMediaLibrary_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoSystemUI/ExpoSystemUI_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNSVG/RNSVGFilters.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Sentry/Sentry.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ZIPFoundation/ZIPFoundation_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-launcher/EXDevLauncher.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/expo-dev-menu/EXDevMenu.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Blue10/Pods-Blue10-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoApplication_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoDevice_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoLocalization_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoMediaLibrary_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoSystemUI_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNSVGFilters.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SDWebImage.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Sentry.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZIPFoundation_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXDevLauncher.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXDevMenu.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blue10/Pods-Blue10-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C7E463EC91ED1BA2B52A10D9 /* [Expo] Configure project */ = {
+		963CDE2835C324BD351A8A7E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blue10/Pods-Blue10-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blue10/Pods-Blue10-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A96EC720EEF8AAB88022B56B /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -374,27 +420,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Blue10/expo-configure-project.sh\"\n";
 		};
-		F1EB61B2179D7E50738A9630 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Blue10/Pods-Blue10-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Blue10/Pods-Blue10-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blue10/Pods-Blue10-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -403,11 +428,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				8474946466EDAE3FB9D477A8 /* ExpoModulesProvider.swift in Sources */,
+				1BB0A6FA2971A73D98AC4C83 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B08594FE2E659EB500D7864D /* Sources */ = {
+		B0C0EA852E9EA72000A457A8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -417,24 +442,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B085950B2E659EB500D7864D /* PBXTargetDependency */ = {
+		B0C0EA922E9EA72000A457A8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B08595012E659EB500D7864D /* ShareMedia */;
-			targetProxy = B085950A2E659EB500D7864D /* PBXContainerItemProxy */;
+			target = B0C0EA882E9EA72000A457A8 /* ShareMedia */;
+			targetProxy = B0C0EA912E9EA72000A457A8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDE3758C17E6CBA8BC5EB04E /* Pods-Blue10.debug.xcconfig */;
+			baseConfigurationReference = BB6EA39FFB306E7DE85A7913 /* Pods-Blue10.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Blue10/Blue10.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2742HV9XT2;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -456,7 +479,6 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blue10.Scanner;
 				PRODUCT_NAME = Blue10;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blue10/Blue10-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -467,14 +489,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF4FFB9570F10EFBC9B43C3E /* Pods-Blue10.release.xcconfig */;
+			baseConfigurationReference = 684B8D5A2370A3D95A139A1D /* Pods-Blue10.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Blue10/Blue10.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2742HV9XT2;
 				INFOPLIST_FILE = Blue10/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -491,7 +511,6 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blue10.Scanner;
 				PRODUCT_NAME = Blue10;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Blue10/Blue10-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -554,7 +573,6 @@
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -610,7 +628,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
@@ -619,7 +636,7 @@
 			};
 			name = Release;
 		};
-		B085950E2E659EB500D7864D /* Debug */ = {
+		B0C0EA952E9EA72000A457A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -631,9 +648,8 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = ShareMedia/ShareMedia.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2742HV9XT2;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -652,10 +668,8 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blue10.Scanner.ShareMedia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -665,7 +679,7 @@
 			};
 			name = Debug;
 		};
-		B085950F2E659EB500D7864D /* Release */ = {
+		B0C0EA962E9EA72000A457A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -677,10 +691,9 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = ShareMedia/ShareMedia.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2742HV9XT2;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -698,10 +711,8 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
-				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blue10.Scanner.ShareMedia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -731,11 +742,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B08595112E659EB500D7864D /* Build configuration list for PBXNativeTarget "ShareMedia" */ = {
+		B0C0EA982E9EA72000A457A8 /* Build configuration list for PBXNativeTarget "ShareMedia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B085950E2E659EB500D7864D /* Debug */,
-				B085950F2E659EB500D7864D /* Release */,
+				B0C0EA952E9EA72000A457A8 /* Debug */,
+				B0C0EA962E9EA72000A457A8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
