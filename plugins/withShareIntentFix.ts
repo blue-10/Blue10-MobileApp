@@ -1,4 +1,4 @@
-import { ConfigPlugin } from '@expo/config-plugins';
+import type { ConfigPlugin } from '@expo/config-plugins';
 import { withMainActivity } from '@expo/config-plugins/build/plugins/android-plugins.js';
 
 const withShareIntentFix: ConfigPlugin = (config) => {
@@ -11,7 +11,7 @@ const withShareIntentFix: ConfigPlugin = (config) => {
       src = src.replace(
         /}\s*$/,
         `
-    override fun onNewIntent(intent: android.content.Intent?) {
+    override fun onNewIntent(intent: android.content.Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
     }

@@ -99,6 +99,7 @@ const LoginSite: React.FC<LoginSiteProps> = ({ mode, refreshToken, onRefreshToke
           headers,
           uri,
         }}
+        userAgent="https://accounts.google.com/"
         startInLoadingState={true}
         style={styles.webView}
         onError={(event) => {

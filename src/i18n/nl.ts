@@ -42,6 +42,7 @@ export const nl: TranslationKeysType = {
     title: 'Acties',
     skip: 'Overslaan',
     action_success: 'Actie succesvol ingediend',
+    no_selectable_users: 'Geen selecteerbare gebruikers',
   },
   invoice_action_select: {
     title: 'Acties',
@@ -176,8 +177,8 @@ export const nl: TranslationKeysType = {
     document_number_label: 'Factuurnummer',
     invoice_type_credit: 'Credit',
     invoice_type_debit: 'Debet',
-    invoice_type_label: 'Soort',
-    ledger_entry_number_label: 'boekstuknummer',
+    invoice_type_label: 'Type',
+    ledger_entry_number_label: 'Boekstuknummer',
     relation_label: 'Leverancier',
     search_placeholder: 'Vrij zoeken',
     status_label: 'Overzicht',

@@ -3,15 +3,17 @@ import { ImageZoomPan } from '@/components/ImageZoomPan/ImageZoomPan';
 import { colors } from '@/theme';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Image, View, Text, StyleSheet, Pressable, Modal, SafeAreaView } from 'react-native';
+import { ScrollView, Image, View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import RNFS from 'react-native-fs';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SvgCrossIcon from '../../assets/icons/xmark-circle-fill.svg';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BASE_FOLDER = `${RNFS.DocumentDirectoryPath}/blue10Images`;
 
 type ImagesByCompany = {
   [companyName: string]: {
+    companyName: string;
     images: string[];
     documentTitle?: string;
     dateSet?: string;
@@ -75,7 +77,10 @@ export const HistoryScreen = () => {
             .map((file) => 'file://' + file.path);
 
           if (companyImages.length > 0) {
-            groupedImages[companyName] = {
+            const folderKey = entry.name;
+
+            groupedImages[folderKey] = {
+              companyName,
               images: companyImages,
               documentTitle: documentTitle,
               dateSet: dateSet,
@@ -119,10 +124,10 @@ export const HistoryScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={{ padding: 10 }}>
-      {Object.entries(imagesByCompany).map(([companyName, images]) => (
-        <View key={companyName} style={{ marginBottom: 30 }}>
+      {Object.entries(imagesByCompany).map(([folderKey, images]) => (
+        <View key={folderKey} style={{ marginBottom: 30 }}>
           <Box style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-            <Text style={styles.imageTitle}>{companyName} / </Text>
+            <Text style={styles.imageTitle}>{images.companyName} / </Text>
             {images.documentTitle && <Text style={styles.imageTitle}>{images.documentTitle}</Text>}
           </Box>
           <Box style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -199,7 +204,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'relative',
-    top: 20,
+    top: 60,
     right: '-40%',
     zIndex: 10,
     borderRadius: 20,

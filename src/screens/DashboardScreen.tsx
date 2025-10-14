@@ -1,8 +1,8 @@
 import type { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, PermissionsAndroid, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import SvgCameraShape from '../../assets/icons/camerashape.svg';
 import SvgSwitchIcon from '../../assets/icons/dashboard-switch-icon.svg';
@@ -27,35 +27,6 @@ import RNFS from 'react-native-fs';
 type Props = StackScreenProps<RootStackParamList, 'Dashboard'>;
 
 const GRID_GAP = 20;
-
-export const requestStoragePermission = async () => {
-  if (Platform.OS !== 'android') return true;
-
-  if (Platform.Version >= 30) {
-    // Android 11+
-    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES, {
-      title: 'Storage Permission Required',
-      message: 'App needs access to your storage to receive shared files',
-      buttonPositive: 'OK',
-    });
-
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      return true;
-    } else {
-      Linking.openSettings();
-      return false;
-    }
-  } else {
-    // Android < 11
-    const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
-      title: 'Storage Permission Required',
-      message: 'App needs access to your storage to receive shared files',
-      buttonPositive: 'OK',
-    });
-
-    return granted === PermissionsAndroid.RESULTS.GRANTED;
-  }
-};
 
 export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
   const {
@@ -96,72 +67,6 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
     resetScannedImages();
     navigation.navigate('ScanSelectCompanyScreen');
   }, [navigation, resetScannedImages]);
-
-  const [sharedFiles, setSharedFiles] = useState<string[]>([]);
-  const [hasReadSharedJSON, setHasReadSharedJSON] = useState(false);
-
-  const saveFilesToDocuments = async (files: string[]) => {
-    const saved: string[] = [];
-    for (const file of files) {
-      try {
-        const fileName = file.split('/').pop();
-        const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
-        await RNFS.copyFile(file, destPath);
-        saved.push(destPath);
-      } catch (err) {
-        console.log('Cannot copy shared file:', err);
-      }
-    }
-    return saved;
-  };
-
-  useEffect(() => {
-    // Android: ReceiveSharingIntent
-    if (Platform.OS === 'android') {
-      ReceiveSharingIntent.getReceivedFiles(
-        async (files: any[]) => {
-          const paths = files.map((f: any) => f.filePath);
-          const saved = await saveFilesToDocuments(paths);
-          setSharedFiles(saved);
-        },
-        () => {},
-        'Blue10ShareMedia',
-      );
-
-      return () => {
-        ReceiveSharingIntent.clearReceivedFiles();
-      };
-    }
-
-    // iOS: Linking URL from Share Extension
-    const handleURL = async (event: { url: string }) => {
-      if (!event.url || !event.url.includes('filePath=') || hasReadSharedJSON) return;
-
-      setHasReadSharedJSON(true);
-      const url = decodeURIComponent(event.url.split('filePath=')[1]);
-
-      try {
-        const contents = await RNFS.readFile(url, 'utf8');
-        const files = JSON.parse(contents);
-
-        const fullPaths = files.map((f: string) => url.replace('shared.json', f));
-        const saved = await saveFilesToDocuments(fullPaths);
-        setSharedFiles(saved);
-      } catch (err) {
-        console.log('Cannot read shared.json', err);
-      }
-    };
-
-    Linking.addEventListener('url', handleURL);
-
-    Linking.getInitialURL().then((initialUrl) => {
-      if (initialUrl) handleURL({ url: initialUrl });
-    });
-
-    return () => {
-      Linking.removeAllListeners('url');
-    };
-  }, [hasReadSharedJSON]);
 
   return (
     <ScreenWithStatusBarAndHeader>
@@ -250,8 +155,6 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
           </DashboardItem>
         </View>
       </ScrollView>
-
-      <PopUp images={sharedFiles} />
     </ScreenWithStatusBarAndHeader>
   );
 };

@@ -4,6 +4,8 @@ import { parse } from 'semver';
 import 'ts-node/register';
 import withShareIntentFix from './plugins/withShareIntentFix';
 
+const removeMediaPermissions = require('./plugins/removeMediaPermissions.js');
+
 dotenv.config();
 
 const getPackageVersion = (): string => {
@@ -101,7 +103,7 @@ const config: ExpoConfig = {
     buildNumber: getBuildNumber(version),
     bundleIdentifier: 'com.blue10.Scanner',
     entitlements: {
-      'com.apple.security.application-groups': ['group.Blue10.com'],
+      'com.apple.security.application-groups': ['group.com.blue10.app'],
     },
     config: {
       usesNonExemptEncryption: false,
@@ -143,6 +145,7 @@ const config: ExpoConfig = {
       },
     ],
     [withShareIntentFix as any, { android: true }],
+    [removeMediaPermissions as any, { android: true }],
   ],
   slug: 'blue10-app',
   splash: {

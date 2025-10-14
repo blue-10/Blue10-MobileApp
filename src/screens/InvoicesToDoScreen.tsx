@@ -21,21 +21,6 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
   const queryClient = useQueryClient();
   const [totalInvoices, setTotalInvoices] = useState<number>(route.params?.invoices ?? 0);
 
-  // region update screen top bar subtitle
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: (props) => (
-        <TopBarWithSubTitle
-          subTitle={t('to_do_invoices.count_results_header', {
-            count: totalInvoices,
-          })}
-          title={props.children}
-        />
-      ),
-    });
-  }, [totalInvoices, navigation, t]);
-  // endregion
-
   const {
     all,
     client: { hasNextPage, isFetching, isFetchingNextPage, isError, fetchNextPage, refetch },
@@ -45,7 +30,9 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
   useEffect(() => {
     const totalCount = all.length === 0 ? 0 : all[0].totalCount || 0;
 
-    setTotalInvoices((value) => (value !== totalCount ? totalCount : value));
+    if (totalCount !== totalInvoices) {
+      setTotalInvoices(totalCount);
+    }
   }, [all]);
   // endregion
 
@@ -63,6 +50,30 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
   }, [queryClient]);
   // endregion
 
+  // Refetch on screen focus (iOS requires direct refetch)
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      refresh();
+    });
+
+    return unsubscribe;
+  }, [navigation, refresh]);
+
+  // Header update SHOULD NOT be inside useFocusEffect → move to useEffect
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: (props) => (
+        <TopBarWithSubTitle
+          subTitle={t('to_do_invoices.count_results_header', {
+            count: totalInvoices,
+          })}
+          title={props.children}
+        />
+      ),
+    });
+  }, [navigation, totalInvoices, t]);
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar animated style="dark" />
@@ -72,7 +83,7 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
         isFetching={isFetching}
         isFetchingNextPage={isFetchingNextPage}
         items={all}
-        onItemPress={(item) => navigation.navigate('InvoiceDetailsScreen', { id: item.id })}
+        onItemPress={(item) => navigation.push('InvoiceDetailsScreen', { id: item.id })}
         onLoadMore={loadMore}
         onRefresh={refresh}
         onRetry={refetch}
