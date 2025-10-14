@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'relative',
-    top: 20,
+    top: 60,
     right: '-40%',
     zIndex: 10,
     borderRadius: 20,

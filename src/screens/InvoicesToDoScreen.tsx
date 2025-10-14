@@ -25,17 +25,20 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
 
   // region update screen top bar subtitle
   useEffect(() => {
-    navigation.setOptions({
-      headerTitle: (props) => (
-        <TopBarWithSubTitle
-          subTitle={t('to_do_invoices.count_results_header', {
-            count: totalInvoices,
-          })}
-          title={props.children}
-        />
-      ),
-    });
-  }, [totalInvoices, navigation, t]);
+    if (isFocused) {
+      navigation.setOptions({
+        headerShown: true,
+        headerTitle: (props) => (
+          <TopBarWithSubTitle
+            subTitle={t('to_do_invoices.count_results_header', {
+              count: totalInvoices,
+            })}
+            title={props.children}
+          />
+        ),
+      });
+    }
+  }, [isFocused, totalInvoices, navigation, t]);
   // endregion
 
   const {
@@ -65,12 +68,6 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
   }, [queryClient]);
   // endregion
 
-  useEffect(() => {
-    if (isFocused) {
-      refetch();
-    }
-  }, [isFocused]);
-
   return (
     <View style={{ flex: 1 }}>
       <StatusBar animated style="dark" />
@@ -80,7 +77,7 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
         isFetching={isFetching}
         isFetchingNextPage={isFetchingNextPage}
         items={all}
-        onItemPress={(item) => navigation.navigate('InvoiceDetailsScreen', { id: item.id })}
+        onItemPress={(item) => navigation.push('InvoiceDetailsScreen', { id: item.id })}
         onLoadMore={loadMore}
         onRefresh={refresh}
         onRetry={refetch}

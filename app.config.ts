@@ -4,10 +4,12 @@ import { parse } from 'semver';
 import 'ts-node/register';
 import withShareIntentFix from './plugins/withShareIntentFix';
 
+const removeMediaPermissions = require('./plugins/removeMediaPermissions.js');
+
 dotenv.config();
 
 const getPackageVersion = (): string => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+   
   const packageJson = require('./package.json');
   return packageJson.version || '0.0.0';
 };
@@ -143,6 +145,7 @@ const config: ExpoConfig = {
       },
     ],
     [withShareIntentFix as any, { android: true }],
+    [removeMediaPermissions as any, { android: true }],
   ],
   slug: 'blue10-app',
   splash: {
