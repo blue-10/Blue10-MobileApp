@@ -9,7 +9,6 @@ const removeMediaPermissions = require('./plugins/removeMediaPermissions.js');
 dotenv.config();
 
 const getPackageVersion = (): string => {
-   
   const packageJson = require('./package.json');
   return packageJson.version || '0.0.0';
 };
@@ -103,7 +102,7 @@ const config: ExpoConfig = {
     buildNumber: getBuildNumber(version),
     bundleIdentifier: 'com.blue10.Scanner',
     entitlements: {
-      'com.apple.security.application-groups': ['group.Blue10.com'],
+      'com.apple.security.application-groups': ['group.com.blue10.app'],
     },
     config: {
       usesNonExemptEncryption: false,
