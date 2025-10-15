@@ -62,6 +62,21 @@ class ShareViewController: SLComposeServiceViewController {
         }
     }
 
+    private func cleanupShareData() {
+    if let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.blue10.app") {
+        do {
+            let contents = try FileManager.default.contentsOfDirectory(at: containerURL, includingPropertiesForKeys: nil)
+            for file in contents where file.lastPathComponent != "keep.db" {
+                try FileManager.default.removeItem(at: file)
+            }
+        } catch {
+            print("Cleanup failed: \(error)")
+        }
+    }
+
+    self.sharedMedia.removeAll()
+    }
+
     private func sendToHostApp() {
         let urls = self.sharedMedia.map { $0.lastPathComponent }
 
@@ -84,8 +99,12 @@ class ShareViewController: SLComposeServiceViewController {
             redirectToHostApp(with: url)
         }
 
+        cleanupShareData()
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+            self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
+                exit(0) 
+            })
         }
     }
 

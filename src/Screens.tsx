@@ -113,6 +113,10 @@ const Screens: React.FC = () => {
         const fullPaths = files.map((f: string) => url.replace('shared.json', f));
         const saved = await saveFilesToDocuments(fullPaths);
         setSharedImages(saved);
+        await RNFS.unlink(url);
+        for (const f of fullPaths) {
++         await RNFS.unlink(f);
+        }
       } catch (err) {
         console.log('Cannot read shared.json', err);
       }
