@@ -93,7 +93,7 @@ export const useUploadScanProcess = () => {
 
     const folderMetaData = {
       companyName: safeCompanyName,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toLocaleString(),
       documentType: documentType?.key,
     };
 

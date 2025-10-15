@@ -13,7 +13,7 @@ const BASE_FOLDER = `${RNFS.DocumentDirectoryPath}/blue10Images`;
 
 type ImagesByCompany = {
   [companyName: string]: {
-    companyName: string;
+    companyName?: string;
     images: string[];
     documentTitle?: string;
     dateSet?: string;
@@ -66,10 +66,10 @@ export const HistoryScreen = () => {
       for (const entry of entries) {
         if (entry.isDirectory()) {
           const metaFile = await readMetaData(entry.path);
-          const documentTitle = metaFile?.documentType?.replaceAll('_', ' ');
+          const documentTitle = t(`scan.document_type_${metaFile?.documentType}`);
           const companyName = entry.name.split('_')[2];
           const dateSet = entry.name.split('_')[0];
-          const timeSet = entry.name.split('_')[1].replace('-', ':');
+          const timeSet = metaFile.timestamp.split(',')[1]?.split(':').slice(0, 2).join(':').trim();
 
           const companyFiles = await RNFS.readDir(entry.path);
           const companyImages = companyFiles
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'relative',
-    top: 60,
+    top: 40,
     right: '-40%',
     zIndex: 10,
     borderRadius: 20,

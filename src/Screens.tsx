@@ -63,7 +63,6 @@ export const requestStoragePermission = async () => {
 const Screens: React.FC = () => {
   const { t } = useTranslation();
 
-  const [hasReadSharedJSON, setHasReadSharedJSON] = useState(false);
   const [sharedImages, setSharedImages] = useState<string[]>([]);
 
   const saveFilesToDocuments = async (files: string[]) => {
@@ -101,20 +100,35 @@ const Screens: React.FC = () => {
 
     // iOS: Linking URL from Share Extension
     const handleURL = async (event: { url: string }) => {
-      if (!event.url || !event.url.includes('filePath=') || hasReadSharedJSON) return;
+      if (!event.url || !event.url.includes('filePath=')) return;
 
-      setHasReadSharedJSON(true);
-      const url = decodeURIComponent(event.url.split('filePath=')[1]);
+      const encodedPath = event.url.split('filePath=')[1];
+      if (!encodedPath) return;
+
+      const jsonPath = decodeURIComponent(encodedPath);
+
+      // بررسی وجود فایل — اگر نبود، یعنی قبلاً پردازش شده
+      const fileExists = await RNFS.exists(jsonPath);
+      if (!fileExists) return;
 
       try {
-        const contents = await RNFS.readFile(url, 'utf8');
-        const files = JSON.parse(contents);
+        const contents = await RNFS.readFile(jsonPath, 'utf8');
+        const filenames: string[] = JSON.parse(contents);
 
-        const fullPaths = files.map((f: string) => url.replace('shared.json', f));
+        const containerDir = jsonPath.substring(0, jsonPath.lastIndexOf('/'));
+        const fullPaths = filenames.map((f) => `${containerDir}/${f}`);
+
+        // ابتدا فایل‌ها را کپی کن
         const saved = await saveFilesToDocuments(fullPaths);
         setSharedImages(saved);
+
+        // سپس همه فایل‌ها (شامل shared.json) را پاک کن
+        for (const f of fullPaths) {
+          await RNFS.unlink(f).catch(() => {});
+        }
+        await RNFS.unlink(jsonPath).catch(() => {});
       } catch (err) {
-        console.log('Cannot read shared.json', err);
+        console.log('Cannot read or delete shared.json', err);
       }
     };
 
@@ -127,7 +141,7 @@ const Screens: React.FC = () => {
     return () => {
       Linking.removeAllListeners('url');
     };
-  }, [hasReadSharedJSON]);
+  }, []);
 
   return (
     <ErrorBoundary>
