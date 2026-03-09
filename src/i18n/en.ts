@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+ 
 import type { TranslationKeysType } from './types';
 
 export const en: TranslationKeysType = {
@@ -20,6 +20,10 @@ export const en: TranslationKeysType = {
     button_retry: 'Retry',
     description: 'Something went wrong while receiving information. Please try again.',
     title: 'Something went wrong.',
+  },
+  fetch_image_error_message: {
+    description: 'E-invoivce visualization can\'t be displayed on the app yet. Open this document on your browser for more details.',
+    title: 'Too bad!',
   },
   general: {
     button_cancel: 'Cancel',

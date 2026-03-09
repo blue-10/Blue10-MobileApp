@@ -132,6 +132,10 @@ export type TranslationKeysType = {
     description: string;
     button_retry: string;
   };
+  fetch_image_error_message: {
+    title: string;
+    description: string;
+  };
   scan: {
     company_title: string;
     document_type_packing_slip: string;

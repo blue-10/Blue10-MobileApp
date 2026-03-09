@@ -1,6 +1,6 @@
 {
   "name": "blue10-app",
-  "version": "2.1.5",
+  "version": "2.1.7",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --dev-client",
@@ -62,6 +62,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-pager-view": "6.9.1",
+    "react-native-pdf": "^7.0.3",
     "react-native-pdf-from-image": "^0.3.5",
     "react-native-receive-sharing-intent": "^2.0.0",
     "react-native-safe-area-context": "5.6.1",

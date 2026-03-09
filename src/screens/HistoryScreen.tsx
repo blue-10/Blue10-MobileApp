@@ -35,7 +35,7 @@ export const HistoryScreen = () => {
       const exists = await RNFS.exists(metaFilePath);
       if (exists) {
         const metaData = await RNFS.readFile(metaFilePath, 'utf8');
-        const parsedMetaData = JSON.parse(metaData) || {};
+        const parsedMetaData = JSON.parse(metaData) || {};        
         return parsedMetaData;
       }
     } catch (error) {
@@ -69,7 +69,7 @@ export const HistoryScreen = () => {
           const documentTitle = t(`scan.document_type_${metaFile?.documentType}`);
           const companyName = entry.name.split('_')[2];
           const dateSet = entry.name.split('_')[0];
-          const timeSet = metaFile.timestamp.split(',')[1]?.split(':').slice(0, 2).join(':').trim();
+          const timeSet = metaFile?.timestamp.split(',')[1]?.split(':').slice(0, 2).join(':').trim();
 
           const companyFiles = await RNFS.readDir(entry.path);
           const companyImages = companyFiles
