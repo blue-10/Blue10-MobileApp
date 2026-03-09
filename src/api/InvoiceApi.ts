@@ -87,6 +87,12 @@ export class InvoiceApi extends ApiServiceRequests {
     return data;
   }
 
+  public async getAttachmentImage(attachmentId: string): Promise<string> {
+    const url = new URL(`/File/GetFileByDocumentOriginalId/${attachmentId}`, this.getApiService().baseUrl);
+    const { data } = await this.getAxios().get<string>(url.toString());    
+    return data;
+  }
+
   /**
    * Get packing slips of a invoice
    */

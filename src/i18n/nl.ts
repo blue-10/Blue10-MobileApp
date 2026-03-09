@@ -21,6 +21,10 @@ export const nl: TranslationKeysType = {
     description: 'Er ging iets nog goed bij het ophalen van gegevens. Probeer het nogmaals.',
     title: 'Er ging iets niet goed!',
   },
+  fetch_image_error_message: {
+    description: 'E-invoivce visualisatie kan nog niet in de app worden weergegeven. Open dit document in je browser voor meer details.',
+    title: 'Jammer!',
+  },
   general: {
     button_cancel: 'Annuleer',
     button_ok: 'OK',
