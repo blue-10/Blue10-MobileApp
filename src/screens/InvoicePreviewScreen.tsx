@@ -14,6 +14,7 @@ import { colors } from '@/theme';
 import { ImageZoomPan } from '@/components/ImageZoomPan/ImageZoomPan';
 import Button from '@/components/Button/Button';
 import RotateIcon from '../../assets/icons/rotate-right.svg';
+import { FetchImageErrorMessage } from '@/components/FetchImageErrorMessage/FetchImageErrorMessage';
 
 type InvoicePreviewScreenProps = {
   id: string;
@@ -26,7 +27,7 @@ type InvoiceImageLoaderProps = {
   rotation: number;
 };
 
-const InvoiceImageLoader: React.FC<InvoiceImageLoaderProps> = ({ id, page, isVisible = false, rotation }) => {
+export const InvoiceImageLoader: React.FC<InvoiceImageLoaderProps> = ({ id, page, isVisible = true, rotation }) => {
   const { t } = useTranslation();
   const [isFirstLoad, setIsFirstLoad] = useState(false);
   const { imageDataUri, query } = useInvoiceGetImage(id, page, isFirstLoad);
@@ -78,8 +79,14 @@ export const InvoicePreviewScreen: React.FC<InvoicePreviewScreenProps> = ({ id }
     setRotation((prev) => (prev + 90) % 360);
   };
 
+  // Type guard for error with response
+  const isError404 = (() => {
+    const err = imageCountQuery.error as any;
+    return err && typeof err === 'object' && 'response' in err && err.response && err.response.status === 404;
+  })();
+
   return (
-    <FetchErrorMessage isError={imageCountQuery.isError} onRetry={() => imageCountQuery.refetch()}>
+    <FetchImageErrorMessage isError={isError404}>
       <PagerView
         initialPage={0}
         style={styles.container}
@@ -117,7 +124,7 @@ export const InvoicePreviewScreen: React.FC<InvoicePreviewScreenProps> = ({ id }
           onPress={handleRotate}
         />
       </Box>
-    </FetchErrorMessage>
+    </FetchImageErrorMessage>
   );
 };
 

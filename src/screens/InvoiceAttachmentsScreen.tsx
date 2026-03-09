@@ -1,23 +1,21 @@
-import { useQuery } from '@tanstack/react-query';
-import React from 'react';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { View, FlatList, RefreshControl, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import type { ListRenderItem } from 'react-native';
-import { FlatList, RefreshControl, View } from 'react-native';
+import Pdf from 'react-native-pdf';
 
 import Box from '../components/Box/Box';
 import Button from '../components/Button/Button';
 import { FetchErrorMessage } from '../components/FetchErrorMessage/FetchErrorMessage';
 import { ListItem } from '../components/ListItem/ListItem';
 import { ListSeparator } from '../components/ListSeparator/ListSeparator';
-import { queryKeys } from '../constants';
-import { normalizeInvoiceAttachmentFromResponseItem } from '../entity/invoice/normalizer';
-import type { InvoiceAttachment } from '../entity/invoice/types';
-import { useApi } from '../hooks/useApi';
+
+import { useInvoiceAttachments } from '@/hooks/queries/useInvoiceAttachments';
+import { useInvoiceAttachmentImage } from '@/hooks/queries/useInvoiceAttachmentImage';
+
 import { useImageStore } from '../store/ImageStore';
 import { colors } from '../theme';
-import { normalizeMap } from '../utils/normalizerUtils';
-import { useQueryKeySuffix } from '../utils/queryUtils';
+
+import type { InvoiceAttachment } from '../entity/invoice/types';
 import type { InvoiceOriginalsScreenProps } from './InvoiceOriginalsScreen';
 
 type Props = {
@@ -26,60 +24,76 @@ type Props = {
 };
 
 export const InvoiceAttachmentsScreen: React.FC<Props> = ({ navigation, id }) => {
-  const api = useApi();
   const { t } = useTranslation();
   const { reset } = useImageStore();
 
   const {
-    data: invoiceAttachments = [],
+    invoiceAttachments = [],
     isFetching,
     isError,
     refetch,
-  } = useQuery({
-    queryFn: async () => normalizeMap(await api.invoice.getAttachments(id), normalizeInvoiceAttachmentFromResponseItem),
-    queryKey: useQueryKeySuffix([queryKeys.invoiceAttachments, id]),
-  });
+  } = useInvoiceAttachments(id);  
 
-  const renderItem: ListRenderItem<InvoiceAttachment> = useCallback(
-    ({ item, index }) => (
+  const firstAttachmentId = invoiceAttachments?.[0]?.id;
+
+  const { fileDataUri } = useInvoiceAttachmentImage(
+    firstAttachmentId ?? '',
+    1,
+    invoiceAttachments.length === 1
+  );
+
+  const renderItem = useCallback(
+    ({ item, index }: { item: InvoiceAttachment; index: number }) => (
       <ListItem
         isEven={index % 2 === 0}
         title={item.filename}
-        onPress={() => {
-          // noop
-        }}
+        onPress={() => {}}
       />
     ),
-    [],
+    []
   );
 
   const refreshControl = useMemo(
     () => (
       <RefreshControl
-        colors={[colors.primary]} // android
+        colors={[colors.primary]}
         refreshing={isFetching}
-        tintColor={colors.primary} // ios
-        onRefresh={() => refetch()}
+        tintColor={colors.primary}
+        onRefresh={refetch}
       />
     ),
-    [isFetching, refetch],
+    [isFetching, refetch]
   );
 
+  const hasSingleAttachment = invoiceAttachments.length === 1;
+
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <FetchErrorMessage isError={isError} onRetry={() => refetch()}>
-          <FlatList<InvoiceAttachment>
+    <View style={styles.container}>
+      <FetchErrorMessage isError={isError} onRetry={refetch}>
+        {!hasSingleAttachment ? (
+           <FlatList<InvoiceAttachment>
             data={invoiceAttachments}
             ItemSeparatorComponent={ListSeparator}
             keyExtractor={(item) => item.id}
             refreshControl={refreshControl}
             renderItem={renderItem}
-            style={{ minHeight: 90 }}
           />
-        </FetchErrorMessage>
-      </View>
-      <Box borderColor={colors.borderColor} borderTop={1} px={26} py={32} style={{ alignItems: 'flex-end' }}>
+          
+        ) : (         
+          <View style={styles.pdfContainer}>
+            <Pdf source={{ uri: fileDataUri }} style={styles.pdf} />
+          </View>
+        )}
+
+      </FetchErrorMessage>
+
+      <Box
+        borderColor={colors.borderColor}
+        borderTop={1}
+        px={26}
+        py={32}
+        style={{ alignItems: 'flex-end' }}
+      >
         <Button
           size="M"
           style={{ maxWidth: 153 }}
@@ -94,3 +108,17 @@ export const InvoiceAttachmentsScreen: React.FC<Props> = ({ navigation, id }) =>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
+  pdfContainer: {
+    flex: 1,
+  },
+
+  pdf: {
+    flex: 1,
+  },
+});

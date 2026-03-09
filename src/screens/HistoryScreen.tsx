@@ -69,7 +69,7 @@ export const HistoryScreen = () => {
           const documentTitle = t(`scan.document_type_${metaFile?.documentType}`);
           const companyName = entry.name.split('_')[2];
           const dateSet = entry.name.split('_')[0];
-          const timeSet = metaFile.timestamp.split(',')[1]?.split(':').slice(0, 2).join(':').trim();
+          const timeSet = metaFile?.timestamp.split(',')[1]?.split(':').slice(0, 2).join(':').trim();
 
           const companyFiles = await RNFS.readDir(entry.path);
           const companyImages = companyFiles
