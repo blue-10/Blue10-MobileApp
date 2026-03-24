@@ -12,7 +12,6 @@ import { TopBarWithSubTitle } from '../components/TopBarWithSubTitle/TopBarWithS
 import { queryKeys } from '../constants';
 import { useInvoiceToDoQuery } from '../hooks/queries/useInvoiceToDoQuery';
 import type { RootStackParamList } from '../navigation/types';
-import { useIsFocused } from '@react-navigation/native';
 
 export type InvoicesToDoScreenProps = StackScreenProps<RootStackParamList, 'InvoicesToDoScreen'>;
 
@@ -20,26 +19,7 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
   const { t } = useTranslation();
 
   const queryClient = useQueryClient();
-  const isFocused = useIsFocused();
   const [totalInvoices, setTotalInvoices] = useState<number>(route.params?.invoices ?? 0);
-
-  // region update screen top bar subtitle
-  useEffect(() => {
-    if (isFocused) {
-      navigation.setOptions({
-        headerShown: true,
-        headerTitle: (props) => (
-          <TopBarWithSubTitle
-            subTitle={t('to_do_invoices.count_results_header', {
-              count: totalInvoices,
-            })}
-            title={props.children}
-          />
-        ),
-      });
-    }
-  }, [isFocused, totalInvoices, navigation, t]);
-  // endregion
 
   const {
     all,
@@ -50,7 +30,9 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
   useEffect(() => {
     const totalCount = all.length === 0 ? 0 : all[0].totalCount || 0;
 
-    setTotalInvoices((value) => (value !== totalCount ? totalCount : value));
+    if (totalCount !== totalInvoices) {
+      setTotalInvoices(totalCount);
+    }
   }, [all]);
   // endregion
 
@@ -66,7 +48,30 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
       queryKey: [queryKeys.invoiceResults],
     });
   }, [queryClient]);
-  // endregion
+
+  // Refetch on screen focus (iOS requires direct refetch)
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      refresh();
+    });
+
+    return unsubscribe;
+  }, [navigation, refresh]);
+
+  // Header update SHOULD NOT be inside useFocusEffect → move to useEffect
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: (props) => (
+        <TopBarWithSubTitle
+          subTitle={t('to_do_invoices.count_results_header', {
+            count: totalInvoices,
+          })}
+          title={props.children}
+        />
+      ),
+    });
+  }, [navigation, totalInvoices, t]);
 
   return (
     <View style={{ flex: 1 }}>

@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+ 
 import type { TranslationKeysType } from './types';
 
 export const nl: TranslationKeysType = {
@@ -78,6 +78,7 @@ export const nl: TranslationKeysType = {
     payment_condition: 'Conditie',
     payment_date: 'Betaaldatum',
     previous_button: 'Vorige',
+    source_type: 'Bron type',
     status: 'Status',
     sub_total: 'Kosten',
     title: 'Factuur',
@@ -222,4 +223,13 @@ export const nl: TranslationKeysType = {
   history: {
     empty_history_list: 'Geen geschiedenis beschikbaar',
   },
+  source_Type:{
+    unknown: '_',
+    papier: 'Papier',
+    emailPDF: 'E-mail',
+    emailEDI: 'E-mail',
+    portalEDI: 'Portal',
+    peppol: 'Peppol',
+
+  }
 };

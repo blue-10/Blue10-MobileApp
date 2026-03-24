@@ -19,6 +19,7 @@ export type Invoice = {
   currentUserId: string;
   userList: string[];
   excelDocumentDate?: Date;
+  sourceType: number;
 };
 
 export type InvoiceListItem = {

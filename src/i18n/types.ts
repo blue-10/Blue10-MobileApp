@@ -51,6 +51,7 @@ export type TranslationKeysType = {
     button_bookings: string;
     button_timeline: string;
     button_execute: string;
+    source_type: string;
   };
   invoice_user_select: {
     title: string;
@@ -216,4 +217,12 @@ export type TranslationKeysType = {
   history: {
     empty_history_list: string;
   };
+  source_Type:{
+    unknown: string;
+    papier: string;
+    emailPDF: string;
+    emailEDI: string;
+    portalEDI: string;
+    peppol: string;
+  }
 };

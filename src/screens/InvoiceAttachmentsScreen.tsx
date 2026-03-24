@@ -1,11 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
-import { View, FlatList, RefreshControl, StyleSheet } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Pdf from 'react-native-pdf';
 
 import Box from '../components/Box/Box';
 import Button from '../components/Button/Button';
 import { FetchErrorMessage } from '../components/FetchErrorMessage/FetchErrorMessage';
+import { ImageZoomPan } from '@/components/ImageZoomPan/ImageZoomPan';
 import { ListItem } from '../components/ListItem/ListItem';
 import { ListSeparator } from '../components/ListSeparator/ListSeparator';
 
@@ -26,31 +27,40 @@ type Props = {
 export const InvoiceAttachmentsScreen: React.FC<Props> = ({ navigation, id }) => {
   const { t } = useTranslation();
   const { reset } = useImageStore();
+  const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
 
   const {
     invoiceAttachments = [],
     isFetching,
     isError,
     refetch,
-  } = useInvoiceAttachments(id);  
+  } = useInvoiceAttachments(id);
 
-  const firstAttachmentId = invoiceAttachments?.[0]?.id;
+  useEffect(() => {
+    if (invoiceAttachments.length > 0 && !selectedId) {
+      setSelectedId(invoiceAttachments[0].id);
+    }
+  }, [invoiceAttachments]);
 
-  const { fileDataUri } = useInvoiceAttachmentImage(
-    firstAttachmentId ?? '',
+  const { fileDataUri, query: imageQuery } = useInvoiceAttachmentImage(
+    selectedId ?? '',
     1,
-    invoiceAttachments.length === 1
+    !!selectedId,
   );
+
+  const isPdf = fileDataUri?.startsWith('data:application/pdf');
 
   const renderItem = useCallback(
     ({ item, index }: { item: InvoiceAttachment; index: number }) => (
       <ListItem
+        isChecked={item.id === selectedId}
         isEven={index % 2 === 0}
         title={item.filename}
-        onPress={() => {}}
+        variant="checkbox"
+        onPress={() => setSelectedId(item.id)}
       />
     ),
-    []
+    [selectedId],
   );
 
   const refreshControl = useMemo(
@@ -62,29 +72,32 @@ export const InvoiceAttachmentsScreen: React.FC<Props> = ({ navigation, id }) =>
         onRefresh={refetch}
       />
     ),
-    [isFetching, refetch]
+    [isFetching, refetch],
   );
-
-  const hasSingleAttachment = invoiceAttachments.length === 1;
 
   return (
     <View style={styles.container}>
       <FetchErrorMessage isError={isError} onRetry={refetch}>
-        {!hasSingleAttachment ? (
-           <FlatList<InvoiceAttachment>
+        <View style={styles.list}>
+          <FlatList<InvoiceAttachment>
             data={invoiceAttachments}
             ItemSeparatorComponent={ListSeparator}
             keyExtractor={(item) => item.id}
             refreshControl={refreshControl}
             renderItem={renderItem}
           />
-          
-        ) : (         
-          <View style={styles.pdfContainer}>
-            <Pdf source={{ uri: fileDataUri }} style={styles.pdf} />
-          </View>
-        )}
-
+        </View>
+        <View style={styles.viewer}>
+          {imageQuery.isFetching ? (
+            <ActivityIndicator color={colors.primary} size="large" />
+          ) : fileDataUri ? (
+            isPdf ? (
+              <Pdf source={{ uri: fileDataUri }} style={styles.fill} />
+            ) : (
+              <ImageZoomPan source={{ uri: fileDataUri }} style={styles.fill} />
+            )
+          ) : null}
+        </View>
       </FetchErrorMessage>
 
       <Box
@@ -113,12 +126,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-  pdfContainer: {
+  list: {
     flex: 1,
   },
-
-  pdf: {
+  viewer: {
+    alignItems: 'center',
+    borderColor: colors.borderColor,
+    borderTopWidth: 1,
+    flex: 3,
+    justifyContent: 'center',
+  },
+  fill: {
     flex: 1,
+    height: '100%',
+    width: '100%',
   },
 });

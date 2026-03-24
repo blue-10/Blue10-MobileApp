@@ -65,3 +65,12 @@ export const enum searchOrderKeys {
   vendorDesc = 'VendorDesc',
   vendorAsc = 'VendorAsc',
 }
+
+export enum sourceType {
+  unknown = 0,
+  papier = 1,
+  emailPDF = 2,
+  emailEDI = 4,
+  portalEDI = 5,
+  peppol = 6,
+}

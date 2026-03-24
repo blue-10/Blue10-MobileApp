@@ -1,4 +1,4 @@
-import type { TextProps } from 'react-native';
+import type { ColorValue, TextProps } from 'react-native';
 
 import { colors } from '../../theme';
 import LoaderWrapper from '../LoaderWrapper/LoaderWrapper';
@@ -17,6 +17,7 @@ type Props = {
   valueNumberOfLines?: number;
   valueEllipsizeMode?: TextProps['ellipsizeMode'];
   valueAdjustsFontSizeToFit?: boolean;
+  color?: ColorValue;
 };
 
 export const InvoiceLabelValue: React.FC<Props> = ({
@@ -32,14 +33,14 @@ export const InvoiceLabelValue: React.FC<Props> = ({
   labelLoadingWidth = 80,
   labelNumberOfLines,
   labelEllipsizeMode,
+  color = colors.labelLightSecondary,
 }) => {
-  const tableColor = colors.labelLightSecondary;
   return (
     <>
       <LoaderWrapper heightOfTextStyle="bodyRegular" isLoading={isValueLoading} width={valueLoadingWidth}>
         <Text
           adjustsFontSizeToFit={valueAdjustsFontSizeToFit}
-          color={tableColor}
+          color={color}
           ellipsizeMode={valueEllipsizeMode}
           numberOfLines={valueNumberOfLines}
           variant="bodyRegular"
@@ -49,7 +50,7 @@ export const InvoiceLabelValue: React.FC<Props> = ({
       </LoaderWrapper>
       <LoaderWrapper heightOfTextStyle="caption1Regular" isLoading={isLabelLoading} width={labelLoadingWidth}>
         <Text
-          color={tableColor}
+          color={color}
           ellipsizeMode={labelEllipsizeMode}
           numberOfLines={labelNumberOfLines}
           variant="caption1Regular"
