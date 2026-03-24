@@ -10,11 +10,12 @@ import { FullScreenLoader } from '@/components/FullscreenLoader/FullScreenLoader
 import Text from '@/components/Text/Text';
 import { useInvoiceGetImage } from '@/hooks/queries/useInvoiceGetImage';
 import { useInvoiceGetImagesCount } from '@/hooks/queries/useInvoiceGetImagesCount';
+import { useInvoiceDetails } from '@/hooks/queries/useInvoiceDetails';
+import { sourceType } from '@/constants';
 import { colors } from '@/theme';
 import { ImageZoomPan } from '@/components/ImageZoomPan/ImageZoomPan';
 import Button from '@/components/Button/Button';
 import RotateIcon from '../../assets/icons/rotate-right.svg';
-import { FetchImageErrorMessage } from '@/components/FetchImageErrorMessage/FetchImageErrorMessage';
 
 type InvoicePreviewScreenProps = {
   id: string;
@@ -63,13 +64,32 @@ export const InvoiceImageLoader: React.FC<InvoiceImageLoaderProps> = ({ id, page
 
 export const InvoicePreviewScreen: React.FC<InvoicePreviewScreenProps> = ({ id }) => {
   const { t } = useTranslation();
-  const { imageCount, imageCountQuery } = useInvoiceGetImagesCount(id);
+  const { data: invoice } = useInvoiceDetails(id);
+  const isUnsupportedType =
+    invoice?.sourceType === sourceType.emailEDI || invoice?.sourceType === sourceType.peppol;
+
+  const { imageCount, imageCountQuery } = useInvoiceGetImagesCount(id, !isUnsupportedType);
   const [activePage, setActivePage] = useState(0);
   const [rotation, setRotation] = useState(0);
 
   const images = useMemo(() => {
     return new Array(imageCount).fill(undefined);
   }, [imageCount]);
+
+  if (isUnsupportedType) {
+    return (
+      <Box px={32} py={32} style={styles.container}>
+        <Box style={styles.content}>
+          <Text spaceAfter={16} variant="title">
+            {t('fetch_image_error_message.title')}
+          </Text>
+          <Text spaceAfter={32} variant="bodyRegular">
+            {t('fetch_image_error_message.description')}
+          </Text>
+        </Box>
+      </Box>
+    );
+  }
 
   if (imageCountQuery.isFetching) {
     return <FullScreenLoader text={t('image_slide_show.loading_count')} />;
@@ -86,7 +106,7 @@ export const InvoicePreviewScreen: React.FC<InvoicePreviewScreenProps> = ({ id }
   })();
 
   return (
-    <FetchImageErrorMessage isError={isError404}>
+    <FetchErrorMessage isError={isError404}>
       <PagerView
         initialPage={0}
         style={styles.container}
@@ -124,7 +144,7 @@ export const InvoicePreviewScreen: React.FC<InvoicePreviewScreenProps> = ({ id }
           onPress={handleRotate}
         />
       </Box>
-    </FetchImageErrorMessage>
+    </FetchErrorMessage>
   );
 };
 
@@ -144,5 +164,11 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     width: '100%',
+  },
+
+   content: {
+    flex: 0,
+    fontWeight: 'bold',
+    marginTop: 200,
   },
 });

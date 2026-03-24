@@ -78,6 +78,7 @@ export const en: TranslationKeysType = {
     payment_condition: 'Condition',
     payment_date: 'Payment date',
     previous_button: 'Previous',
+    source_type: 'Source type',
     status: 'Status',
     sub_total: 'Cost',
     title: 'Invoice',
@@ -221,4 +222,12 @@ export const en: TranslationKeysType = {
   history: {
     empty_history_list: 'No history available',
   },
+ source_Type:{
+    unknown: '_',
+    papier: 'Paper',
+    emailPDF: 'Email',
+    emailEDI: 'Email',
+    portalEDI: 'Portal',
+    peppol: 'Peppol',
+  }
 };

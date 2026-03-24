@@ -1,3 +1,4 @@
+import { SourceType } from './../../hooks/queries/useGetSource';
 import type {
   GetActionsForInvoiceResponse,
   GetInvoiceAttachmentItem,
@@ -35,6 +36,7 @@ export const normalizeInvoiceFromResponse = (response: GetInvoiceDetailsResponse
     paymentCondition: response.PaymentTerm,
     statusId: response.Status,
     subtotal: response.NetAmount,
+    sourceType: response.SourceType,
     totalToPay: response.GrossAmount,
     userList: response.UserList ?? [],
     vatTotal: response.GrossAmount - response.NetAmount,

@@ -73,10 +73,6 @@ export const InvoicesToDoScreen: React.FC<InvoicesToDoScreenProps> = ({ navigati
     });
   }, [navigation, totalInvoices, t]);
 
-  console.log('====================================');
-  console.log('jjjjjjjjj');
-  console.log('====================================');
-
   return (
     <View style={{ flex: 1 }}>
       <StatusBar animated style="dark" />

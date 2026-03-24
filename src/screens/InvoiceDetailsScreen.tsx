@@ -16,6 +16,7 @@ import { useStatusIdToText } from '../hooks/useStatusIdToText';
 import type { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme';
 import { numberToCurrency } from '../utils/numberToCurrency';
+import { sourceType } from '../constants';
 
 export type InvoiceDetailsScreenProps = StackScreenProps<RootStackParamList, 'InvoiceDetailsScreen'>;
 
@@ -57,7 +58,7 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={stylesheet.container}>
       <ScrollView refreshControl={refreshControl} style={stylesheet.scrollContainer}>
         <Box borderBottom={1} borderColor={borderColor} mx={itemsMarginX} style={stylesheet.itemsFlexRow}>
-          <Box borderColor={borderColor} borderRight={1} px={4} py={8} style={stylesheet.itemFlex2}>
+          <Box borderColor={borderColor} borderRight={1} px={4} py={8} style={stylesheet.itemFlex1}>
             <InvoiceLabelValue
               isLabelLoading={isLoading}
               isValueLoading={isLoading}
@@ -71,12 +72,20 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
               valueNumberOfLines={1}
             />
           </Box>
-          <Box px={14} py={8} style={stylesheet.itemFlex1}>
+          <Box borderColor={borderColor} borderRight={1} px={14} py={8} style={stylesheet.itemFlex1}>
             <InvoiceLabelValue
               valueAdjustsFontSizeToFit
               isValueLoading={isLoading}
               label={t('invoice_details.status')}
               value={item?.statusId ? statusIdToText(item.statusId) : '-'}
+            />
+          </Box>
+          <Box px={14} py={8} style={stylesheet.itemFlex1}>
+            <InvoiceLabelValue
+              color={colors.primaryText}
+              isValueLoading={isLoading}
+              label={t('invoice_details.source_type')}
+              value={item?.sourceType !== undefined ? t(`source_Type.${sourceType[item.sourceType]}`) : '-'}
             />
           </Box>
         </Box>
