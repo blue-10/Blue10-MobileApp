@@ -48,7 +48,7 @@
       },
       "env": {
         "RELEASE_TYPE": "production",
-        "AUTH_LOGIN_PAGE": "https://login.blue10.com/"
+        "AUTH_LOGIN_PAGE": "https://login.blue10development.com/"
       }
     }
   },
