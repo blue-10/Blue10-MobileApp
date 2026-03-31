@@ -225,7 +225,7 @@ export const nl: TranslationKeysType = {
   },
   source_Type:{
     unknown: '_',
-    papier: 'Papier',
+    papier: 'Upload',
     emailPDF: 'E-mail',
     emailEDI: 'E-mail',
     portalEDI: 'Portal',

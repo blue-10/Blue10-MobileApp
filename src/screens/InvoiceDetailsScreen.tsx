@@ -13,6 +13,7 @@ import LoaderWrapper from '../components/LoaderWrapper/LoaderWrapper';
 import Text from '../components/Text/Text';
 import { useInvoiceDetails } from '../hooks/queries/useInvoiceDetails';
 import { useStatusIdToText } from '../hooks/useStatusIdToText';
+import { useApi } from '../hooks/useApi';
 import type { RootStackParamList } from '../navigation/types';
 import { colors } from '../theme';
 import { numberToCurrency } from '../utils/numberToCurrency';
@@ -26,7 +27,9 @@ const borderColor = colors.borderColor;
 export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navigation, route }) => {
   const isIOS = Platform.OS === 'ios';
   const statusIdToText = useStatusIdToText();
+  const api = useApi();
   const [didUsedPullToRefresh, setDidUsedPullToRefresh] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const { t } = useTranslation();
   const invoiceId = useMemo(() => route.params.id, [route.params.id]);
@@ -53,6 +56,29 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
     ),
     [isFetching, refetch, didUsedPullToRefresh],
   );
+
+   const goToOriginals = async () => {
+    setIsNavigating(true);
+    try {
+      const attachments = await api.invoice.getAttachments(invoiceId);
+
+      let isError404 = false;
+      try {
+        await api.invoice.getImageCount(invoiceId);
+      } catch (err: any) {
+        if (err?.response?.status === 404) {
+          isError404 = true;
+        }
+      }
+
+      const initialTab = isError404 && (attachments?.length ?? 0) > 0 ? 1 : 0;
+      navigation.navigate('InvoiceOriginalsScreen', { id: invoiceId, initialTab });
+    } catch {
+      navigation.navigate('InvoiceOriginalsScreen', { id: invoiceId, initialTab: 0 });
+    } finally {
+      setIsNavigating(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'} style={stylesheet.container}>
@@ -171,11 +197,11 @@ export const InvoiceDetailsScreen: React.FC<InvoiceDetailsScreenProps> = ({ navi
           </Box>
           <Box pt={20} style={stylesheet.buttonPlacement}>
             <Button
-              isDisabled={isButtonsDisabled}
+              isDisabled={isButtonsDisabled || isNavigating}
               size="S"
               title={t('invoice_details.button_originals')}
               variant="grey"
-              onPress={() => navigation.navigate('InvoiceOriginalsScreen', { id: invoiceId })}
+              onPress={goToOriginals}
             />
             <Button
               isDisabled={isButtonsDisabled}
