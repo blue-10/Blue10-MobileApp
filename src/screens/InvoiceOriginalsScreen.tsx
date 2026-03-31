@@ -21,9 +21,9 @@ export type InvoiceOriginalsScreenProps = StackScreenProps<RootStackParamList, '
 
 export const InvoiceOriginalsScreen: React.FC<InvoiceOriginalsScreenProps> = ({ route, navigation }) => {
   const queryClient = useQueryClient();
-  const [selectedTab, setSelectedTab] = useState<number>(0);
   const { t } = useTranslation();
-  const id = route.params.id;
+  const { id, initialTab = 0 } = route.params as { id: string; initialTab?: number };
+  const [selectedTab, setSelectedTab] = useState<number>(initialTab);
 
   // Queries for error/data detection
   const { imageCountQuery } = useInvoiceGetImagesCount(id);
@@ -35,26 +35,6 @@ export const InvoiceOriginalsScreen: React.FC<InvoiceOriginalsScreenProps> = ({ 
     });
     return unsubscribe;
   }, [id, navigation, queryClient]);
-
-  // Only run auto-switch logic on first render
-  const hasAutoSwitched = useRef(false);
-  useEffect(() => {
-    if (hasAutoSwitched.current) return;
-    // Detect error in tab 0 (InvoicePreviewScreen)
-    const err = imageCountQuery.error as any;
-    const isError404 = err && typeof err === 'object' && 'response' in err && err.response && err.response.status === 404;
-    if (
-      selectedTab === 0 &&
-      isError404 &&
-      Array.isArray(invoiceAttachments) && invoiceAttachments.length > 0
-    ) {
-      hasAutoSwitched.current = true;
-      const timeout = setTimeout(() => {
-        setSelectedTab(1);
-      }, 3000);
-      return () => clearTimeout(timeout);
-    }
-  }, [selectedTab, imageCountQuery.error, invoiceAttachments]);
 
   const tabs = useMemo(
     () => [
@@ -82,10 +62,6 @@ export const InvoiceOriginalsScreen: React.FC<InvoiceOriginalsScreenProps> = ({ 
           values={tabs}
           onChange={(event: any) => {
             setSelectedTab(event.nativeEvent.selectedSegmentIndex);
-            // Reset auto-switch ref if user manually changes tab to 0
-            if (event.nativeEvent.selectedSegmentIndex === 0) {
-              hasAutoSwitched.current = true;
-            }
           }}
         />
       </Box>

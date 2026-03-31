@@ -23,7 +23,7 @@ export type RootStackParamList = {
     onlyShowActions?: number[];
     selectedActionId?: number;
   };
-  InvoiceOriginalsScreen: { id: string };
+  InvoiceOriginalsScreen: { id: string; initialTab?: number };
   InvoiceBookingsScreen: { id: string };
   InvoiceTimelineScreen: { id: string };
   InvoiceAttachmentAddScreen: { id: string };

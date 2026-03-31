@@ -224,7 +224,7 @@ export const en: TranslationKeysType = {
   },
  source_Type:{
     unknown: '_',
-    papier: 'Paper',
+    papier: 'Upload',
     emailPDF: 'Email',
     emailEDI: 'Email',
     portalEDI: 'Portal',
