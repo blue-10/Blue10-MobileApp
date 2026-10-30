@@ -22,7 +22,7 @@ export const en: TranslationKeysType = {
     title: 'Something went wrong.',
   },
   fetch_image_error_message: {
-    description: 'E-invoivce visualization can\'t be displayed on the app yet. Open this document on your browser for more details.',
+    description: 'E-invoice visualization can\'t be displayed on the app yet. Open this document on your browser for more details.',
     title: 'Too bad!',
   },
   general: {
