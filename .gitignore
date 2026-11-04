@@ -20,3 +20,6 @@ web-build/
 _distrobution/
 build-*.apk
 build-*.tar.gz
+
+# For running on Android studio
+/android

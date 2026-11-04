@@ -19,7 +19,7 @@ export const InvoiceListviewItem: React.FC<Props> = ({ item, index, onPress }) =
       underlayColor={colors.primary}
       onPress={onPress}
     >
-      <>
+      <View>
         <View style={styles.row}>
           <Text style={styles.companyNameText}>{item.invoiceName}</Text>
           <Text style={styles.invoiceAmountText}>{numberToCurrency(item.price, item.currency)}</Text>
@@ -28,7 +28,7 @@ export const InvoiceListviewItem: React.FC<Props> = ({ item, index, onPress }) =
           <Text style={styles.invoiceNumberText}>{item.invoiceNumber}</Text>
           <Text style={styles.invoiceDateText}>{item.date && format(item.date, 'dd MM y')}</Text>
         </View>
-      </>
+      </View>
     </TouchableHighlight>
   );
 };
